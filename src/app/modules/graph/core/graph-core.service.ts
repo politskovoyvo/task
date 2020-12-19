@@ -14,8 +14,8 @@ export class GraphCoreService {
             id: 1,
             name: 'Реализовать функционал 1',
             simbol: 'TASK-1',
-            startTime: '',
-            stopTime: '',
+            startDate: '',
+            stopDate: '',
             assignee: [
                 { id: 1, name: 'Тест 1 Тестович' },
                 { id: 2, name: 'Тест 2 Тестович' },
@@ -25,8 +25,8 @@ export class GraphCoreService {
             id: 1,
             name: 'Реализовать функционал 1',
             simbol: 'TASK-1',
-            startTime: '',
-            stopTime: '',
+            startDate: '',
+            stopDate: '',
             assignee: [
                 { id: 1, name: 'Тест 1 Тестович' },
                 { id: 2, name: 'Тест 2 Тестович' },
@@ -36,8 +36,8 @@ export class GraphCoreService {
             id: 1,
             name: 'Реализовать функционал 1',
             simbol: 'TASK-1',
-            startTime: '',
-            stopTime: '',
+            startDate: '',
+            stopDate: '',
             assignee: [
                 { id: 1, name: 'Тест 1 Тестович' },
                 { id: 2, name: 'Тест 2 Тестович' },

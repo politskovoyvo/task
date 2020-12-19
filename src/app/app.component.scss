@@ -1,0 +1,17 @@
+$header_height: 100px;
+
+.container {
+    width: 100%;
+    height: 100%;
+    position: relative;
+
+    &__header {
+        position: absolute;
+        height: $header_height;
+        width: 100%;
+    }
+
+    &__context {
+        margin-top: $header_height;
+    }
+}
