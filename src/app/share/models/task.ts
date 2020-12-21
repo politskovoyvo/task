@@ -2,13 +2,14 @@ import { Base } from './base';
 import { IntervalDate } from './interval-date';
 
 interface TaskHistory extends IntervalDate  {
-    start: string;
+    tipeId: number; // id типа таска (например Release, feature  и тд)
 }
 
-export interface Task extends Base, IntervalDate {
+export interface Task extends Base {
     type: string;
     simbol: string;
     priority: string;
     assignee: Base[];
+    interval: IntervalDate;
     history: TaskHistory[]; // массив событий
 }

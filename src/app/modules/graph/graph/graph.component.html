@@ -1,8 +1,8 @@
 <div class="graph">
     <div class="graph__panel">
-        <nz-date-picker></nz-date-picker>
-        <button class="btn">добавить</button>
+        <nz-date-picker nzMode="month" (ngModelChange)="dateChange($event)"></nz-date-picker>
+        <button class="btn" (click)=refresh()>Обновить</button>
     </div>
 
-    <canvas class="graph__canvas" #canvas></canvas>
+    <svg class="graph__canvas" #canvas></svg>
 </div>
