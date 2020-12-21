@@ -4,8 +4,8 @@ import { Observable, pipe } from 'rxjs';
 import { tap } from 'rxjs/operators';
 // import * as d3 from 'd3-selection';
 import { Task } from 'src/app/share/models/task';
-import { GraphCoreService } from '../core/graph-core.service';
 import { GraphService } from '../services/graph.service';
+
 const Node = d3.hierarchy.prototype.constructor;
 type TODO_NODE = any;
 type TODO_SVG = any;
@@ -119,8 +119,8 @@ export class GraphComponent implements OnInit, AfterViewInit {
       .append('circle')
         .attr('class', 'node')
         .attr('r', 6)
-        .attr('cx', (d: any) => d.parent ? d.parent.px : d.px = d.x)
-        .attr('cy', (d: any) => d.parent ? d.parent.py : d.py = d.y)
+        .attr('cx', (d: Node) => d.parent ? d.parent.px : d.px = d.x)
+        .attr('cy', (d: TODO_NODE) => d.parent ? d.parent.py : d.py = d.y)
           .on('click', (e) => { 
             this.selectedNode(e); 
           })
