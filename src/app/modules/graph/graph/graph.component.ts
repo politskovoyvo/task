@@ -6,6 +6,9 @@ import { tap } from 'rxjs/operators';
 import { Task } from 'src/app/share/models/task';
 import { GraphCoreService } from '../core/graph-core.service';
 import { GraphService } from '../services/graph.service';
+const Node = d3.hierarchy.prototype.constructor;
+type TODO_NODE = any;
+type TODO_SVG = any;
 
 
 @Component({
@@ -31,9 +34,7 @@ export class GraphComponent implements OnInit, AfterViewInit {
     .subscribe();
   }
 
-  ngOnInit(): void {
-    
-  }
+  ngOnInit(): void { }
 
   refresh() {
     this.graphService.refresh();
@@ -43,94 +44,114 @@ export class GraphComponent implements OnInit, AfterViewInit {
     console.log('date change')
   }
 
-  private paintGrid = (tasks: Task[]) => {
-    let renderLink = d3.linkVertical().x((d: any) => d.x).y((d: any)=> d.y)
-    const links = [];
-    let svg = d3.select(this.canvas.nativeElement)
+  initSVG() {
+    return d3
+      .select(this.canvas.nativeElement)
       .append('svg')
-        .attr("viewBox", "0, 0, 100%, 100%");
+        .attr("viewBox", [0, 0, 500, 500] as any);
+  }
+  
+  private paintGrid = (tasks: Task[]) => {
+    const root: TODO_NODE = new Node;
+    const nodes:TODO_NODE[] = [root];
+    const links = [];
+    
+    const svg = this.initSVG();
 
-    const node = d3.hierarchy.prototype.constructor
-    const root = new node;
-    const nodes = [root];
+    // PAINT GRID
+
+    svg.append('line');
+
+    // PAINT GRID
+
+    this.tree(root)
 
     let link = svg
-      .append("g")
+      .append('g')
         .attr('fill', 'none')
         .attr('stroke', '#000')
         .selectAll('.link');
 
-    let n = svg
+    let node = svg
       .append('g')
         .attr('stroke', '#fff')
         .attr('stroke-width', 2)
         .selectAll('.node');
+      
+    // builder tree item
+    for (let i of new Array(6)) {
+      this.paintChield(node, nodes, link, links, root, svg);
+    }
+  }
 
-    const parent = nodes[Math.random() * nodes.length | 0];
+  tree = (root: TODO_NODE) => {
+    return (d3.tree().size([500 - 20, 500 - 20]))(root);
+  }
 
-    const child = Object.assign(new node, {parent, depth: parent.depth + 1});
+  rLink = (): any => {
+    return d3.linkVertical().x((d: any) => d.x).y((d: any)=> d.y);
+  }
 
-    n = n.data(nodes)
+  private paintChield = (
+      node: TODO_NODE, 
+      nodes: TODO_NODE[], 
+      link: any, 
+      links: any[], 
+      root: TODO_NODE, 
+      svg: TODO_SVG
+      ): void => {
+    const duration = 500;
+    const parent = nodes[0];
+    const child = Object.assign(new Node, {parent, depth: parent.depth + 1});
+
+    if (parent.children)  {
+      parent.children?.push(child);
+    } else {
+      parent.children = [child];
+    };
+    nodes.push(child);
+    links.push({source: parent, target: child});
+    
+    this.tree(root);
+
+    node = node.data(nodes)
       .enter()
-      .append("circle")
-        .attr("class", "node")
-        .attr("r", 10)
-        .attr("cx", (d: any) => d.parent ? d.parent.px : d.px = d.x)
-        .attr("cy", (d: any) => d.parent ? d.parent.py : d.py = d.y)
+      .append('circle')
+        .attr('class', 'node')
+        .attr('r', 6)
+        .attr('cx', (d: any) => d.parent ? d.parent.px : d.px = d.x)
+        .attr('cy', (d: any) => d.parent ? d.parent.py : d.py = d.y)
+          .on('click', (e) => { 
+            this.selectedNode(e); 
+          })
       .merge(node);
 
     link = link.data(links)
       .enter()
-        .insert('path', '.node')
+      .insert('path', '.node')
         .attr('class', 'link')
         .attr('d', (d: any) => {
           const o = {x: d.source.px, y: d.source.py};
-          return renderLink({source: o as any, target: o as any});
+          return this.rLink()({ source: o, target: o });
         })
-      .merge(link as any);
+      .merge(link);
 
-    this.selectedGridItem();
+    const t = svg.transition()
+      .duration(duration);
 
-    // ......
+    link.transition(t)
+      .attr('d', this.rLink());
 
-    // const valueRange = {
-    //   begin: 30,
-    //   end: tasks.length
-    // };
-
-    // const y = d3.scaleLinear([0, 400], [valueRange.begin, valueRange.end * 200]);
-
-    // let svg = d3.select(this.canvas.nativeElement)
-    //   .append('svg')
-    //   .data(tasks);
-
-    // svg.append('g')
-    //   .attr('transform', 'translate(50,0)')      // This controls the vertical position of the Axis
-    //   .call(d3.axisLeft(y))
-    //   .attr('class', 'grid');
-
-    // for (let day of new Array(this.nowDate.daysInMonth())) {
-    //   interval += 25;
-    //   // заменить на оси
-    //   var line = svg.append("line")
-    //     .attr("x1", 30)
-    //     .attr("y1", interval)
-    //     .attr("x2", 350)
-    //     .attr("y2", interval)
-    //     .attr('stroke-dasharray', '5,5')
-    //     .attr('stroke', 'black')
-    //     .attr('opacity', '0.2')
-    //     // .style("cursor", "pointer")
-    //     .on("click", (event) => this.selectedGridItem(event));
-    // }
+    node.transition(t)
+      .attr('cx', (d) => d.px = d.x)
+      .attr('cy', (d) => d.py = d.y);
   }
 
-  private selectedGridItem = () => {
+  private selectedNode = (node: TODO_NODE) => {
   
-    const tree = d3.tree().size([300 - 20, 300 - 20])
   } 
 
   private paintTask = (task: Task) => {
-
+    
   }
 }
