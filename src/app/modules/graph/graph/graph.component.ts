@@ -119,7 +119,7 @@ export class GraphComponent implements OnInit, AfterViewInit {
       .append('circle')
         .attr('class', 'node')
         .attr('r', 6)
-        .attr('cx', (d: Node) => d.parent ? d.parent.px : d.px = d.x)
+        .attr('cx', (d: TODO_NODE) => d.parent ? d.parent.px : d.px = d.x)
         .attr('cy', (d: TODO_NODE) => d.parent ? d.parent.py : d.py = d.y)
           .on('click', (e) => { 
             this.selectedNode(e); 
