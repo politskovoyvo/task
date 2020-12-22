@@ -47,7 +47,50 @@ export class GraphCoreService {
             stopDate: new Date(2020, 11, 7)
           },
           {
+            tipeId: 3,
+            startDate: new Date(2020, 11, 7),
+            stopDate: new Date(2020, 11, 7)
+          },
+          {
+            tipeId: 3,
+            startDate: new Date(2020, 11, 7),
+            stopDate: new Date(2020, 11, 7)
+          },
+        ],
+        interval: <IntervalDate>{
+          startDate: new Date(2020, 11, 1),
+          stopDate: new Date(2020, 11, 10),
+        },
+        priority: "mego-need",
+        type: "type",
+
+        assignee: [
+          { id: 1, name: "Тест 1 Тестович" },
+          { id: 2, name: "Тест 2 Тестович" },
+        ],
+      },
+      <Task>{
+        id: 1,
+        name: "Реализовать функционал 1",
+        simbol: "TASK-1",
+        history: [
+          {
+            tipeId: 1,
+            startDate: new Date(2020, 11, 2),
+            stopDate: new Date(2020, 11, 5)
+          },
+          {
             tipeId: 2,
+            startDate: new Date(2020, 11, 5),
+            stopDate: new Date(2020, 11, 7)
+          },
+          {
+            tipeId: 2,
+            startDate: new Date(2020, 11, 7),
+            stopDate: new Date(2020, 11, 7)
+          },
+          {
+            tipeId: 4,
             startDate: new Date(2020, 11, 7),
             stopDate: new Date(2020, 11, 7)
           },

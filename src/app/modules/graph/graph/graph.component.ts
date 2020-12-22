@@ -33,8 +33,7 @@ export class GraphComponent implements OnInit, AfterViewInit {
       tap(([tasks, processTypes]: [Task[], ProcessType[]]) => {
         this.paintGrid(tasks, processTypes);
       })
-    )
-    .subscribe();
+    ).subscribe();
   }
 
   ngOnInit(): void { }
@@ -57,11 +56,11 @@ export class GraphComponent implements OnInit, AfterViewInit {
 
     const svg = d3.select(this.canvas.nativeElement)
       .append('svg')
-      .attr("height", height)
-      .attr("width", width);   
+        .attr("height", height)
+        .attr("width", width);   
 
     this.grid(processTypes, tasks, svg);
-    return;
+    // return;
 
     const process = {
       x: 100
@@ -84,54 +83,54 @@ export class GraphComponent implements OnInit, AfterViewInit {
     tasks: Task[], 
     svg: TODO_SVG
     ) => {
+      const step = 20;
       const daysInSelectedMonth = this.nowDate.daysInMonth();
       let processTypeGroup: number[] = [];
-      // {
-      //   processType: ProcessType,
-      //   count: number
-      // }[] = []
+      let groups: {
+        taskId: number,
+        processTypeId: number,
+        coordinate: {
+          point_a: Point,
+          point_b: Point,
+        }
+      }[] = []
 
-      tasks.forEach((t: Task) => {
-        const historyIds = t.history.map(h => h.tipeId)?.unique();
+      tasks.forEach((task: Task) => {
+        const historyIds = task.history.map(h => h.tipeId).unique();
         if (!historyIds) {
           return;
         }
-        processTypeGroup = processTypeGroup.concat(historyIds);
-
+        processTypeGroup = processTypeGroup.concat(historyIds).sort();
       });
-      console.log(processTypeGroup.sort())
+
       // vertical grid
-      svg.selectAll('line')
+      const transitionGroupFunc = (index: number) => processTypeGroup[index] !== processTypeGroup[index - 1];
+      svg.selectAll('vertical__line')
         .data(new Array(processTypeGroup.length + 1))
         .enter()
           .append('line')
-            .attr('x1', (d, i) => i * 20)
+            .attr('x1', (d, ind) => ind * step)
             .attr('y1', 0)
-            .attr('x2', (d, i) => i * 20)
+            .attr('x2', (d, ind) => ind * step)
             .attr('y2', '100%')
+            .attr('class', 'vertical__line')
             .style('fill', 'none')
-            .style('stroke', 'black')
-            .style('stroke-width', 0.2);
-            // .append('text')
-            //   .attr('class', 'barsEndlineText')
-            //   .attr('text-anchor', 'middle')
-            //   .attr("x", 0)
-            //   .attr("y", ".35em")
-            //   .text('I am label')
+            .style('stroke', (d, ind) => transitionGroupFunc(ind) ? 'red' : 'black')
+            .style('stroke-width', (d, ind) => transitionGroupFunc(ind) ? 0.35 : 0.2);
 
       // horizontal grid
-      svg.selectAll('line')
+      svg.selectAll('horizontal__line')
         .data(new Array(daysInSelectedMonth + 1))
         .enter()
           .append('line')
             .attr('x1', 0)
-            .attr('y1', (d, i) => i * 20)
-            .attr('x2', '100%')
-            .attr('y2', (d, i) => i * 20)
+            .attr('y1', (d, ind) => ind * step)
+            .attr('class', 'horizontal__line')
+            .attr('x2', step * processTypeGroup.length + 10)
+            .attr('y2', (d, ind) => ind * step)
             .style('fill', 'none')
             .style('stroke', 'black')
             .style('stroke-width', 0.2);
-
   }
 
   private paintTask = (
@@ -143,11 +142,11 @@ export class GraphComponent implements OnInit, AfterViewInit {
       const data2: any[] = [];
       task.history.forEach(h => {
         data2.push({
-          x: 100, 
+          x: 40, 
           y: h.startDate.getDay() * 100
         }),
         data2.push({
-          x: 100, 
+          x: 120, 
           y: h.stopDate.getDay() * 100
         })
       })
@@ -180,10 +179,10 @@ export class GraphComponent implements OnInit, AfterViewInit {
         svg
           .append("circle")
             .attr("class", "node")
-            .attr("r", 5)
+            .attr("r", 7)
             .attr("cx", element.x)
             .attr("cy", element.y)
-            .on('click', () => {  })
+            .on('click', (e) => { console.log(e) })
       });
   }
 }
