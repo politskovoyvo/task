@@ -71,6 +71,12 @@ declare global {
      */
     groupBy(predicate?: (value: T) => unknown): { [key: number]: Array<T> };
 
+        /**
+     * уникальные значения примитивных типов
+     * @param predicate - function
+     */
+    unique(): T[];
+
     /**
      * Проецирует каждый элемент последовательности в объект Array<T> и объединяет результирующие последовательности в одну последовательность.
      * @param predicate - function
@@ -170,6 +176,18 @@ Array.prototype.differenceWith = function <T>(array: T[], predicate?: (left: T, 
 Array.prototype.unionWith = function <T>(array: T[], predicate?: (left: T, right: T) => boolean): Array<T> {
   return [this, array].reduce((a, b) => a.filter((c) => (predicate ? b.some((d) => predicate(d, c)) : b.includes(c))));
 };
+
+Array.prototype.unique = function <T>(): T[] {
+  let result: T[] = [];
+
+  for (let str of this) {
+    if (!result.includes(str)) {
+      result.push(str);
+    }
+  }
+
+  return result;
+}
 
 Array.prototype.groupBy = function <T>(predicate?: (value: T) => unknown): { [key: string]: Array<T> } {
   const map: { [key: string]: Array<T> } = {};

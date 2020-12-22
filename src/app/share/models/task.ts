@@ -12,4 +12,8 @@ export interface Task extends Base {
     assignee: Base[];
     interval: IntervalDate;
     history: TaskHistory[]; // массив событий
+
+    options: {
+        coordinates: []
+    }
 }
