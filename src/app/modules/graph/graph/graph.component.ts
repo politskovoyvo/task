@@ -6,6 +6,7 @@ import { switchMap, tap } from 'rxjs/operators';
 import { ProcessType } from 'src/app/share/models/pocess-type';
 // import * as d3 from 'd3-selection';
 import { Task } from 'src/app/share/models/task';
+import { LineOptions } from '../models/line-options';
 import { GraphService } from '../services/graph.service';
 
 const Node = d3.hierarchy.prototype.constructor;
@@ -60,21 +61,14 @@ export class GraphComponent implements OnInit, AfterViewInit {
         .attr("width", width);   
 
     this.grid(processTypes, tasks, svg);
-    // return;
 
-    const process = {
-      x: 100
-    }
-    const test = {
-      x: 200
-    }
-
-    const release = {
-      x: 300
-    }
-
-    tasks.forEach((task, i) => {
-      this.paintTask(svg, task, 'green', 4);
+    tasks.forEach((task, ind) => {
+      this.paintTask(svg, task, {
+        lineColor: 'red',
+        nodeColor: 'black',
+        nodeRadius: '5',
+        strokeWidth: '4'
+      } as LineOptions);
     })
   }
 
@@ -86,37 +80,53 @@ export class GraphComponent implements OnInit, AfterViewInit {
       const step = 20;
       const daysInSelectedMonth = this.nowDate.daysInMonth();
       let processTypeGroup: number[] = [];
-      let groups: {
-        taskId: number,
-        processTypeId: number,
-        coordinate: {
-          point_a: Point,
-          point_b: Point,
-        }
-      }[] = []
+      let group: {
+        type: number,
+        ids: number[]
+      }[] = [];
 
       tasks.forEach((task: Task) => {
-        const historyIds = task.history.map(h => h.tipeId).unique();
-        if (!historyIds) {
-          return;
-        }
-        processTypeGroup = processTypeGroup.concat(historyIds).sort();
+        task.history.forEach((history, ind) => {
+          let findType = group.find(g => g.type && g.type === history.position);
+          if (findType) {
+            if (findType.ids.includes(task.id)) {
+              return;
+            }
+            findType.ids.push(task.id);
+          } else {
+            group.push({
+              type: history.position,
+              ids: [task.id]
+            })
+          }
+        });
       });
 
+      let countGroupType = group.reduce((acc, curr) => {
+        return acc + curr.ids.length;
+      }, 0);
+
+      // последовательность типов
+      group = group.sort((a, b) => a.type - b.type);
+
       // vertical grid
-      const transitionGroupFunc = (index: number) => processTypeGroup[index] !== processTypeGroup[index - 1];
-      svg.selectAll('vertical__line')
-        .data(new Array(processTypeGroup.length + 1))
+      let step_x = 0;
+      group.forEach((type, i) => {
+        step_x = !i ? 0 : (group[i - 1].ids.length) * 20 + step_x;
+        console.log(step_x)
+        svg.selectAll('vertical__line')
+        .data(new Array(type.ids.length + 1))
         .enter()
           .append('line')
-            .attr('x1', (d, ind) => ind * step)
+            .attr('x1', (d, ind) => step_x + ind * 20)
             .attr('y1', 0)
-            .attr('x2', (d, ind) => ind * step)
+            .attr('x2', (d, ind) => step_x + ind * 20)
             .attr('y2', '100%')
             .attr('class', 'vertical__line')
             .style('fill', 'none')
-            .style('stroke', (d, ind) => transitionGroupFunc(ind) ? 'red' : 'black')
-            .style('stroke-width', (d, ind) => transitionGroupFunc(ind) ? 0.35 : 0.2);
+            .style('stroke', (d, ind) => type.ids.lastIndexOf(ind) ? 'red' : 'black')
+            .style('stroke-width', (d, ind) => type.ids.lastIndexOf(ind) ? 0.35 : 0.2);
+      });
 
       // horizontal grid
       svg.selectAll('horizontal__line')
@@ -126,7 +136,7 @@ export class GraphComponent implements OnInit, AfterViewInit {
             .attr('x1', 0)
             .attr('y1', (d, ind) => ind * step)
             .attr('class', 'horizontal__line')
-            .attr('x2', step * processTypeGroup.length + 10)
+            .attr('x2', step * countGroupType + 10)
             .attr('y2', (d, ind) => ind * step)
             .style('fill', 'none')
             .style('stroke', 'black')
@@ -134,52 +144,39 @@ export class GraphComponent implements OnInit, AfterViewInit {
   }
 
   private paintTask = (
-    svg: any, 
+    svg: TODO_SVG, 
     task: Task,
-    color = 'gray',
-    stroke_width = '5'
+    options: LineOptions
     ) => {
       const data2: any[] = [];
       task.history.forEach(h => {
         data2.push({
-          x: 40, 
-          y: h.startDate.getDay() * 100
-        }),
+          x: (h.position) * 20, 
+          y: h.startDate.getDay() * 20
+        });
+
         data2.push({
-          x: 120, 
-          y: h.stopDate.getDay() * 100
+          x: (h.position) * 20, 
+          y: h.stopDate.getDay() * 20
         })
-      })
-      // task.
-      // const data2: any[] = [ 
-      //   // шаг - 50
-      //   { x: 100, y: 50  },
-      //   { x: 100, y: 100 },
-      //   { x: 100, y: 150 },
-      //   { x: 150, y: 200 },
-      //   { x: 150, y: 250 },
-      //   { x: 150, y: 300 },
-      //   { x: 200, y: 350 },
-      // ];
+      });
 
       const line = d3
-      .line()
-        .x((d: any) => d.x)
-        .y((d: any) => d.y)
-        .curve(d3.curveMonotoneX);
+        .line()
+          .x((d: any) => d.x)
+          .y((d: any) => d.y)
+          .curve(d3.curveMonotoneX);
 
-      svg
-        .append('path')
+      svg.append('path')
         .style('fill', 'none')
-        .style('stroke', color)
-        .style('stroke-width', stroke_width)
+        .style('stroke', options.lineColor)
+        .style('stroke-width', options.strokeWidth)
         .attr('d', line(data2 as any[]));
 
       (data2 as any[]).forEach(element => {
-        svg
-          .append("circle")
+        svg.append("circle")
             .attr("class", "node")
-            .attr("r", 7)
+            .attr("r", 3)
             .attr("cx", element.x)
             .attr("cy", element.y)
             .on('click', (e) => { console.log(e) })

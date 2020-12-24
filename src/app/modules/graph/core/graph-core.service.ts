@@ -37,63 +37,30 @@ export class GraphCoreService {
         simbol: "TASK-1",
         history: [
           {
-            tipeId: 1,
-            startDate: new Date(2020, 11, 2),
+            position: 1,
+            startDate: new Date(2020, 11, 1),
             stopDate: new Date(2020, 11, 5)
           },
           {
-            tipeId: 2,
+            position: 2,
             startDate: new Date(2020, 11, 5),
             stopDate: new Date(2020, 11, 7)
           },
           {
-            tipeId: 3,
+            position: 3,
             startDate: new Date(2020, 11, 7),
-            stopDate: new Date(2020, 11, 7)
+            stopDate: new Date(2020, 11, 8)
           },
-          {
-            tipeId: 3,
-            startDate: new Date(2020, 11, 7),
-            stopDate: new Date(2020, 11, 7)
-          },
-        ],
-        interval: <IntervalDate>{
-          startDate: new Date(2020, 11, 1),
-          stopDate: new Date(2020, 11, 10),
-        },
-        priority: "mego-need",
-        type: "type",
-
-        assignee: [
-          { id: 1, name: "Тест 1 Тестович" },
-          { id: 2, name: "Тест 2 Тестович" },
-        ],
-      },
-      <Task>{
-        id: 1,
-        name: "Реализовать функционал 1",
-        simbol: "TASK-1",
-        history: [
-          {
-            tipeId: 1,
-            startDate: new Date(2020, 11, 2),
-            stopDate: new Date(2020, 11, 5)
-          },
-          {
-            tipeId: 2,
-            startDate: new Date(2020, 11, 5),
-            stopDate: new Date(2020, 11, 7)
-          },
-          {
-            tipeId: 2,
-            startDate: new Date(2020, 11, 7),
-            stopDate: new Date(2020, 11, 7)
-          },
-          {
-            tipeId: 4,
-            startDate: new Date(2020, 11, 7),
-            stopDate: new Date(2020, 11, 7)
-          },
+          // {
+          //   position: 3,
+          //   startDate: new Date(2020, 11, 8),
+          //   stopDate: new Date(2020, 11, 9)
+          // },
+          // {
+          //   position: 4,
+          //   startDate: new Date(2020, 11, 9),
+          //   stopDate: new Date(2020, 11, 10)
+          // },
         ],
         interval: <IntervalDate>{
           startDate: new Date(2020, 11, 1),
@@ -109,24 +76,29 @@ export class GraphCoreService {
       },
       <Task>{
         id: 2,
-        name: "Реализовать функционал 2",
-        simbol: "TASK-2",
+        name: "Реализовать функционал 1",
+        simbol: "TASK-1",
         history: [
           {
-            tipeId: 2,
+            position: 1,
             startDate: new Date(2020, 11, 2),
             stopDate: new Date(2020, 11, 5)
           },
           {
-            tipeId: 1,
+            position: 2,
             startDate: new Date(2020, 11, 5),
             stopDate: new Date(2020, 11, 7)
           },
           {
-            tipeId: 3,
+            position: 3,
             startDate: new Date(2020, 11, 7),
             stopDate: new Date(2020, 11, 7)
           },
+          // {
+          //   position: 5,
+          //   startDate: new Date(2020, 11, 7),
+          //   stopDate: new Date(2020, 11, 7)
+          // },
         ],
         interval: <IntervalDate>{
           startDate: new Date(2020, 11, 1),
@@ -140,39 +112,72 @@ export class GraphCoreService {
           { id: 2, name: "Тест 2 Тестович" },
         ],
       },
-      <Task>{
-        id: 3,
-        name: "Реализовать функционал 3",
-        simbol: "TASK-3",
-        history: [
-          {
-            tipeId: 2,
-            startDate: new Date(2020, 11, 2),
-            stopDate: new Date(2020, 11, 5)
-          },
-          {
-            tipeId: 1,
-            startDate: new Date(2020, 11, 5),
-            stopDate: new Date(2020, 11, 7)
-          },
-          {
-            tipeId: 3,
-            startDate: new Date(2020, 11, 7),
-            stopDate: new Date(2020, 11, 7)
-          },
-        ],
-        interval: <IntervalDate>{
-          startDate: new Date(2020, 11, 1),
-          stopDate: new Date(2020, 11, 10),
-        },
-        priority: "mego-need",
-        type: "type",
+      // <Task>{
+      //   id: 2,
+      //   name: "Реализовать функционал 2",
+      //   simbol: "TASK-2",
+      //   history: [
+      //     {
+      //       tipeId: 2,
+      //       startDate: new Date(2020, 11, 2),
+      //       stopDate: new Date(2020, 11, 5)
+      //     },
+      //     {
+      //       tipeId: 1,
+      //       startDate: new Date(2020, 11, 5),
+      //       stopDate: new Date(2020, 11, 7)
+      //     },
+      //     {
+      //       tipeId: 3,
+      //       startDate: new Date(2020, 11, 7),
+      //       stopDate: new Date(2020, 11, 7)
+      //     },
+      //   ],
+      //   interval: <IntervalDate>{
+      //     startDate: new Date(2020, 11, 1),
+      //     stopDate: new Date(2020, 11, 10),
+      //   },
+      //   priority: "mego-need",
+      //   type: "type",
 
-        assignee: [
-          { id: 1, name: "Тест 1 Тестович" },
-          { id: 2, name: "Тест 2 Тестович" },
-        ],
-      },
+      //   assignee: [
+      //     { id: 1, name: "Тест 1 Тестович" },
+      //     { id: 2, name: "Тест 2 Тестович" },
+      //   ],
+      // },
+      // <Task>{
+      //   id: 3,
+      //   name: "Реализовать функционал 3",
+      //   simbol: "TASK-3",
+      //   history: [
+      //     {
+      //       tipeId: 2,
+      //       startDate: new Date(2020, 11, 2),
+      //       stopDate: new Date(2020, 11, 5)
+      //     },
+      //     {
+      //       tipeId: 1,
+      //       startDate: new Date(2020, 11, 5),
+      //       stopDate: new Date(2020, 11, 7)
+      //     },
+      //     {
+      //       tipeId: 3,
+      //       startDate: new Date(2020, 11, 7),
+      //       stopDate: new Date(2020, 11, 7)
+      //     },
+      //   ],
+      //   interval: <IntervalDate>{
+      //     startDate: new Date(2020, 11, 1),
+      //     stopDate: new Date(2020, 11, 10),
+      //   },
+      //   priority: "mego-need",
+      //   type: "type",
+
+      //   assignee: [
+      //     { id: 1, name: "Тест 1 Тестович" },
+      //     { id: 2, name: "Тест 2 Тестович" },
+      //   ],
+      // },
     ]);
   }
 }
