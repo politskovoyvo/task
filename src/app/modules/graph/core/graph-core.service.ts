@@ -14,17 +14,14 @@ export class GraphCoreService {
       {
         id: 1,
         name: 'Test',
-        level: 1
       } as ProcessType,
       {
         id: 2,
         name: 'Process',
-        level: 2
       } as ProcessType,
       {
         id: 3,
         name: 'Release',
-        level: 3
       } as ProcessType,
     ])
   }
@@ -81,18 +78,18 @@ export class GraphCoreService {
         history: [
           {
             position: 1,
-            startDate: new Date(2020, 11, 2),
-            stopDate: new Date(2020, 11, 5)
+            startDate: new Date(2020, 11, 3),
+            stopDate: new Date(2020, 11, 4)
           },
           {
             position: 2,
-            startDate: new Date(2020, 11, 5),
-            stopDate: new Date(2020, 11, 7)
+            startDate: new Date(2020, 11, 4),
+            stopDate: new Date(2020, 11, 5)
           },
           {
             position: 3,
-            startDate: new Date(2020, 11, 7),
-            stopDate: new Date(2020, 11, 7)
+            startDate: new Date(2020, 11, 6),
+            stopDate: new Date(2020, 11, 10)
           },
           // {
           //   position: 5,

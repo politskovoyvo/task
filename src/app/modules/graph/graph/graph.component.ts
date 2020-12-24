@@ -1,6 +1,5 @@
 import { AfterViewInit, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import * as d3 from "d3";
-import { color } from 'd3';
 import { Observable, pipe } from 'rxjs';
 import { switchMap, tap } from 'rxjs/operators';
 import { ProcessType } from 'src/app/share/models/pocess-type';
@@ -12,6 +11,7 @@ import { GraphService } from '../services/graph.service';
 const Node = d3.hierarchy.prototype.constructor;
 type TODO_NODE = any;
 type TODO_SVG = any;
+const step = 20;
 
 
 @Component({
@@ -61,15 +61,6 @@ export class GraphComponent implements OnInit, AfterViewInit {
         .attr("width", width);   
 
     this.grid(processTypes, tasks, svg);
-
-    tasks.forEach((task, ind) => {
-      this.paintTask(svg, task, {
-        lineColor: 'red',
-        nodeColor: 'black',
-        nodeRadius: '5',
-        strokeWidth: '4'
-      } as LineOptions);
-    })
   }
 
   private grid = (
@@ -77,7 +68,6 @@ export class GraphComponent implements OnInit, AfterViewInit {
     tasks: Task[], 
     svg: TODO_SVG
     ) => {
-      const step = 20;
       const daysInSelectedMonth = this.nowDate.daysInMonth();
       let processTypeGroup: number[] = [];
       let group: {
@@ -112,15 +102,14 @@ export class GraphComponent implements OnInit, AfterViewInit {
       // vertical grid
       let step_x = 0;
       group.forEach((type, i) => {
-        step_x = !i ? 0 : (group[i - 1].ids.length) * 20 + step_x;
-        console.log(step_x)
+        step_x = !i ? 0 : (group[i - 1].ids.length) * step + step_x;
         svg.selectAll('vertical__line')
         .data(new Array(type.ids.length + 1))
         .enter()
           .append('line')
-            .attr('x1', (d, ind) => step_x + ind * 20)
+            .attr('x1', (d, ind) => step_x + ind * step)
             .attr('y1', 0)
-            .attr('x2', (d, ind) => step_x + ind * 20)
+            .attr('x2', (d, ind) => step_x + ind * step)
             .attr('y2', '100%')
             .attr('class', 'vertical__line')
             .style('fill', 'none')
@@ -136,30 +125,65 @@ export class GraphComponent implements OnInit, AfterViewInit {
             .attr('x1', 0)
             .attr('y1', (d, ind) => ind * step)
             .attr('class', 'horizontal__line')
-            .attr('x2', step * countGroupType + 10)
+            .attr('x2', step * countGroupType + step/2)
             .attr('y2', (d, ind) => ind * step)
             .style('fill', 'none')
             .style('stroke', 'black')
             .style('stroke-width', 0.2);
+
+      tasks.forEach((task, ind) => {
+        this.paintTask(
+          svg, 
+          task,
+          group,
+          {
+            lineColor: this.getRandomColor(),
+            nodeColor: 'black',
+            nodeRadius: '5',
+            strokeWidth: '4'
+          } as LineOptions);
+      });
   }
 
   private paintTask = (
     svg: TODO_SVG, 
     task: Task,
+    group: {
+      type: number,
+      ids: number[]
+    }[],
     options: LineOptions
-    ) => {
+    ): void => {
       const data2: any[] = [];
-      task.history.forEach(h => {
+      task.history.forEach(history => {
+        let marginLeft = 0;
+        let position = group.find(h => {
+          const isFindIndex = h.type === history.position;
+          if (!isFindIndex) {
+            marginLeft += h.ids.length * step;
+          }
+          
+          return isFindIndex;
+        });
+
+        if (!position) {
+          return;
+        }
+        // на всякий случай
+        position.ids = position.ids.sort();
+
+        const h_x = marginLeft + position.ids.indexOf(task.id) * step + step/2;
         data2.push({
-          x: (h.position) * 20, 
-          y: h.startDate.getDay() * 20
+          x: h_x, 
+          y: history.startDate.getDate() * step
         });
 
         data2.push({
-          x: (h.position) * 20, 
-          y: h.stopDate.getDay() * 20
+          x: h_x, 
+          y: history.stopDate.getDate() * step
         })
       });
+      // console.log(new Date(2020, 11, 1).getDate())
 
       const line = d3
         .line()
@@ -176,11 +200,20 @@ export class GraphComponent implements OnInit, AfterViewInit {
       (data2 as any[]).forEach(element => {
         svg.append("circle")
             .attr("class", "node")
-            .attr("r", 3)
+            .attr("r", options.nodeRadius)
             .attr("cx", element.x)
             .attr("cy", element.y)
             .on('click', (e) => { console.log(e) })
       });
+  }
+
+  getRandomColor = () => {
+    let letters = '0123456789ABCDEF';
+    let color = '#';
+    for (var i = 0; i < 6; i++) {
+      color += letters[Math.floor(Math.random() * 16)];
+    }
+    return color;
   }
 }
 
