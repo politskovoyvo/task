@@ -7,6 +7,7 @@ interface TaskHistory extends IntervalDate  {
 
 export interface Task extends Base {
     type: string;
+    color: string;
     simbol: string;
     priority: string;
     assignee: Base[];

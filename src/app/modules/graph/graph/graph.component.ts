@@ -62,7 +62,7 @@ export class GraphComponent implements OnInit, AfterViewInit {
       .append('svg')
         .attr("height", height)
         .attr("width", width)
-        .attr("viewBox", <any>[-10, -130, width, height]);
+        .attr("viewBox", <any>[-10, -100, width, height]);
     this.grid(processTypes, tasks, svg);
   }
 
@@ -147,7 +147,6 @@ export class GraphComponent implements OnInit, AfterViewInit {
         .style('width', () => step * type.ids.length)
         .style('height', '100%')
         .style('background', () => type.color)
-        // .html((d, i) => processTypes.find(pc => pc.id === type.type)?.name || '')
       });
 
       // horizontal grid
@@ -181,7 +180,6 @@ export class GraphComponent implements OnInit, AfterViewInit {
           task,
           group,
           {
-            // lineColor: this.getRandomColor(),
             lineColor: task.color,
             nodeColor: 'black',
             nodeRadius: '4',
@@ -239,7 +237,6 @@ export class GraphComponent implements OnInit, AfterViewInit {
           } as SelectedNodeInfo
         })
       });
-      // console.log(new Date(2020, 11, 1).getDate())
 
       const line = d3
         .line()
@@ -251,7 +248,6 @@ export class GraphComponent implements OnInit, AfterViewInit {
         .attr('class', 'path-task')
         .style('stroke', options.lineColor)
         .attr('d', line(data as any[]))
-        .attr('opacity', 0.8)
         .on('click', (e) => { this.lineEmit.emit(data); });
 
       data.forEach(element => {

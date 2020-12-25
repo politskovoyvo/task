@@ -6,13 +6,15 @@ import {GraphCoreService} from './core/graph-core.service'
 import { en_US, NZ_I18N } from 'ng-zorro-antd/i18n';
 import { NzDatePickerModule } from 'ng-zorro-antd/date-picker';
 import { GraphService } from './services/graph.service';
+import { NzSelectModule } from 'ng-zorro-antd/select';
 
 @NgModule({
   declarations: [GraphComponent],
   imports: [
     CommonModule,
     GraphRoutingModule,
-    NzDatePickerModule
+    NzDatePickerModule,
+    NzSelectModule
   ],
   providers: [
     { 

@@ -54,6 +54,8 @@
 }
 
 ::ng-deep.node {
+    fill:  #4B0082;
+    opacity: 0.7;
     &:hover {
         r: 6;
     }

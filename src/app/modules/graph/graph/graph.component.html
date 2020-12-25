@@ -1,6 +1,9 @@
 <div class="graph">
     <div class="graph__panel">
         <nz-date-picker nzMode="month" (ngModelChange)="dateChange($event)"></nz-date-picker>
+
+        <nz-select style="width: 300px; margin-left: 10px;"></nz-select>
+
         <button class="btn" (click)=refresh()>Обновить</button>
     </div>
 
