@@ -1,5 +1,6 @@
 import { Base } from './base';
 
 export interface ProcessType extends Base {
-    level: number;
+    color: string;
+    level?: number;
 }

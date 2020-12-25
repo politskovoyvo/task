@@ -1,4 +1,5 @@
-import { AfterViewInit, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { style } from '@angular/animations';
+import { AfterViewInit, Component, ElementRef, EventEmitter, OnInit, Output, ViewChild } from '@angular/core';
 import * as d3 from "d3";
 import { Observable, pipe } from 'rxjs';
 import { switchMap, tap } from 'rxjs/operators';
@@ -22,6 +23,8 @@ const step = 20;
 export class GraphComponent implements OnInit, AfterViewInit {
   @ViewChild('canvas') canvas: ElementRef;
   tasks$: Observable<Task[]>;
+  @Output() nodeEmit = new EventEmitter();
+  @Output() lineEmit = new EventEmitter();
 
   nowDate = new Date();
 
@@ -58,8 +61,8 @@ export class GraphComponent implements OnInit, AfterViewInit {
     const svg = d3.select(this.canvas.nativeElement)
       .append('svg')
         .attr("height", height)
-        .attr("width", width);   
-
+        .attr("width", width)
+        .attr("viewBox", <any>[-10, -130, width, height]);
     this.grid(processTypes, tasks, svg);
   }
 
@@ -72,6 +75,7 @@ export class GraphComponent implements OnInit, AfterViewInit {
       let processTypeGroup: number[] = [];
       let group: {
         type: number,
+        color: string,
         ids: number[]
       }[] = [];
 
@@ -86,8 +90,9 @@ export class GraphComponent implements OnInit, AfterViewInit {
           } else {
             group.push({
               type: history.position,
-              ids: [task.id]
-            })
+              ids: [task.id],
+              color: processTypes.find(pc => pc.id === history.position)?.color || ''
+            });
           }
         });
       });
@@ -101,46 +106,86 @@ export class GraphComponent implements OnInit, AfterViewInit {
 
       // vertical grid
       let step_x = 0;
-      group.forEach((type, i) => {
-        step_x = !i ? 0 : (group[i - 1].ids.length) * step + step_x;
+      group.forEach((type, index) => {
+        type.ids = type.ids.sort();
+        step_x = !index ? 0 : (group[index - 1].ids.length) * step + step_x;
         svg.selectAll('vertical__line')
-        .data(new Array(type.ids.length + 1))
-        .enter()
-          .append('line')
-            .attr('x1', (d, ind) => step_x + ind * step)
-            .attr('y1', 0)
-            .attr('x2', (d, ind) => step_x + ind * step)
-            .attr('y2', '100%')
-            .attr('class', 'vertical__line')
-            .style('fill', 'none')
-            .style('stroke', (d, ind) => type.ids.lastIndexOf(ind) ? 'red' : 'black')
-            .style('stroke-width', (d, ind) => type.ids.lastIndexOf(ind) ? 0.35 : 0.2);
+          .data(new Array(type.ids.length + 1))
+            .enter()
+              .append('line')
+                .attr('x1', (d, ind) => step_x + ind * step)
+                .attr('y1', 0)
+                .attr('x2', (d, ind) => step_x + ind * step)
+                .attr('y2', '100%')
+                .attr('class', 'vertical__line')
+                .style('fill', 'none')
+                .style('stroke', (d, ind) => type.ids.length === ind ? 'green' : 'black')
+                .style('stroke-dasharray', '20, 4')
+                .style('troke-dashoffset', 0)
+                .style('opacity', 0.3)
+                .style('stroke-width', (d, ind) => type.ids.length === ind ? 1 : 0.2);
+
+      svg.selectAll('task__name')
+        .data(new Array(type.ids.length))
+          .enter()
+            .append('foreignObject')
+              .attr('class', 'task__name')
+              .style('y', (d, ind) => step_x + ind * step)
+              .style('x', () => 0)
+              .style('width', 100)
+              .style('height', step)
+              .html((d, i) => {
+                const typeId = type.ids[i];
+                return tasks.find(t => t.id === typeId)?.simbol || '';
+              });
+
+      svg.append('foreignObject')
+        .attr('class', 'type__name')
+        .style('y', () => 0)
+        .style('zIndex', -5)
+        .style('x', () => step_x)
+        .style('width', () => step * type.ids.length)
+        .style('height', '100%')
+        .style('background', () => type.color)
+        // .html((d, i) => processTypes.find(pc => pc.id === type.type)?.name || '')
       });
 
       // horizontal grid
-      svg.selectAll('horizontal__line')
-        .data(new Array(daysInSelectedMonth + 1))
-        .enter()
-          .append('line')
-            .attr('x1', 0)
-            .attr('y1', (d, ind) => ind * step)
-            .attr('class', 'horizontal__line')
-            .attr('x2', step * countGroupType + step/2)
-            .attr('y2', (d, ind) => ind * step)
-            .style('fill', 'none')
-            .style('stroke', 'black')
-            .style('stroke-width', 0.2);
+      let horizontLines = svg.selectAll('horizontal__line')
+        .data(new Array(daysInSelectedMonth))
+          .enter()
+            .append('line')
+              .attr('x1', 0)
+              .attr('y1', (d, ind) => ind * step)
+              .attr('class', 'horizontal__line')
+              .attr('x2', step * countGroupType + 10)
+              .attr('y2', (d, ind) => ind * step)
+              .style('fill', 'none')
+              .style('stroke', 'black')
+              .style('stroke-dasharray', '10, 4')
+              .style('stroke-width', 0.15);
 
+        svg.selectAll('barsEndlineText')
+          .data(new Array(daysInSelectedMonth + 1))
+            .enter()
+              .append('text')
+                .attr('class', 'barsEndlineText')
+                .attr('x', () => group.reduce((acc, val) => acc + (val.ids.length) * step, 0) + 15)
+                .attr('y', (d, ind) => ind * step + 3)
+                .text((d, i) => i);
+
+      // paint Tasks
       tasks.forEach((task, ind) => {
         this.paintTask(
           svg, 
           task,
           group,
           {
-            lineColor: this.getRandomColor(),
+            // lineColor: this.getRandomColor(),
+            lineColor: task.color,
             nodeColor: 'black',
-            nodeRadius: '5',
-            strokeWidth: '4'
+            nodeRadius: '4',
+            strokeWidth: '3'
           } as LineOptions);
       });
   }
@@ -154,7 +199,7 @@ export class GraphComponent implements OnInit, AfterViewInit {
     }[],
     options: LineOptions
     ): void => {
-      const data2: any[] = [];
+      const data: any[] = [];
       task.history.forEach(history => {
         let marginLeft = 0;
         let position = group.find(h => {
@@ -162,7 +207,6 @@ export class GraphComponent implements OnInit, AfterViewInit {
           if (!isFindIndex) {
             marginLeft += h.ids.length * step;
           }
-          
           return isFindIndex;
         });
 
@@ -173,37 +217,55 @@ export class GraphComponent implements OnInit, AfterViewInit {
         position.ids = position.ids.sort();
 
         const h_x = marginLeft + position.ids.indexOf(task.id) * step + step/2;
-        data2.push({
-          x: h_x, 
-          y: history.startDate.getDate() * step
+        data.push({
+          point: {
+            x: h_x,
+            y: history.startDate.getDate() * step,
+          } as Point,
+          info: {
+            id: task.id,
+            date: history.startDate
+          } as SelectedNodeInfo
         });
 
-        data2.push({
-          x: h_x, 
-          y: history.stopDate.getDate() * step
+        data.push({
+          point: {
+            x: h_x,
+            y: history.stopDate.getDate() * step,
+          } as Point,
+          info: {
+            id: task.id,
+            date: history.stopDate
+          } as SelectedNodeInfo
         })
       });
       // console.log(new Date(2020, 11, 1).getDate())
 
       const line = d3
         .line()
-          .x((d: any) => d.x)
-          .y((d: any) => d.y)
+          .x((d: any) => d.point.x)
+          .y((d: any) => d.point.y)
           .curve(d3.curveMonotoneX);
 
-      svg.append('path')
-        .style('fill', 'none')
+      let path = svg.append('path')
+        .attr('class', 'path-task')
         .style('stroke', options.lineColor)
-        .style('stroke-width', options.strokeWidth)
-        .attr('d', line(data2 as any[]));
+        .attr('d', line(data as any[]))
+        .attr('opacity', 0.8)
+        .on('click', (e) => { this.lineEmit.emit(data); });
 
-      (data2 as any[]).forEach(element => {
-        svg.append("circle")
+      data.forEach(element => {
+        let node = svg.append("circle")
             .attr("class", "node")
             .attr("r", options.nodeRadius)
-            .attr("cx", element.x)
-            .attr("cy", element.y)
-            .on('click', (e) => { console.log(e) })
+            .attr("cx", element.point.x)
+            .attr("cy", element.point.y)
+            .on('click', (e) => { 
+              this.nodeEmit.emit(node); 
+              console.log(node)
+            })
+
+        node['data'] = element.info;
       });
   }
 
@@ -217,6 +279,10 @@ export class GraphComponent implements OnInit, AfterViewInit {
   }
 }
 
+export interface SelectedNodeInfo {
+  id: number;
+  date: Date;
+}
 // ДАЛЕЕ
 // формат который я буду здесь принимать
 export interface Point {
