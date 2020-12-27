@@ -33,12 +33,12 @@ export class GraphIndexComponent implements OnInit, AfterViewInit {
           this.processTypes = res;
           return tasks;
         }
-      ), tap(() => this.change.detectChanges())
+      )
     );
   }
 
   ngAfterViewInit(): void {
-    this.graphService.refresh();
+    setTimeout(() => this.graphService.refresh());
   }
 
   lineEmit($event) {

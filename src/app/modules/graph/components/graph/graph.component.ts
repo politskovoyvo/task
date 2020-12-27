@@ -1,4 +1,5 @@
 import {
+  AfterViewInit,
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
@@ -28,7 +29,7 @@ const step = 20;
   styleUrls: ["./graph.component.scss"],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class GraphComponent implements OnInit, OnChanges {
+export class GraphComponent implements OnInit, OnChanges, AfterViewInit {
   @ViewChild("canvas") canvas: ElementRef;
   @Input() tasks: Task[];
   @Input() processTypes: ProcessType[];
@@ -38,6 +39,9 @@ export class GraphComponent implements OnInit, OnChanges {
   nowDate = new Date();
 
   constructor(private change: ChangeDetectorRef) {}
+  ngAfterViewInit(): void {
+    this.change.detectChanges();
+  }
 
   ngOnChanges(changes: SimpleChanges): void {
     // console.log(this.processTypes)
