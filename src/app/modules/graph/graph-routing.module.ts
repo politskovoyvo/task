@@ -1,10 +1,11 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { GraphComponent } from './graph/graph.component';
+import { GraphComponent } from './components/graph/graph.component';
+import { GraphIndexComponent } from './graph-index/graph-index.component';
 
 
 const routes: Routes = [
-  {path: '', component: GraphComponent}
+  {path: '', component: GraphIndexComponent}
 ];
 
 @NgModule({

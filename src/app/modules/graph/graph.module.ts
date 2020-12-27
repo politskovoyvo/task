@@ -1,15 +1,17 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { GraphComponent } from './graph/graph.component';
 import { GraphRoutingModule } from './graph-routing.module';
 import {GraphCoreService} from './core/graph-core.service'
 import { en_US, NZ_I18N } from 'ng-zorro-antd/i18n';
 import { NzDatePickerModule } from 'ng-zorro-antd/date-picker';
 import { GraphService } from './services/graph.service';
 import { NzSelectModule } from 'ng-zorro-antd/select';
+import { PeopleListComponent } from './components/people-list/people-list.component';
+import { GraphComponent } from './components/graph/graph.component';
+import { GraphIndexComponent } from './graph-index/graph-index.component';
 
 @NgModule({
-  declarations: [GraphComponent],
+  declarations: [GraphComponent, PeopleListComponent, GraphIndexComponent],
   imports: [
     CommonModule,
     GraphRoutingModule,

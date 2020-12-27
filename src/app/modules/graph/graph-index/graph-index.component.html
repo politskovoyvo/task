@@ -1,0 +1,15 @@
+<div class="container">
+  <div class="container__menu">
+    <nz-date-picker
+    nzMode="month"
+    (ngModelChange)="dateChange($event)"
+  ></nz-date-picker>
+
+  <nz-select style="width: 300px; margin-left: 10px"></nz-select>
+
+  <button class="btn" (click)="refresh()">Обновить</button>
+  </div>
+  <app-graph class="container__graph"></app-graph>
+
+  <app-people-list class="container__people-list"></app-people-list>
+</div>

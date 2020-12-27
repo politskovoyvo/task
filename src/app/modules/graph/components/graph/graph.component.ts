@@ -6,8 +6,8 @@ import { switchMap, tap } from 'rxjs/operators';
 import { ProcessType } from 'src/app/share/models/pocess-type';
 // import * as d3 from 'd3-selection';
 import { Task } from 'src/app/share/models/task';
-import { LineOptions } from '../models/line-options';
-import { GraphService } from '../services/graph.service';
+import { LineOptions } from '../../models/line-options';
+import { GraphService } from '../../services/graph.service';
 
 const Node = d3.hierarchy.prototype.constructor;
 type TODO_NODE = any;
