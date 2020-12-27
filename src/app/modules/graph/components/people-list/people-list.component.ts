@@ -9,7 +9,7 @@ import { Base } from 'src/app/share/models/base';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class PeopleListComponent implements OnInit {
-  @Input() peoples$: Observable<Base[]>;
+  @Input() peoples: Base[];
 
   constructor() { }
 

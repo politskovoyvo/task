@@ -1,36 +1,44 @@
 import { Injectable } from "@angular/core";
 import { BehaviorSubject, Observable, of, Subject } from "rxjs";
-import { map } from 'rxjs/operators';
-import { ProcessType } from 'src/app/share/models/pocess-type';
-import { Task } from 'src/app/share/models/task';
-import { GraphCoreService } from '../core/graph-core.service';
+import { map, switchMap, tap } from "rxjs/operators";
+import { ProcessType } from "src/app/share/models/pocess-type";
+import { Task } from "src/app/share/models/task";
+import { GraphCoreService } from "../core/graph-core.service";
 
 @Injectable()
 export class GraphService {
-    private _tasks$ = new BehaviorSubject<Task[]>([]);
-    private _refresh$ = new Subject();
+  private _cash: Task[] = [];
+  private _tasks$: Observable<Task[]>;
+  private _refresh$ = new Subject();
 
-    constructor(private graphCoreService: GraphCoreService) {}
+  constructor(private graphCoreService: GraphCoreService) {
+    this.init();
+  }
 
-    refresh() {
-        this._refresh$.next();
+  refresh(isCash = false) {
+    if (isCash) {
+      this._tasks$ = of(this._cash);
     }
 
-    getProcessTypes(): Observable<ProcessType[]> {
-        return this.graphCoreService.getTypes();
-    }
+    this._refresh$.next();
+  }
 
-    getTaskObserver(): Observable<Task[]> {
-        return this._tasks$;
-    }
+  getProcessTypes(): Observable<ProcessType[]> {
+    return this.graphCoreService.getTypes();
+  }
 
-    getTasks() : Observable<Task[]> {
-        return this.graphCoreService.getTasks();
-    }
+  getTaskObserver(): Observable<Task[]> {
+    return this._tasks$;
+  }
 
-    private init() {
-        this._refresh$.pipe(
-            map(() => this.graphCoreService.getTasks())
-        ).subscribe(this._refresh$);
-    }
+  getValueTasks(): Task[] {
+    return this._cash;
+  }
+
+  private init() {
+    this._tasks$ = this._refresh$.pipe(
+      switchMap(() => this.graphCoreService.getTasks()),
+      tap((tasks) => (this._cash = tasks))
+    );
+  }
 }

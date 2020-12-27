@@ -1,15 +1,24 @@
 <div class="container">
   <div class="container__menu">
-    <nz-date-picker
-    nzMode="month"
-    (ngModelChange)="dateChange($event)"
-  ></nz-date-picker>
-
-  <nz-select style="width: 300px; margin-left: 10px"></nz-select>
-
-  <button class="btn" (click)="refresh()">Обновить</button>
+    <div class="left">
+      <nz-date-picker
+        nzMode="month"
+        (ngModelChange)="dateChange($event)"
+      ></nz-date-picker>
+      <nz-select></nz-select>
+      <button class="btn" (click)="refresh()">Обновить</button>
+    </div>
+    <div class="right">Табы с инфой о выбранным таском</div>
   </div>
-  <app-graph class="container__graph"></app-graph>
+  <div class="container__index">
+    <app-graph
+      [tasks]="tasks$ | async"
+      [processTypes]="processTypes"
+      (lineEmit)="lineEmit($event)"
+      (nodeEmit)="nodeEmit($event)"
+      class="container__graph"
+    ></app-graph>
 
-  <app-people-list class="container__people-list"></app-people-list>
+    <app-people-list class="container__people-list"></app-people-list>
+  </div>
 </div>
