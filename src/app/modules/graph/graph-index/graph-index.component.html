@@ -19,6 +19,9 @@
       class="container__graph"
     ></app-graph>
 
-    <app-people-list class="container__people-list"></app-people-list>
+    <app-people-list
+      [assignes]="assignes$ | async"
+      class="container__people-list"
+    ></app-people-list>
   </div>
 </div>

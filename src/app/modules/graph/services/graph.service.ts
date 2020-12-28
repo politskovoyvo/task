@@ -1,6 +1,7 @@
 import { Injectable } from "@angular/core";
 import { BehaviorSubject, Observable, of, Subject } from "rxjs";
 import { map, switchMap, tap } from "rxjs/operators";
+import { Base } from "src/app/share/models/base";
 import { ProcessType } from "src/app/share/models/pocess-type";
 import { Task } from "src/app/share/models/task";
 import { GraphCoreService } from "../core/graph-core.service";
@@ -21,6 +22,19 @@ export class GraphService {
     }
 
     this._refresh$.next();
+  }
+
+  getAssignesObservable(): Observable<Base[]> {
+    return this._tasks$.pipe(
+      map((tasks) =>
+        tasks
+          ?.map((t) => t.assignee)
+          ?.reduce((acc, value) => {
+            const ids = acc.map((r) => r.id);
+            return acc.concat(value.filter((v) => !ids.includes(v.id)));
+          }, []) || []
+      )
+    );
   }
 
   getProcessTypes(): Observable<ProcessType[]> {

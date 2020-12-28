@@ -8,6 +8,7 @@ import {
 } from "@angular/core";
 import { Observable } from "rxjs";
 import { switchMap, tap } from "rxjs/operators";
+import { Base } from "src/app/share/models/base";
 import { ProcessType } from "src/app/share/models/pocess-type";
 import { Task } from "src/app/share/models/task";
 import { GraphService } from "../services/graph.service";
@@ -21,6 +22,7 @@ import { GraphService } from "../services/graph.service";
 })
 export class GraphIndexComponent implements OnInit, AfterViewInit {
   tasks$: Observable<Task[]>;
+  assignes$: Observable<Base[]>; 
   processTypes: ProcessType[];
 
   constructor(private graphService: GraphService, private change: ChangeDetectorRef) {}
@@ -35,6 +37,8 @@ export class GraphIndexComponent implements OnInit, AfterViewInit {
         }
       )
     );
+
+    this.assignes$ = this.graphService.getAssignesObservable();
   }
 
   ngAfterViewInit(): void {

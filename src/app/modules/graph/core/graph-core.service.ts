@@ -82,6 +82,7 @@ export class GraphCoreService {
         assignee: [
           { id: 1, name: "Тест 1 Тестович" },
           { id: 2, name: "Тест 2 Тестович" },
+          { id: 3, name: "Тест 3 Тестович" },
         ],
       },
       <Task>{
@@ -120,7 +121,9 @@ export class GraphCoreService {
 
         assignee: [
           { id: 1, name: "Тест 1 Тестович" },
+          { id: 5, name: "Тест 5 Тестович" },
           { id: 2, name: "Тест 2 Тестович" },
+          { id: 4, name: "Тест 4 Тестович" },
         ],
       },
       <Task>{
@@ -160,6 +163,8 @@ export class GraphCoreService {
         assignee: [
           { id: 1, name: "Тест 1 Тестович" },
           { id: 2, name: "Тест 2 Тестович" },
+          { id: 2, name: "Тест 2 Тестович" },
+          { id: 6, name: "Тест 6 Тестович" },
         ],
       },
     ]);

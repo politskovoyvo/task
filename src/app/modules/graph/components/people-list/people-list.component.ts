@@ -9,11 +9,12 @@ import { Base } from 'src/app/share/models/base';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class PeopleListComponent implements OnInit {
-  @Input() peoples: Base[];
+  @Input() assignes: Base[];
 
   constructor() { }
 
   ngOnInit(): void {
+    
   }
 
 }

@@ -35,6 +35,7 @@ export class GraphComponent implements OnInit, OnChanges, AfterViewInit {
   @Input() processTypes: ProcessType[];
   @Output() nodeEmit = new EventEmitter();
   @Output() lineEmit = new EventEmitter();
+  @Output() lineMouseEnterEmit = new EventEmitter();
 
   nowDate = new Date();
 
@@ -56,7 +57,6 @@ export class GraphComponent implements OnInit, OnChanges, AfterViewInit {
     const width = 400,
       height = 1000,
       margin = { top: 20, bottom: 20, left: 20, right: 20 };
-
     const svg = d3
       .select(this.canvas.nativeElement)
       .append("svg")
@@ -259,7 +259,8 @@ export class GraphComponent implements OnInit, OnChanges, AfterViewInit {
       .attr("d", line(data as any[]))
       .on("click", (e) => {
         this.lineEmit.emit(data);
-      });
+      })
+      .on('mouseenter', () => this.lineMouseEnterEmit.emit(data));
 
     data.forEach((element) => {
       let node = svg
