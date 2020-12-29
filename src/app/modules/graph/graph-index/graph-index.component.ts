@@ -6,8 +6,8 @@ import {
   Component,
   OnInit,
 } from "@angular/core";
-import { Observable } from "rxjs";
-import { switchMap, tap } from "rxjs/operators";
+import { BehaviorSubject, Observable, of, Subject } from "rxjs";
+import { map, switchMap, tap, withLatestFrom } from "rxjs/operators";
 import { Base } from "src/app/share/models/base";
 import { ProcessType } from "src/app/share/models/pocess-type";
 import { Task } from "src/app/share/models/task";
@@ -22,7 +22,8 @@ import { GraphService } from "../services/graph.service";
 })
 export class GraphIndexComponent implements OnInit, AfterViewInit {
   tasks$: Observable<Task[]>;
-  assignes$: Observable<Base[]>; 
+  // assignes$: Observable<Base[]>; 
+  assignes$ = new BehaviorSubject<Base[]>([]); 
   processTypes: ProcessType[];
 
   constructor(private graphService: GraphService, private change: ChangeDetectorRef) {}
@@ -38,7 +39,7 @@ export class GraphIndexComponent implements OnInit, AfterViewInit {
       )
     );
 
-    this.assignes$ = this.graphService.getAssignesObservable();
+    this.graphService.getAssignesObservable().subscribe(this.assignes$);
   }
 
   ngAfterViewInit(): void {
@@ -51,6 +52,25 @@ export class GraphIndexComponent implements OnInit, AfterViewInit {
 
   nodeEmit($event) {
     console.log($event)
+  }
+
+  lineMouseEnterEmit($event) {
+    const ids: number[] = $event.map(i => i.info.assignes)[0].map(ass => ass.id);
+    const assignes = this.assignes$.value?.map(assigne => {
+      assigne['isSelected'] = ids.includes(assigne.id);
+      return assigne;
+    });
+    this.assignes$.next(assignes)
+    
+
+
+    // console.log(ids.unique())
+    // this.assignes$ = this.assignes$.pipe(
+    //   map(a => {
+        
+    //     return a;
+    //   })
+    // )
   }
 
   dateChange($event: Date) {}

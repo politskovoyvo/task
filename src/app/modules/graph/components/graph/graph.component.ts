@@ -45,8 +45,7 @@ export class GraphComponent implements OnInit, OnChanges, AfterViewInit {
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    // console.log(this.processTypes)
-    if (this.tasks && changes.tasks && this.processTypes) {
+    if (this.tasks?.length && changes.tasks && this.processTypes) {
       this.paintGrid(this.tasks, this.processTypes);
     }
   }
@@ -231,6 +230,7 @@ export class GraphComponent implements OnInit, OnChanges, AfterViewInit {
         info: {
           id: task.id,
           date: history.startDate,
+          assignes: task.assignee
         } as SelectedNodeInfo,
       });
 
@@ -242,6 +242,7 @@ export class GraphComponent implements OnInit, OnChanges, AfterViewInit {
         info: {
           id: task.id,
           date: history.stopDate,
+          assignes: task.assignee
         } as SelectedNodeInfo,
       });
     });
@@ -260,7 +261,9 @@ export class GraphComponent implements OnInit, OnChanges, AfterViewInit {
       .on("click", (e) => {
         this.lineEmit.emit(data);
       })
-      .on('mouseenter', () => this.lineMouseEnterEmit.emit(data));
+      .on('mouseenter', (e) => {
+        this.lineMouseEnterEmit.emit(data)
+      });
 
     data.forEach((element) => {
       let node = svg
@@ -291,6 +294,7 @@ export class GraphComponent implements OnInit, OnChanges, AfterViewInit {
 export interface SelectedNodeInfo {
   id: number;
   date: Date;
+  assignes: [];
 }
 // ДАЛЕЕ
 // формат который я буду здесь принимать

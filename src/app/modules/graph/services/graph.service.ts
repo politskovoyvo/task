@@ -9,7 +9,7 @@ import { GraphCoreService } from "../core/graph-core.service";
 @Injectable()
 export class GraphService {
   private _cash: Task[] = [];
-  private _tasks$: Observable<Task[]>;
+  private _tasks$ = new BehaviorSubject<Task[]>([]);
   private _refresh$ = new Subject();
 
   constructor(private graphCoreService: GraphCoreService) {
@@ -18,15 +18,19 @@ export class GraphService {
 
   refresh(isCash = false) {
     if (isCash) {
-      this._tasks$ = of(this._cash);
+      this._tasks$.next(this._cash);
     }
 
     this._refresh$.next();
   }
 
+  setTasks(tasks: Task[]) {
+    this._tasks$.next(tasks);
+  }
+
   getAssignesObservable(): Observable<Base[]> {
     return this._tasks$.pipe(
-      map((tasks) =>
+      map((tasks: Task[]) =>
         tasks
           ?.map((t) => t.assignee)
           ?.reduce((acc, value) => {
@@ -42,17 +46,17 @@ export class GraphService {
   }
 
   getTaskObserver(): Observable<Task[]> {
-    return this._tasks$;
+    return this._tasks$.asObservable();
   }
 
   getValueTasks(): Task[] {
-    return this._cash;
+    return this._tasks$.value;
   }
 
   private init() {
-    this._tasks$ = this._refresh$.pipe(
+    this._refresh$.pipe(
       switchMap(() => this.graphCoreService.getTasks()),
       tap((tasks) => (this._cash = tasks))
-    );
+    ).subscribe(this._tasks$);
   }
 }
