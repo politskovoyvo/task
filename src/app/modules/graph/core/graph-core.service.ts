@@ -44,7 +44,7 @@ export class GraphCoreService {
         id: 1,
         name: "Реализовать функционал 1",
         simbol: "ORR-2020",
-        color: "red",
+        color: "#70227E",
         history: [
           {
             position: 1,
