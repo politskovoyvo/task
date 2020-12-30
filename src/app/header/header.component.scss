@@ -1,3 +1,30 @@
+@import '../../assets/styles/variables.scss';
 .header {
-    background: coral;
+  background: $basic;
+  display: flex;
+  justify-content: space-between;
+
+  .left {
+    i {
+      padding-left: 10px;
+      padding-top: 10px;
+      padding-bottom: 10px;
+    }
+  }
+
+  .right {
+    i {
+      padding: 10px;
+    }
+  }
+
+  i {
+    font-size: 24px;
+    color: white;
+  }
+
+  span {
+    color: white;
+    font-size: 1em;
+  }
 }

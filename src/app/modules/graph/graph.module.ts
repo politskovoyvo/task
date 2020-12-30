@@ -8,14 +8,15 @@ import { NzSelectModule } from 'ng-zorro-antd/select';
 import { PeopleListComponent } from './components/people-list/people-list.component';
 import { GraphComponent } from './components/graph/graph.component';
 import { GraphIndexComponent } from './graph-index/graph-index.component';
-
+import { NzIconModule } from 'ng-zorro-antd/icon';
 @NgModule({
   declarations: [GraphComponent, PeopleListComponent, GraphIndexComponent],
   imports: [
     CommonModule,
     GraphRoutingModule,
     NzDatePickerModule,
-    NzSelectModule
+    NzSelectModule,
+    NzIconModule
   ],
   providers: [
     { 

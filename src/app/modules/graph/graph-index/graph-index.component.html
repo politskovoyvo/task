@@ -1,14 +1,16 @@
 <div class="container">
   <div class="container__menu">
     <div class="left">
+      <i nz-icon nzType="redo"></i>
       <nz-date-picker
         nzMode="month"
         (ngModelChange)="dateChange($event)"
       ></nz-date-picker>
       <nz-select></nz-select>
-      <button class="btn" (click)="refresh()">Обновить</button>
     </div>
-    <div class="right">Табы с инфой о выбранным таском</div>
+    <div class="right">
+      <i nz-icon nzType="appstore-add" nzTheme="outline"></i>
+    </div>
   </div>
   <div class="container__index">
     <app-graph
