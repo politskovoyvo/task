@@ -5,12 +5,7 @@ import { AuthService } from './services/auth.service';
 
 @NgModule({
   declarations: [],
-  imports: [
-    CommonModule
-  ],
-  providers: [
-    AuthCoreService,
-    AuthService
-  ]
+  imports: [CommonModule],
+  providers: [AuthCoreService, AuthService],
 })
-export class AuthModule { }
+export class AuthModule {}

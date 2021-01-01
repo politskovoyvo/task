@@ -1,1 +1,12 @@
-<p>register works!</p>
+<div class="input-box">
+  <input nz-input type="text" placeholder="Email or name" />
+  <input nz-input type="password" placeholder="password" />
+  <span
+    >Регистрируясь, я соглашаюсь с Условиями использования продуктов Cloud и принимаю Политику конфиденциальности
+    Task.</span
+  >
+  <button nz-button>Зарегистрироваться</button>
+  <div>
+    <a [routerLink]="'/login'">Войти</a>
+  </div>
+</div>

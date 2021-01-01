@@ -11,15 +11,13 @@
     "moduleResolution": "node",
     "importHelpers": true,
     "target": "es2015",
-    "lib": [
-      "es2018",
-      "dom"
-    ],
+    "lib": ["es2018", "dom"],
     "paths": {
       "@modules/*": ["src/app/modules/*"],
       "@core/*": ["src/app/core/*"],
       "@share/*": ["src/app/share/*"],
-      "@assets/*": ["src/app/assets/*"]
+      "@assets/*": ["src/app/assets/*"],
+      "@app/*": ["src/app/app/*"]
     }
   },
   "angularCompilerOptions": {
