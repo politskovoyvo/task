@@ -12,6 +12,7 @@ import { registerLocaleData } from '@angular/common';
 import en from '@angular/common/locales/en';
 import { HeaderComponent } from './header/header.component';
 import { NzIconModule } from 'ng-zorro-antd/icon';
+import { AuthModule } from './auth/auth.module';
 
 registerLocaleData(en);
 
@@ -26,7 +27,8 @@ registerLocaleData(en);
     FormsModule,
     HttpClientModule,
     BrowserAnimationsModule,
-    NzIconModule
+    NzIconModule,
+    AuthModule
   ],
   providers: [{ provide: NZ_I18N, useValue: en_US }],
   bootstrap: [AppComponent]
