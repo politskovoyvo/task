@@ -37,28 +37,25 @@ export class AuthService {
     private _cookieService: CookieService
   ) {}
 
-  public auth(login: string, password: string) {
-    
-    return this._authCoreService.login(login, password)
-      .pipe(
-        tap((tokenInfo: TokenInfo) => {
-          this.updateLocalToken(tokenInfo);
-        })
-      );
-  }
+  public auth = (login: string, password: string) =>
+    this._authCoreService.login(login, password)
+    .pipe(
+      tap((tokenInfo: TokenInfo) => {
+        this.updateLocalToken(tokenInfo);
+      })
+    );
 
   public refreshToken(): Observable<TokenInfo> {
     const refreshToken = localStorage.getItem(SESSION_STORAGE_KEYS.refreshToken);
-    return this._authCoreService.refresh(refreshToken)
-      .pipe(
-        catchError(err => this.redirectIfNeed()),
-        tap((tokenInfo: TokenInfo) => {
-          this.updateLocalToken(tokenInfo);
-          if (this._router.url?.slice(0, 6) === '/login') {
-            this._router.navigate(['/']);
-          }
-        })
-      );
+    return this._authCoreService.refresh(refreshToken).pipe(
+      catchError((err) => this.redirectIfNeed()),
+      tap((tokenInfo: TokenInfo) => {
+        this.updateLocalToken(tokenInfo);
+        if (this._router.url?.slice(0, 6) === '/login') {
+          this._router.navigate(['/']);
+        }
+      })
+    );
   }
 
   public logout(currentUrl?: string): Observable<boolean> {
@@ -122,17 +119,7 @@ export class AuthService {
     this.user.accessToken = accessToken;
     this.user.refreshToken = refreshToken;
 
-
     localStorage.setItem(SESSION_STORAGE_KEYS.refreshToken, refreshToken);
-    this._cookieService.set(
-      'Authorization',
-      `Bearer ${tokenInfo.access_token}`,
-      null,
-      '/',
-      '.wildberries.ru',
-      true,
-      'None'
-    );
   }
 
   private getDecodedAccessToken(token: string): any {
