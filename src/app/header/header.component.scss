@@ -1,10 +1,20 @@
 @import '../../assets/styles/variables.scss';
+
 .header {
   background: $basic;
   display: flex;
   justify-content: space-between;
+  padding: 10px;
 
-  .left {
+  &__auth {
+    .log-in {
+      display: flex;
+    }
+
+    .log-out {
+      display: flex;
+    }
+
     i {
       padding-left: 10px;
       padding-top: 10px;

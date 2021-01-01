@@ -1,9 +1,17 @@
 <div class="header">
-    <div class="left">
-        <i nz-icon nzType="fork"></i>
-        <span>Task</span>
+  <div class="left">
+    <i nz-icon nzType="fork"></i>
+    <span>Task</span>
+  </div>
+  <div class="header__auth">
+    <div class="log-in">
+      <i nz-icon nzType="logout" (click)="logout()"></i>
     </div>
-    <div class="right">
-        <i nz-icon nzType="logout"></i>
-    </div>
+
+    <ng-template #noAuth>
+      <div class="log-out">
+
+      </div>
+    </ng-template>
+  </div>
 </div>

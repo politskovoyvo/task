@@ -1,10 +1,9 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable, of } from 'rxjs';
-import { environment } from '../../../../environments/environment';
 import { ActivatedRoute, Router } from '@angular/router';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { catchError, filter, flatMap, map, switchMap, tap, timeout } from 'rxjs/operators';
-import { jwtDecode } from 'jwt-decode';
+import { HttpClient } from '@angular/common/http';
+import { catchError, tap } from 'rxjs/operators';
+import * as jwt_decode from 'jwt-decode';
 import { UntilDestroy } from '@ngneat/until-destroy';
 import { AuthCoreService } from './auth-core.service';
 import { User } from '../models/user';
@@ -15,7 +14,7 @@ import { CookieService } from 'ngx-cookie-service';
 @UntilDestroy()
 @Injectable()
 export class AuthService {
-  private _userSubject = new BehaviorSubject<User>({});
+  private _userSubject = new BehaviorSubject<User>({} as User);
 
   public get userObservable(): Observable<User> {
     return this._userSubject.asObservable();
@@ -32,14 +31,11 @@ export class AuthService {
   constructor(
     private _authCoreService: AuthCoreService,
     private _activatedRoute: ActivatedRoute,
-    private _router: Router,
-    private _http: HttpClient,
-    private _cookieService: CookieService
+    private _router: Router
   ) {}
 
   public auth = (login: string, password: string) =>
-    this._authCoreService.login(login, password)
-    .pipe(
+    this._authCoreService.login(login, password).pipe(
       tap((tokenInfo: TokenInfo) => {
         this.updateLocalToken(tokenInfo);
       })
@@ -48,7 +44,7 @@ export class AuthService {
   public refreshToken(): Observable<TokenInfo> {
     const refreshToken = localStorage.getItem(SESSION_STORAGE_KEYS.refreshToken);
     return this._authCoreService.refresh(refreshToken).pipe(
-      catchError((err) => this.redirectIfNeed()),
+      catchError(() => this.redirectIfNeed()),
       tap((tokenInfo: TokenInfo) => {
         this.updateLocalToken(tokenInfo);
         if (this._router.url?.slice(0, 6) === '/login') {
@@ -67,17 +63,17 @@ export class AuthService {
 
     // Если мы уже находимся на странице логина, никуда не редиректим
     if (currentUrl.slice(0, 6) === '/login') {
-      return of();
+      return;
     }
 
     // Если мы не в руте, сохраняем редирект на текущую страницу.
     if (currentUrl && currentUrl !== '/') {
       this._router.navigate(['/', 'login'], { queryParams: { redirectUrl: currentUrl } });
-      return of();
+      return;
     } else {
       // Если мы в руте, сохраняем редирект на рут.
       this._router.navigate(['/', 'login']);
-      return of();
+      return;
     }
   }
 
@@ -124,7 +120,7 @@ export class AuthService {
 
   private getDecodedAccessToken(token: string): any {
     try {
-      return jwtDecode(token);
+      return jwt_decode(token);
     } catch (error) {
       return null;
     }
