@@ -1,0 +1,45 @@
+.box {
+    width: 100%;
+    span {
+      font-size: 0.8em;
+    }
+  
+    &__info {
+        padding: 10px;
+    }
+  
+    input {
+      margin-top: 10px;
+      width: 100%;
+    }
+  
+    button {
+      margin: 10px 0;
+      background: cornflowerblue;
+      color: white;
+      width: 100%;
+      height: 35px;
+    }
+  
+    &__form {
+        margin-bottom: 20px;
+    }
+  
+    &__header {
+      display: flex;
+      justify-content: center;
+      width: 100%;
+      margin-bottom: 20px;
+      span {
+        font-size: 20px;
+      }
+    }
+  
+    &__down {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: 100%;
+    }
+  }
+  
