@@ -35,6 +35,7 @@ export class AuthService {
   ) {}
 
   public auth(login: string, password: string) {
+    console.log(login, password)
     return this.authCoreService.login(login, password).pipe(
       tap((tokenInfo: TokenInfo) => {
         this.updateLocalToken(tokenInfo);
