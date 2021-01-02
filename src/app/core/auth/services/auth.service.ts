@@ -29,26 +29,28 @@ export class AuthService {
   }
 
   constructor(
-    private _authCoreService: AuthCoreService,
-    private _activatedRoute: ActivatedRoute,
-    private _router: Router
+    private authCoreService: AuthCoreService,
+    private activatedRoute: ActivatedRoute,
+    private router: Router
   ) {}
 
-  public auth = (login: string, password: string) =>
-    this._authCoreService.login(login, password).pipe(
+  public auth(login: string, password: string) {
+    return this.authCoreService.login(login, password).pipe(
       tap((tokenInfo: TokenInfo) => {
         this.updateLocalToken(tokenInfo);
+        this.router.navigate(['']);
       })
     );
+  }
 
   public refreshToken(): Observable<TokenInfo> {
     const refreshToken = localStorage.getItem(SESSION_STORAGE_KEYS.refreshToken);
-    return this._authCoreService.refresh(refreshToken).pipe(
+    return this.authCoreService.refresh(refreshToken).pipe(
       catchError(() => this.redirectIfNeed()),
       tap((tokenInfo: TokenInfo) => {
         this.updateLocalToken(tokenInfo);
-        if (this._router.url?.slice(0, 6) === '/login') {
-          this._router.navigate(['/']);
+        if (this.router.url?.slice(0, 6) === '/login') {
+          this.router.navigate(['/']);
         }
       })
     );
@@ -58,7 +60,7 @@ export class AuthService {
     this.clearSession();
     // Урл на котором находимся сейчас
     if (!currentUrl) {
-      currentUrl = this._router.url;
+      currentUrl = this.router.url;
     }
 
     // Если мы уже находимся на странице логина, никуда не редиректим
@@ -68,23 +70,23 @@ export class AuthService {
 
     // Если мы не в руте, сохраняем редирект на текущую страницу.
     if (currentUrl && currentUrl !== '/') {
-      this._router.navigate(['/', 'login'], { queryParams: { redirectUrl: currentUrl } });
+      this.router.navigate(['/', 'login'], { queryParams: { redirectUrl: currentUrl } });
       return;
     } else {
       // Если мы в руте, сохраняем редирект на рут.
-      this._router.navigate(['/', 'login']);
+      this.router.navigate(['/', 'login']);
       return;
     }
   }
 
   private redirectIfNeed() {
-    const url = this._activatedRoute.snapshot.queryParamMap.get('redirectUrl');
+    const url = this.activatedRoute.snapshot.queryParamMap.get('redirectUrl');
     if (url) {
       // Получаем путь
       const redirectUrl = url.split('?')[0];
 
       if (!url.split('?')[1]) {
-        return this._router.navigate([redirectUrl]);
+        return this.router.navigate([redirectUrl]);
       }
 
       const params = {};
@@ -97,9 +99,9 @@ export class AuthService {
         .map((elem) => {
           params[elem.split('=')[0]] = elem.split('=')[1];
         });
-      return this._router.navigate([redirectUrl], { queryParams: params });
+      return this.router.navigate([redirectUrl], { queryParams: params });
     } else {
-      return this._router.navigate(['']);
+      return this.router.navigate(['']);
     }
   }
 
@@ -112,8 +114,12 @@ export class AuthService {
     const accessToken = tokenInfo.access_token;
     const refreshToken = tokenInfo.refresh_token;
     const decodeTokenInfo = this.getDecodedAccessToken(accessToken);
-    this.user.accessToken = accessToken;
-    this.user.refreshToken = refreshToken;
+
+    this._userSubject.next({
+      ...this.user,
+      accessToken: accessToken,
+      name: decodeTokenInfo.name,
+    });
 
     localStorage.setItem(SESSION_STORAGE_KEYS.refreshToken, refreshToken);
   }
