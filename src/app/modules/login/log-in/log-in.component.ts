@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
 import { AuthService } from '@core/auth/services/auth.service';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { of } from 'rxjs';
@@ -17,7 +16,6 @@ export class LogInComponent implements OnInit {
   error = '';
 
   constructor(
-    private router: Router,
     private authService: AuthService,
     private fb: FormBuilder
   ) {}

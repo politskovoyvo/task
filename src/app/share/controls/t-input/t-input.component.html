@@ -1,0 +1,29 @@
+<input
+  nz-input
+  *ngIf="type === 'input'"
+  [placeholder]="placeholder"
+  [style.width]="width"
+  [(ngModel)]="textValue"
+/>
+
+<textarea
+  nz-input
+  *ngIf="type === 'textarea'"
+  [style.width]="width"
+  [placeholder]="placeholder"
+  [(ngModel)]="textValue"
+></textarea>
+
+<!-- Нужно ли будет, оставлю -->
+<!-- <nz-input-group [nzSuffix]="inputClearTpl"> -->
+<!-- <textarea -->
+<ng-template #textAreaClearTpl
+  ><i
+    nz-icon
+    class="ant-input-textarea-clear-icon"
+    nzTheme="fill"
+    nzType="close-circle"
+    *ngIf="textValue"
+    (click)="textValue = null"
+  ></i
+></ng-template>

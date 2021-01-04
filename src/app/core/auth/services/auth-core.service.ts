@@ -11,7 +11,7 @@ export class AuthCoreService {
   constructor(private http: HttpClient) {}
 
   login(login: string, password: string): Observable<TokenInfo> {
-    //TODO: пока нет бека
+    //TODO: заглушка пока нет бека
     if (login !== 'admin' || password !== 'admin') {
       return throwError('не верный логин или пароль');
     }
