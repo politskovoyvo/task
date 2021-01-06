@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { Task } from '@share/models/task';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-create-task',
@@ -6,10 +8,14 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./create-task.component.scss']
 })
 export class CreateTaskComponent implements OnInit {
+  taskTypes$: Observable<Task[]>;
 
   constructor() { }
 
   ngOnInit(): void {
   }
 
+  getTaskTypes() {
+
+  }
 }

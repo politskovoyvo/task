@@ -1,15 +1,20 @@
 <div class="container">
   <div class="container__menu">
     <div class="left">
-      <i nz-icon nzType="redo"></i>
+      <nz-select></nz-select>
       <nz-date-picker
         nzMode="month"
         (ngModelChange)="dateChange($event)"
       ></nz-date-picker>
-      <nz-select></nz-select>
     </div>
+    
     <div class="right">
-      <i nz-icon nzType="appstore-add" nzTheme="outline" (click)="createTask()"></i>
+      <i
+      nz-icon
+      nzType="appstore-add"
+      nzTheme="outline"
+      (click)="createTask()"
+    ></i>
     </div>
   </div>
   <div class="container__index">

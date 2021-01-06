@@ -1,10 +1,11 @@
-import { Injectable } from "@angular/core";
-import { BehaviorSubject, Observable, of, Subject } from "rxjs";
-import { map, switchMap, tap } from "rxjs/operators";
-import { Base } from "src/app/share/models/base";
-import { ProcessType } from "src/app/share/models/pocess-type";
-import { Task } from "src/app/share/models/task";
-import { GraphCoreService } from "../core/graph-core.service";
+import { Injectable } from '@angular/core';
+import { BoardCoreService } from '@core/services/board-core.service';
+import { TaskCoreService } from '@core/services/task-core.service';
+import { BehaviorSubject, Observable, of, Subject } from 'rxjs';
+import { map, switchMap, tap } from 'rxjs/operators';
+import { Base } from 'src/app/share/models/base';
+import { ProcessType } from 'src/app/share/models/pocess-type';
+import { Task } from 'src/app/share/models/task';
 
 @Injectable()
 export class GraphService {
@@ -12,7 +13,10 @@ export class GraphService {
   private _tasks$ = new BehaviorSubject<Task[]>([]);
   private _refresh$ = new Subject();
 
-  constructor(private graphCoreService: GraphCoreService) {
+  constructor(
+    private taskCoreService: TaskCoreService,
+    private boardCoreService: BoardCoreService
+  ) {
     this.init();
   }
 
@@ -30,19 +34,22 @@ export class GraphService {
 
   getAssignesObservable(): Observable<Base[]> {
     return this._tasks$.pipe(
-      map((tasks: Task[]) =>
-        tasks
-          ?.map((t) => t.assignee)
-          ?.reduce((acc, value) => {
-            const ids = acc.map((r) => r.id);
-            return acc.concat(value.filter((v) => !ids.includes(v.id)));
-          }, []) || []
+      map(
+        (tasks: Task[]) =>
+          tasks
+            ?.map((t) => t.assignee)
+            ?.reduce((acc, value) => {
+              const ids = acc.map((r) => r.id);
+              return acc.concat(
+                value.filter((v) => !ids.includes(v.id))
+              );
+            }, []) || []
       )
     );
   }
 
   getProcessTypes(): Observable<ProcessType[]> {
-    return this.graphCoreService.getTypes();
+    return this.taskCoreService.getTypes();
   }
 
   getTaskObserver(): Observable<Task[]> {
@@ -54,9 +61,11 @@ export class GraphService {
   }
 
   private init() {
-    this._refresh$.pipe(
-      switchMap(() => this.graphCoreService.getTasks()),
-      tap((tasks) => (this._cash = tasks))
-    ).subscribe(this._tasks$);
+    this._refresh$
+      .pipe(
+        switchMap(() => this.taskCoreService.getTasks(this.boardCoreService.currentBoard.id)),
+        tap((tasks) => (this._cash = tasks))
+      )
+      .subscribe(this._tasks$);
   }
 }
