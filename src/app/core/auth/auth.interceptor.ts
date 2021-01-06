@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import {
   HttpClient,
-    HttpErrorResponse,
+  HttpErrorResponse,
   HttpEvent,
   HttpHandler,
   HttpInterceptor,
@@ -13,12 +13,14 @@ import { Router } from '@angular/router';
 import { AuthService } from './services/auth.service';
 import { TokenInfo } from './models/token-info';
 import { SESSION_STORAGE_KEYS } from './models/session-storage-key';
+import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 
 type CallerRequest = {
   subscriber: Subscriber<any>;
   failedRequest: HttpRequest<any>;
 };
 
+@UntilDestroy()
 @Injectable()
 export class AuthInterceptor implements HttpInterceptor {
   isRefreshingToken = false;
@@ -43,6 +45,7 @@ export class AuthInterceptor implements HttpInterceptor {
       (subscriber) => {
         const originalRequestSubscription = next
           .handle(this.addHeadersToRequest(request))
+          .pipe(untilDestroyed(this))
           .subscribe(
             (response) => {
               subscriber.next(response);
@@ -74,6 +77,7 @@ export class AuthInterceptor implements HttpInterceptor {
     this.request.push({ subscriber, failedRequest: request });
     return this.refreshToken()
       .pipe(
+        untilDestroyed(this),
         tap((tokenInfo: TokenInfo) => {
           if (!this.authService.user) {
             this.logoutAndThrowError();
@@ -101,6 +105,7 @@ export class AuthInterceptor implements HttpInterceptor {
     this.http
       .request(requestWithNewToken)
       .pipe(
+        untilDestroyed(this),
         tap((res) => subscriber.next(res)),
         finalize(() => subscriber.complete()),
         catchError((err) => {
