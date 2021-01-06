@@ -9,11 +9,12 @@ import {
 import { BehaviorSubject, Observable, of, Subject } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
 import { Base } from 'src/app/share/models/base';
-import { ProcessType } from 'src/app/share/models/pocess-type';
+import { Track } from 'src/app/share/models/pocess-type';
 import { Task } from 'src/app/share/models/task';
 import { GraphService } from '../services/graph.service';
 import { NzModalModule, NzModalService } from 'ng-zorro-antd/modal';
 import { CreateTaskComponent } from '@modules/graph/components/create-task/create-task.component';
+import { BoardCoreService } from '@core/services/board-core.service';
 
 @Component({
   selector: 'app-graph-index',
@@ -26,10 +27,11 @@ export class GraphIndexComponent implements OnInit, AfterViewInit {
   tasks$: Observable<Task[]>;
   // assignes$: Observable<Base[]>;
   assignes$ = new BehaviorSubject<Base[]>([]);
-  processTypes: ProcessType[];
+  processTypes: Track[];
 
   constructor(
     private graphService: GraphService,
+    private boardCoreService: BoardCoreService,
     private change: ChangeDetectorRef,
     private modalService: NzModalService
   ) {}
@@ -37,7 +39,7 @@ export class GraphIndexComponent implements OnInit, AfterViewInit {
   ngOnInit(): void {
     this.tasks$ = this.graphService.getTaskObserver().pipe(
       switchMap(
-        () => this.graphService.getProcessTypes(),
+        () => this.boardCoreService.getTracks(),
         (tasks, res) => {
           this.processTypes = res;
           return tasks;

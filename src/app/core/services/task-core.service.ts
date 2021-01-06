@@ -1,3 +1,4 @@
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { IntervalDate } from '@share/models/interval-date';
 import { ProcessType } from '@share/models/pocess-type';
@@ -7,7 +8,7 @@ import { Observable, of } from 'rxjs';
 @Injectable()
 export class TaskCoreService {
   private readonly URL = 'https://...ru';
-  constructor() {}
+  constructor(private httpClient: HttpClient) {}
 
   getTasks(boardId: number): Observable<Task[]> {
     return of([
@@ -136,9 +137,10 @@ export class TaskCoreService {
         ],
       } as Task,
     ]);
+    return this.httpClient.get<Task[]>(`${this.URL}/api/board_id=${boardId}`);
   }
 
-  public getTypes(): Observable<ProcessType[]> {
+  public getTypes(boardId: number = 0): Observable<ProcessType[]> {
     return of([
       {
         id: 1,
@@ -166,5 +168,6 @@ export class TaskCoreService {
         color: '#FF7F50',
       } as ProcessType,
     ]);
+    return this.httpClient.get<ProcessType[]>(`${this.URL}/api/board_id=${boardId}`);
   }
 }
