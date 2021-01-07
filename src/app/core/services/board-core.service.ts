@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Base } from '@share/models/base';
-import { Track } from '@share/models/pocess-type';
+import { Track } from '@share/models/track';
 import { BehaviorSubject, Observable, of } from 'rxjs';
 
 @Injectable()

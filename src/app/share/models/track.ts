@@ -1,6 +1,6 @@
 import { Base } from './base';
 
-export interface ProcessType extends Base {
+export interface Track extends Base {
     color: string;
     level?: number;
 }

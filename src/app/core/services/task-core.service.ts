@@ -1,13 +1,14 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { IntervalDate } from '@share/models/interval-date';
-import { ProcessType } from '@share/models/pocess-type';
+import { Track } from '@share/models/track';
 import { Task } from '@share/models/task';
 import { Observable, of } from 'rxjs';
 
 @Injectable()
 export class TaskCoreService {
   private readonly URL = 'https://...ru';
+
   constructor(private httpClient: HttpClient) {}
 
   getTasks(boardId: number): Observable<Task[]> {
@@ -137,37 +138,41 @@ export class TaskCoreService {
         ],
       } as Task,
     ]);
-    return this.httpClient.get<Task[]>(`${this.URL}/api/board_id=${boardId}`);
+    return this.httpClient.get<Task[]>(
+      `${this.URL}/api/board_id=${boardId}`
+    );
   }
 
-  public getTypes(boardId: number = 0): Observable<ProcessType[]> {
+  public getTypes(boardId: number = 0): Observable<Track[]> {
     return of([
       {
         id: 1,
         name: 'Wait',
         color: '#F0E68C',
-      } as ProcessType,
+      } as Track,
       {
         id: 2,
         name: 'Process',
         color: '#BA55D3',
-      } as ProcessType,
+      } as Track,
       {
         id: 3,
         name: 'Test',
         color: '#4169E1',
-      } as ProcessType,
+      } as Track,
       {
         id: 4,
         name: 'Done',
         color: '#008B8B',
-      } as ProcessType,
+      } as Track,
       {
         id: 5,
         name: 'Release',
         color: '#FF7F50',
-      } as ProcessType,
+      } as Track,
     ]);
-    return this.httpClient.get<ProcessType[]>(`${this.URL}/api/board_id=${boardId}`);
+    return this.httpClient.get<Track[]>(
+      `${this.URL}/api/board_id=${boardId}`
+    );
   }
 }

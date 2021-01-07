@@ -7,16 +7,14 @@
         (ngModelChange)="dateChange($event)"
       ></nz-date-picker>
     </div>
-    
+
     <div class="right">
-      <i
-      nz-icon
-      nzType="appstore-add"
-      nzTheme="outline"
-      (click)="createTask()"
-    ></i>
+      <div nz-dropdown [nzDropdownMenu]="menu">
+        <i nz-icon nzType="appstore-add"></i>
+      </div>
     </div>
   </div>
+
   <div class="container__index">
     <app-graph
       [tasks]="tasks$ | async"
@@ -33,3 +31,10 @@
     ></app-people-list>
   </div>
 </div>
+
+<nz-dropdown-menu #menu="nzDropdownMenu">
+  <ul nz-menu nzSelectable>
+    <li nz-menu-item (click)="createTask()">Создать задачу</li>
+    <li nz-menu-item>Создать доску</li>
+  </ul>
+</nz-dropdown-menu>

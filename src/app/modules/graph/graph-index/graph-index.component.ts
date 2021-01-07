@@ -8,13 +8,13 @@ import {
 } from '@angular/core';
 import { BehaviorSubject, Observable, of, Subject } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
-import { Base } from 'src/app/share/models/base';
-import { Track } from 'src/app/share/models/pocess-type';
-import { Task } from 'src/app/share/models/task';
+import { Track } from '@share/models/track';
 import { GraphService } from '../services/graph.service';
 import { NzModalModule, NzModalService } from 'ng-zorro-antd/modal';
-import { CreateTaskComponent } from '@modules/graph/components/create-task/create-task.component';
+import { CreateTaskComponent } from 'src/app/components/create-task/create-task.component';
 import { BoardCoreService } from '@core/services/board-core.service';
+import { Base } from '@share/models/base';
+import { Task } from '@share/models/task';
 
 @Component({
   selector: 'app-graph-index',
@@ -57,6 +57,12 @@ export class GraphIndexComponent implements OnInit, AfterViewInit {
   }
 
   createTask() {
+    this.modalService.create({
+      nzContent: CreateTaskComponent
+    });
+  }
+
+  createBoard() {
     this.modalService.create({
       nzContent: CreateTaskComponent
     });

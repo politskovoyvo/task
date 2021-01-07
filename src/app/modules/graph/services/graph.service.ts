@@ -1,11 +1,11 @@
 import { Injectable } from '@angular/core';
 import { BoardCoreService } from '@core/services/board-core.service';
 import { TaskCoreService } from '@core/services/task-core.service';
-import { BehaviorSubject, Observable, of, Subject } from 'rxjs';
+import { Base } from '@share/models/base';
+import { Track } from '@share/models/track';
+import { Task } from '@share/models/task';
+import { BehaviorSubject, Observable, Subject } from 'rxjs';
 import { map, switchMap, tap } from 'rxjs/operators';
-import { Base } from 'src/app/share/models/base';
-import { ProcessType } from 'src/app/share/models/pocess-type';
-import { Task } from 'src/app/share/models/task';
 
 @Injectable()
 export class GraphService {
@@ -48,7 +48,7 @@ export class GraphService {
     );
   }
 
-  getProcessTypes(): Observable<ProcessType[]> {
+  getProcessTypes(): Observable<Track[]> {
     return this.taskCoreService.getTypes();
   }
 
@@ -63,7 +63,11 @@ export class GraphService {
   private init() {
     this._refresh$
       .pipe(
-        switchMap(() => this.taskCoreService.getTasks(this.boardCoreService.currentBoard.id)),
+        switchMap(() =>
+          this.taskCoreService.getTasks(
+            this.boardCoreService.currentBoard.id
+          )
+        ),
         tap((tasks) => (this._cash = tasks))
       )
       .subscribe(this._tasks$);
