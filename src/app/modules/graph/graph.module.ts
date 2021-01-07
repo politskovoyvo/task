@@ -10,9 +10,10 @@ import { NzIconModule } from 'ng-zorro-antd/icon';
 import { TInputModule } from '@share/controls/t-input/t-input.module';
 import { TaskCoreService } from '@core/services/task-core.service';
 import { BoardCoreService } from '@core/services/board-core.service';
-import { NzDropDownModule } from 'ng-zorro-antd/dropdown';
 import { PeopleListComponent } from '@components/people-list/people-list.component';
 import { CreateTaskComponent } from '@components/create-task/create-task.component';
+import { TDropdownModule } from '@share/controls/t-dropdown/t-dropdown.module';
+import { NzDropDownModule } from 'ng-zorro-antd/dropdown';
 @NgModule({
   declarations: [
     GraphComponent,
@@ -27,7 +28,8 @@ import { CreateTaskComponent } from '@components/create-task/create-task.compone
     NzSelectModule,
     NzIconModule,
     TInputModule,
-    NzDropDownModule
+    TDropdownModule,
+    NzDropDownModule,
   ],
   providers: [
     {
@@ -35,7 +37,7 @@ import { CreateTaskComponent } from '@components/create-task/create-task.compone
       useValue: en_US,
     },
     TaskCoreService,
-    BoardCoreService
+    BoardCoreService,
   ],
 })
 export class GraphModule {}

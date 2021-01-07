@@ -1,0 +1,8 @@
+<div nz-dropdown [nzDropdownMenu]="menu">
+  <i nz-icon nzType="appstore-add"></i>
+</div>
+<nz-dropdown-menu #menu="nzDropdownMenu">
+  <ul nz-menu nzSelectable>
+    <ng-content></ng-content>
+  </ul>
+</nz-dropdown-menu>

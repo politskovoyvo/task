@@ -9,9 +9,12 @@
     </div>
 
     <div class="right">
-      <div nz-dropdown [nzDropdownMenu]="menu">
-        <i nz-icon nzType="appstore-add"></i>
-      </div>
+      <t-dropdown>
+        <ul nz-menu nzSelectable>
+          <li nz-menu-item (click)="createTask()">Создать задачу</li>
+          <li nz-menu-item>Создать доску</li>
+        </ul>
+      </t-dropdown>
     </div>
   </div>
 
@@ -31,10 +34,3 @@
     ></app-people-list>
   </div>
 </div>
-
-<nz-dropdown-menu #menu="nzDropdownMenu">
-  <ul nz-menu nzSelectable>
-    <li nz-menu-item (click)="createTask()">Создать задачу</li>
-    <li nz-menu-item>Создать доску</li>
-  </ul>
-</nz-dropdown-menu>
