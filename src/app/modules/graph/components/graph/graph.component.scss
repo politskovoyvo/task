@@ -1,26 +1,11 @@
 @import "../../../../../assets/styles/variables.scss";
 
 .graph {
-    display: flex;
-    flex-direction: column;
-    width: 400px;
+    height: 100%;
+    width: 100%;
     
     &__canvas {
-        height: 700px;
-        border: 1px solid steelblue;
-    }
-
-    &__panel {
-        display: flex;
-        padding: 5px;
-        width: 100%;
-        nz-date-picker {
-            width: 100%;
-        }
-
-        .btn {
-            margin-left: 10px;
-        }
+        height: 100%;
     }
 }
 
@@ -36,11 +21,9 @@
 
 ::ng-deep.task__name {
     color: white;
-    // border: 0.001px solid orange;
     box-shadow: 0 0 2px 0 orangered;
     opacity: 0.7;
     padding: 2px;
-    // border-radius: 0 0 0 4px;
     font-size: 10px;
     text-align: center;
     background: $basic;
@@ -66,14 +49,3 @@
     font-size: 0.7em;
     fill: white;
 }
-
-// ::ng-deep .node {
-//     background: khaki;
-//     stroke-width: 10;
-//     stroke: 'red';
-//     fill: 'none'
-//     // &:hover {
-//     //     stroke-width: 10;
-//     //     stroke: 'red';
-//     // }
-// }

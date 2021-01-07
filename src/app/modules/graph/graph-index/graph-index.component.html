@@ -1,6 +1,6 @@
-<div class="container">
-  <div class="container__menu">
-    <div class="left">
+<div class="graph">
+  <div class="graph__menu">
+    <div class="graph__menu-left">
       <nz-select></nz-select>
       <nz-date-picker
         nzMode="month"
@@ -8,8 +8,8 @@
       ></nz-date-picker>
     </div>
 
-    <div class="right">
-      <t-dropdown>
+    <div class="graph__menu-right">
+      <t-dropdown [icon]="'appstore-add'">
         <ul nz-menu nzSelectable>
           <li nz-menu-item (click)="createTask()">Создать задачу</li>
           <li nz-menu-item>Создать доску</li>
@@ -18,19 +18,19 @@
     </div>
   </div>
 
-  <div class="container__index">
+  <div class="graph__index">
     <app-graph
+      class="graph__index-track"
       [tasks]="tasks$ | async"
       [processTypes]="processTypes"
       (lineEmit)="lineEmit($event)"
       (nodeEmit)="nodeEmit($event)"
       (lineMouseEnterEmit)="lineMouseEnterEmit($event)"
-      class="container__graph"
     ></app-graph>
 
     <app-people-list
       [assignes]="assignes$ | async"
-      class="container__people-list"
+      class="graph__people-list"
     ></app-people-list>
   </div>
 </div>

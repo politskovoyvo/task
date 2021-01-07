@@ -1,19 +1,19 @@
 @import '../../../../assets/styles/variables.scss';
 
-.container {
+.graph {
   width: 100%;
   height: 100%;
-
   display: flex;
   flex-direction: column;
 
-  &__graph {
-    height: 100%;
-  }
-
   &__index {
     padding: 10px;
+    height: 100%;
     display: flex;
+
+    &-track {
+      height: 100%;
+    }
   }
 
   &__menu {
@@ -32,7 +32,7 @@
       width: 150px;
     }
 
-    .left {
+    &-left {
       display: flex;
 
       i {
@@ -42,7 +42,7 @@
       }
     }
 
-    .right {
+    &-right {
       i {
         font-size: 20px;
         color: white;

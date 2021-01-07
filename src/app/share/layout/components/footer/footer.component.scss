@@ -1,0 +1,9 @@
+@import '../../../../../assets/styles/variables.scss';
+
+.container {
+    height: 100%;
+    width: 100%;
+    padding: 10px;
+    background: $basic;
+    color: white;
+}

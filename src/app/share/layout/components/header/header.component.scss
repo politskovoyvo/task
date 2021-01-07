@@ -2,9 +2,11 @@
 
 .header {
   background: $basic;
+  position: relative;
   display: flex;
   justify-content: space-between;
   padding: 10px;
+  height: 100%;
 
   &__auth {
     .log-in {

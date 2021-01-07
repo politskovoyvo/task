@@ -1,4 +1,9 @@
-<div class="container">
-  <app-header class="container__header"></app-header>
-  <router-outlet></router-outlet>
+<div class="layout">
+  <app-header class="layout__header"></app-header>
+  
+  <div class="layout__context">
+    <router-outlet class="layout__context"></router-outlet>
+  </div>
+
+  <app-footer class="layout__footer"></app-footer>
 </div>
