@@ -12,14 +12,17 @@ import { TaskCoreService } from '@core/services/task-core.service';
 import { BoardCoreService } from '@core/services/board-core.service';
 import { PeopleListComponent } from '@components/people-list/people-list.component';
 import { CreateTaskComponent } from '@components/create-task/create-task.component';
+import { CreateBoardComponent } from '@components/create-board/create-board.component';
 import { TDropdownModule } from '@share/controls/t-dropdown/t-dropdown.module';
 import { NzDropDownModule } from 'ng-zorro-antd/dropdown';
+
 @NgModule({
   declarations: [
     GraphComponent,
     PeopleListComponent,
     GraphIndexComponent,
     CreateTaskComponent,
+    CreateBoardComponent,
   ],
   imports: [
     CommonModule,

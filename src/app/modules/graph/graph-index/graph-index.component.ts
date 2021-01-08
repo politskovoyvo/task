@@ -1,5 +1,4 @@
 import {
-  AfterContentInit,
   AfterViewInit,
   ChangeDetectionStrategy,
   ChangeDetectorRef,
@@ -10,30 +9,29 @@ import { BehaviorSubject, Observable, of, Subject } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
 import { Track } from '@share/models/track';
 import { GraphService } from '../services/graph.service';
-import { NzModalModule, NzModalService } from 'ng-zorro-antd/modal';
-import { CreateTaskComponent } from 'src/app/components/create-task/create-task.component';
+import { CreateTaskComponent } from '@components/create-task/create-task.component';
+import { CreateBoardComponent } from '@components/create-board/create-board.component';
 import { BoardCoreService } from '@core/services/board-core.service';
 import { Base } from '@share/models/base';
 import { Task } from '@share/models/task';
+import { NzDrawerService } from 'ng-zorro-antd/drawer';
 
 @Component({
   selector: 'app-graph-index',
   templateUrl: './graph-index.component.html',
   styleUrls: ['./graph-index.component.scss'],
+  providers: [GraphService, NzDrawerService],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  providers: [GraphService, NzModalModule],
 })
 export class GraphIndexComponent implements OnInit, AfterViewInit {
   tasks$: Observable<Task[]>;
-  // assignes$: Observable<Base[]>;
   assignes$ = new BehaviorSubject<Base[]>([]);
   processTypes: Track[];
 
   constructor(
     private graphService: GraphService,
     private boardCoreService: BoardCoreService,
-    private change: ChangeDetectorRef,
-    private modalService: NzModalService
+    private drawerService: NzDrawerService
   ) {}
 
   ngOnInit(): void {
@@ -57,14 +55,18 @@ export class GraphIndexComponent implements OnInit, AfterViewInit {
   }
 
   createTask() {
-    this.modalService.create({
-      nzContent: CreateTaskComponent
+    this.drawerService.create({
+      nzTitle: 'Создание задания',
+      nzWidth: '80%',
+      nzContent: CreateTaskComponent,
     });
   }
 
   createBoard() {
-    this.modalService.create({
-      nzContent: CreateTaskComponent
+    this.drawerService.create({
+      nzTitle: 'Создание доски',
+      nzWidth: '80%',
+      nzContent: CreateBoardComponent,
     });
   }
 

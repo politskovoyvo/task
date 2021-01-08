@@ -28,8 +28,8 @@ const step = 20;
   selector: 'app-graph',
   templateUrl: './graph.component.html',
   styleUrls: ['./graph.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [DatePipe],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class GraphComponent
   implements OnInit, OnChanges, AfterViewInit {

@@ -12,12 +12,12 @@ import en from '@angular/common/locales/en';
 import { NzIconModule } from 'ng-zorro-antd/icon';
 import { AuthModule } from './core/auth/auth.module';
 import { NzModalModule } from 'ng-zorro-antd/modal';
-import { CreateBoardComponent } from './components/create-board/create-board.component';
+import { NzDrawerModule } from 'ng-zorro-antd/drawer';
 
 registerLocaleData(en);
 
 @NgModule({
-  declarations: [AppComponent, CreateBoardComponent],
+  declarations: [AppComponent],
   imports: [
     BrowserModule,
     AppRoutingModule,
@@ -27,6 +27,7 @@ registerLocaleData(en);
     NzIconModule,
     NzModalModule,
     AuthModule,
+    NzDrawerModule,
   ],
   providers: [{ provide: NZ_I18N, useValue: en_US }],
   bootstrap: [AppComponent],
