@@ -1,5 +1,5 @@
 <div class="card">
-  <div *ngFor="let assigne of assignes">
+  <div *ngFor="let assigne of assignesSubj$ | async">
     <div class="card__item" [style.background]="assigne['isSelected'] ? 'green' : ''">
       <span>{{ assigne.name }}</span>
       <div>

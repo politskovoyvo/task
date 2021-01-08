@@ -31,8 +31,7 @@ const step = 20;
   providers: [DatePipe],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class GraphComponent
-  implements OnInit, OnChanges, AfterViewInit {
+export class GraphComponent implements OnInit, OnChanges, AfterViewInit {
   @ViewChild('canvas') canvas: ElementRef;
   @Input() tasks: Task[];
   @Input() processTypes: Track[];
@@ -43,10 +42,7 @@ export class GraphComponent
   maxDate = new Date();
   nowDate = new Date();
 
-  constructor(
-    private change: ChangeDetectorRef,
-    private datePipe: DatePipe
-  ) {}
+  constructor(private change: ChangeDetectorRef, private datePipe: DatePipe) {}
   ngAfterViewInit(): void {
     this.change.detectChanges();
   }
@@ -83,9 +79,7 @@ export class GraphComponent
 
     tasks.forEach((task: Task) => {
       task.history.forEach((history, ind) => {
-        const findType = group.find(
-          (g) => g.type && g.type === history.position
-        );
+        const findType = group.find((g) => g.type && g.type === history.position);
         if (findType) {
           if (findType.ids.includes(task.id)) {
             return;
@@ -95,9 +89,7 @@ export class GraphComponent
           group.push({
             type: history.position,
             ids: [task.id],
-            color:
-              tracks.find((pc) => pc.id === history.position)
-                ?.color || '',
+            color: tracks.find((pc) => pc.id === history.position)?.color || '',
           });
         }
       });
@@ -114,9 +106,7 @@ export class GraphComponent
     let marginLeft = 0;
     group.forEach((type, index) => {
       type.ids = type.ids.sort();
-      marginLeft = !index
-        ? 0
-        : group[index - 1].ids.length * step + marginLeft;
+      marginLeft = !index ? 0 : group[index - 1].ids.length * step + marginLeft;
       svg
         .selectAll('vertical__line')
         .data(new Array(type.ids.length + 1))
@@ -128,15 +118,11 @@ export class GraphComponent
         .attr('y2', '100%')
         .attr('class', 'vertical__line')
         .style('fill', 'none')
-        .style('stroke', (d, ind) =>
-          type.ids.length === ind ? 'green' : 'black'
-        )
+        .style('stroke', (d, ind) => (type.ids.length === ind ? 'green' : 'black'))
         .style('stroke-dasharray', '20, 4')
         .style('troke-dashoffset', 0)
         .style('opacity', 0.3)
-        .style('stroke-width', (d, ind) =>
-          type.ids.length === ind ? 1 : 0.2
-        );
+        .style('stroke-width', (d, ind) => (type.ids.length === ind ? 1 : 0.2));
 
       svg
         .selectAll('task__name')
@@ -248,14 +234,11 @@ export class GraphComponent
       // на всякий случай
       position.ids = position.ids.sort();
 
-      const x =
-        marginLeft + position.ids.indexOf(task.id) * step + step / 2;
+      const x = marginLeft + position.ids.indexOf(task.id) * step + step / 2;
       data.push({
         point: {
           x,
-          y:
-            this.differenceDateDay(this.maxDate, history.startDate) *
-            step,
+          y: this.differenceDateDay(this.maxDate, history.startDate) * step,
         } as Point,
         info: {
           id: task.id,
@@ -267,9 +250,7 @@ export class GraphComponent
       data.push({
         point: {
           x,
-          y:
-            this.differenceDateDay(this.maxDate, history.stopDate) *
-            step,
+          y: this.differenceDateDay(this.maxDate, history.stopDate) * step,
         } as Point,
         info: {
           id: task.id,
@@ -293,6 +274,9 @@ export class GraphComponent
       .on('click', (e) => {
         this.lineEmit.emit(data);
       })
+      .on('mouseout', (e) => {
+        this.lineMouseEnterEmit.emit(undefined);
+      })
       .on('mouseenter', (e) => {
         this.lineMouseEnterEmit.emit(data);
       });
@@ -307,7 +291,6 @@ export class GraphComponent
         .attr('cy', element.point.y)
         .on('click', (e) => {
           this.nodeEmit.emit(node);
-          console.log(node);
         });
 
       node['data'] = element.info;
@@ -339,10 +322,7 @@ export class GraphComponent
   private differenceDateDay = (date1: Date, date2: Date) => {
     // +1 для того чтобы была свободная строчка
     return (
-      Math.ceil(
-        Math.abs(date2.getTime() - date1.getTime()) /
-          (1000 * 3600 * 24)
-      ) + 1
+      Math.ceil(Math.abs(date2.getTime() - date1.getTime()) / (1000 * 3600 * 24)) + 1
     );
   };
 }

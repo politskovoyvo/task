@@ -1,0 +1,13 @@
+<div class="container">
+  <nz-select
+    [style.width]="width"
+    [(ngModel)]="value"
+    (ngModelChange)="writeValue($event, true)"
+  >
+    <nz-option
+      *ngFor="let item of items"
+      [nzLabel]="item.name"
+      [nzValue]="item"
+    ></nz-option>
+  </nz-select>
+</div>

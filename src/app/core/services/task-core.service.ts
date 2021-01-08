@@ -7,7 +7,7 @@ import { Observable, of } from 'rxjs';
 
 @Injectable()
 export class TaskCoreService {
-  private readonly URL = 'https://...ru';
+  private readonly _URL = 'https://...ru';
 
   constructor(private httpClient: HttpClient) {}
 
@@ -138,9 +138,7 @@ export class TaskCoreService {
         ],
       } as Task,
     ]);
-    return this.httpClient.get<Task[]>(
-      `${this.URL}/api/board_id=${boardId}`
-    );
+    return this.httpClient.get<Task[]>(`${this._URL}/api/board_id=${boardId}`);
   }
 
   public getTypes(boardId: number = 0): Observable<Track[]> {
@@ -171,8 +169,6 @@ export class TaskCoreService {
         color: '#FF7F50',
       } as Track,
     ]);
-    return this.httpClient.get<Track[]>(
-      `${this.URL}/api/board_id=${boardId}`
-    );
+    return this.httpClient.get<Track[]>(`${this._URL}/api/board_id=${boardId}`);
   }
 }

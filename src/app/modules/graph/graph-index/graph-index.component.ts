@@ -6,7 +6,7 @@ import {
   OnInit,
 } from '@angular/core';
 import { BehaviorSubject, Observable, of, Subject } from 'rxjs';
-import { switchMap } from 'rxjs/operators';
+import { switchMap, tap } from 'rxjs/operators';
 import { Track } from '@share/models/track';
 import { GraphService } from '../services/graph.service';
 import { CreateTaskComponent } from '@components/create-task/create-task.component';
@@ -15,6 +15,7 @@ import { BoardCoreService } from '@core/services/board-core.service';
 import { Base } from '@share/models/base';
 import { Task } from '@share/models/task';
 import { NzDrawerService } from 'ng-zorro-antd/drawer';
+import { AuthService } from '@core/auth/services/auth.service';
 
 @Component({
   selector: 'app-graph-index',
@@ -24,14 +25,19 @@ import { NzDrawerService } from 'ng-zorro-antd/drawer';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class GraphIndexComponent implements OnInit, AfterViewInit {
+  boards$: Observable<Base[]>;
+  board: Base;
+  selectedAssigneIds: number[];
   tasks$: Observable<Task[]>;
   assignes$ = new BehaviorSubject<Base[]>([]);
+
   processTypes: Track[];
 
   constructor(
     private graphService: GraphService,
     private boardCoreService: BoardCoreService,
-    private drawerService: NzDrawerService
+    private drawerService: NzDrawerService,
+    private authService: AuthService
   ) {}
 
   ngOnInit(): void {
@@ -45,9 +51,13 @@ export class GraphIndexComponent implements OnInit, AfterViewInit {
       )
     );
 
-    this.graphService
-      .getAssignesObservable()
-      .subscribe(this.assignes$);
+    this.boards$ = this.boardCoreService
+      .getBoardsByUserId(this.authService.user.id)
+      ?.pipe(
+        tap(() => {
+          this.board = this.boardCoreService.currentBoard;
+        })
+      );
   }
 
   ngAfterViewInit(): void {
@@ -79,22 +89,7 @@ export class GraphIndexComponent implements OnInit, AfterViewInit {
   }
 
   lineMouseEnterEmit($event) {
-    const ids: number[] = $event
-      .map((i) => i.info.assignes)[0]
-      .map((ass) => ass.id);
-    const assignes = this.assignes$.value?.map((assigne) => {
-      assigne['isSelected'] = ids.includes(assigne.id);
-      return assigne;
-    });
-    this.assignes$.next(assignes);
-
-    // console.log(ids.unique())
-    // this.assignes$ = this.assignes$.pipe(
-    //   map(a => {
-
-    //     return a;
-    //   })
-    // )
+    this.selectedAssigneIds = $event?.map((i) => i.info.assignes)[0].map((ass) => ass.id);
   }
 
   dateChange($event: Date) {}

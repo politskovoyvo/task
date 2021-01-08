@@ -1,7 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 
 @Component({
-  // @ts-ignore
+  // tslint:disable-next-line:component-selector
   selector: 't-dropdown',
   templateUrl: './t-dropdown.component.html',
   styleUrls: ['./t-dropdown.component.scss'],

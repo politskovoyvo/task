@@ -1,7 +1,13 @@
 <div class="graph">
   <div class="graph__menu">
     <div class="graph__menu-left">
-      <nz-select></nz-select>
+      <t-select
+        [value]="board"
+        [items]="boards$ | async"
+        [width]="'300px'"
+        style="margin-right: 10px;"
+      ></t-select>
+
       <nz-date-picker
         nzMode="month"
         (ngModelChange)="dateChange($event)"
@@ -29,7 +35,8 @@
     ></app-graph>
 
     <app-people-list
-      [assignes]="assignes$ | async"
+      [boardId]="board.id"
+      [selectedIds]="selectedAssigneIds"
       class="graph__people-list"
     ></app-people-list>
   </div>

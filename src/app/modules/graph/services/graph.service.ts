@@ -32,22 +32,6 @@ export class GraphService {
     this._tasks$.next(tasks);
   }
 
-  getAssignesObservable(): Observable<Base[]> {
-    return this._tasks$.pipe(
-      map(
-        (tasks: Task[]) =>
-          tasks
-            ?.map((t) => t.assignee)
-            ?.reduce((acc, value) => {
-              const ids = acc.map((r) => r.id);
-              return acc.concat(
-                value.filter((v) => !ids.includes(v.id))
-              );
-            }, []) || []
-      )
-    );
-  }
-
   getProcessTypes(): Observable<Track[]> {
     return this.taskCoreService.getTypes();
   }
@@ -64,9 +48,7 @@ export class GraphService {
     this._refresh$
       .pipe(
         switchMap(() =>
-          this.taskCoreService.getTasks(
-            this.boardCoreService.currentBoard.id
-          )
+          this.taskCoreService.getTasks(this.boardCoreService.currentBoard?.id || 0)
         ),
         tap((tasks) => (this._cash = tasks))
       )

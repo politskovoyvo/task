@@ -15,6 +15,8 @@ import { CreateTaskComponent } from '@components/create-task/create-task.compone
 import { CreateBoardComponent } from '@components/create-board/create-board.component';
 import { TDropdownModule } from '@share/controls/t-dropdown/t-dropdown.module';
 import { NzDropDownModule } from 'ng-zorro-antd/dropdown';
+import { FormsModule } from '@angular/forms';
+import { TSelectModule } from '@share/controls/t-select/t-select.module';
 
 @NgModule({
   declarations: [
@@ -33,6 +35,8 @@ import { NzDropDownModule } from 'ng-zorro-antd/dropdown';
     TInputModule,
     TDropdownModule,
     NzDropDownModule,
+    FormsModule,
+    TSelectModule,
   ],
   providers: [
     {

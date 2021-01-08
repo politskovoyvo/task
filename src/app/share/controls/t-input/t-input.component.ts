@@ -1,7 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 
 @Component({
-  // @ts-ignore
+  // tslint:disable-next-line:component-selector
   selector: 't-input',
   templateUrl: './t-input.component.html',
   styleUrls: ['./t-input.component.scss'],
