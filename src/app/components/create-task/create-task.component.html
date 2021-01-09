@@ -1,15 +1,27 @@
 <form class="form">
-  <t-input [placeholder]="'Название'"></t-input>
-  <t-input
-    [placeholder]="'Описание'"
-    [type]="'textarea'"
-  ></t-input>
-  TODO: 
-  Типа задачи (по умолчанию TASK) (select)
-  Выбрать исполнителей (select) 
-  Выбрать срок (от и до) 
-  Приоритет (select) 
-  Доску (select) 
-  Кнопка автораспределение 
-  Возможность добавить как родителя или дочерний (select)
+  <t-input [placeholder]="'task name'"></t-input>
+  <div class="form__line">
+    <span>Spend time</span>
+    <t-input [placeholder]="'spend time'"></t-input>
+  </div>
+  <div class="form__line">
+    <span>Priority</span>
+    <t-select [width]="'200px'"></t-select>
+  </div>
+
+  <div class="form__line">
+    <span>Performers</span>
+    <t-select [width]="'200px'" [items]="assignee$ | async"></t-select>
+  </div>
+
+  <div class="form__line">
+    <span>Assignee</span>
+    <t-select [width]="'200px'" [items]="assignee$ | async"></t-select>
+  </div>
+  <t-input [placeholder]="'Описание'" [type]="'textarea'"></t-input>
+  <t-select></t-select>
+
+  TODO: Тип задачи (по умолчанию TASK) (select) Выбрать исполнителей (select) Выбрать срок
+  (от и до) Приоритет (select) Доску (select) Кнопка автораспределение Возможность
+  добавить как родителя или дочерний (select)
 </form>

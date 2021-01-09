@@ -4,12 +4,21 @@ import { IntervalDate } from '@share/models/interval-date';
 import { Track } from '@share/models/track';
 import { Task } from '@share/models/task';
 import { Observable, of } from 'rxjs';
+import { Base } from '@share/models/base';
 
 @Injectable()
 export class TaskCoreService {
   private readonly _URL = 'https://...ru';
 
   constructor(private httpClient: HttpClient) {}
+
+  getTaskTypes(): Observable<Base[]> {
+    return of([
+      { id: 1, name: 'task' },
+      { id: 2, name: 'bug' },
+      { id: 3, name: 'bug' },
+    ]);
+  }
 
   getTasks(boardId: number): Observable<Task[]> {
     return of([

@@ -5,4 +5,17 @@
     t-input {
         margin-bottom: 10px;
     }
+
+    &__line {
+        display: flex;
+        // justify-self: center;
+        align-items: center;
+
+        span {
+            width: 100px;
+        }
+
+        t-input {
+        }
+    }
 }
