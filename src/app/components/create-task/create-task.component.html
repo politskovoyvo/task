@@ -1,27 +1,63 @@
-<form class="form">
-  <t-input [placeholder]="'task name'"></t-input>
+<form class="form" [formGroup]="form" (ngSubmit)="submit()">
+  <t-input [placeholder]="'Task name'"></t-input>
+
+  <div class="form__line">
+    <span>Type</span>
+    <t-select [width]="'200px'" formControlName="type"></t-select>
+  </div>
+
   <div class="form__line">
     <span>Spend time</span>
-    <t-input [placeholder]="'spend time'"></t-input>
+    <t-input
+      [width]="'200px'"
+      [placeholder]="'spend time'"
+      formControlName="spendTime"
+    ></t-input>
   </div>
+
   <div class="form__line">
     <span>Priority</span>
-    <t-select [width]="'200px'"></t-select>
+    <t-select [width]="'200px'" formControlName="priority"></t-select>
+  </div>
+
+  <div class="form__line">
+    <span>State</span>
+    <t-select [width]="'200px'" formControlName="priority"></t-select>
   </div>
 
   <div class="form__line">
     <span>Performers</span>
-    <t-select [width]="'200px'" [items]="assignee$ | async"></t-select>
+    <t-select
+      isMulti="true"
+      [type]="'t-search'"
+      [width]="'200px'"
+      [items]="assignee$ | async"
+      [itemTemplate]="isSelected"
+      formControlName="performers"
+    ></t-select>
+    <ng-template let-option="option" #isSelected>
+      <div>
+        <i nz-icon nzType="check" nzTheme="outline" style="margin-right: 5px"></i>
+        <span>{{ option.name }}</span>
+      </div>
+    </ng-template>
   </div>
 
   <div class="form__line">
     <span>Assignee</span>
-    <t-select [width]="'200px'" [items]="assignee$ | async"></t-select>
+    <t-select
+      [width]="'200px'"
+      [items]="assignee$ | async"
+      formControlName="assignee"
+    ></t-select>
   </div>
-  <t-input [placeholder]="'Описание'" [type]="'textarea'"></t-input>
-  <t-select></t-select>
 
-  TODO: Тип задачи (по умолчанию TASK) (select) Выбрать исполнителей (select) Выбрать срок
-  (от и до) Приоритет (select) Доску (select) Кнопка автораспределение Возможность
-  добавить как родителя или дочерний (select)
+  <div class="form__context">
+    <t-input [placeholder]="'Описание'" [type]="'textarea'"></t-input>
+  </div>
+
+  <div class="form__submit">
+    <button type="submit">создать</button>
+    <button (click)="auto()">создать</button>
+  </div>
 </form>

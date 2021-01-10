@@ -4,6 +4,7 @@
   [placeholder]="placeholder"
   [style.width]="width"
   [(ngModel)]="textValue"
+  (ngModelChange)="inputChange($event)"
 />
 
 <textarea
@@ -12,6 +13,7 @@
   [style.width]="width"
   [placeholder]="placeholder"
   [(ngModel)]="textValue"
+  (ngModelChange)="inputChange($event)"
 ></textarea>
 
 <!-- Нужно ли будет, оставлю -->

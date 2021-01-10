@@ -1,4 +1,4 @@
-import { Component, forwardRef, Input, OnInit } from '@angular/core';
+import { Component, forwardRef, Input, OnInit, TemplateRef } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 
 @Component({
@@ -15,31 +15,45 @@ import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
   ],
 })
 export class TSelectComponent implements OnInit, ControlValueAccessor {
-  @Input() items = [];
-  @Input() value: any;
+  @Input() items: any[] = [];
+  @Input() value: any = {};
   @Input() width = '100px';
+  @Input() isMulti = false;
+  @Input() itemTemplate: TemplateRef<any>;
+  @Input() type: 't-default' | 't-search' = 't-default';
 
   constructor() {}
 
   ngOnInit(): void {}
 
+  get isSelectedItems() {
+    return this.items.filter((i) => i?.isSelected);
+  }
+
+  get isNotSelectedItems() {
+    return this.items.filter((i) => !i?.isSelected);
+  }
+
   onChange: any = () => {};
 
   onTouched: any = () => {};
 
-  writeValue(obj: any, isModelChange = false): void {
-    if (obj === undefined && obj === this.value) {
+  openChange($event) {
+    console.log($event)
+  }
+
+  writeValue(obj: any): void {
+    if (!obj) {
       return;
     }
 
-    if (isModelChange) {
-      this.onChange(this.value);
+    if (this.isMulti) {
+      obj.isSelected = !obj.isSelected;
+      this.onChange(this.isSelectedItems);
+      return;
     }
-  }
 
-  inputChange(value: string) {
-    this.writeValue(value);
-    this.onChange(value);
+    this.onChange(this.value);
   }
 
   registerOnChange(fn: any): void {
