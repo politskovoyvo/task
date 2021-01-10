@@ -6,7 +6,9 @@ import { BehaviorSubject, Observable, of } from 'rxjs';
 import { tap } from 'rxjs/operators';
 type TODO_USERS = any;
 
-@Injectable()
+@Injectable({
+  providedIn: 'root'
+})
 export class BoardCoreService {
   private readonly _URL = 'https://task.board.ru';
 
@@ -31,7 +33,7 @@ export class BoardCoreService {
       { id: 3, name: 'Тест3 Тестович3' },
       { id: 4, name: 'Тест4 Тестович4' },
       { id: 5, name: 'Тест5 Тестович5' },
-      { id: 6, name: 'Тест6 Тестович6' },
+      { id: 6, name: 'Александр Александрович Рович' },
     ]);
     return this.httpClient.get<TODO_USERS[]>(`${this._URL}/api/board_id=${boardId}`);
   }

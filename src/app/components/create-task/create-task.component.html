@@ -1,15 +1,15 @@
 <form class="form" [formGroup]="form" (ngSubmit)="submit()">
-  <t-input [placeholder]="'Task name'"></t-input>
+  <t-input [placeholder]="'Task name'" formControlName="name"></t-input>
 
-  <div class="form__line">
+  <!-- <div class="form__line">
     <span>Type</span>
     <t-select [width]="'200px'" formControlName="type"></t-select>
-  </div>
+  </div> -->
 
   <div class="form__line">
     <span>Spend time</span>
     <t-input
-      [width]="'200px'"
+      [width]="inputWidth"
       [placeholder]="'spend time'"
       formControlName="spendTime"
     ></t-input>
@@ -17,12 +17,12 @@
 
   <div class="form__line">
     <span>Priority</span>
-    <t-select [width]="'200px'" formControlName="priority"></t-select>
+    <t-select [width]="inputWidth" formControlName="priority"></t-select>
   </div>
 
   <div class="form__line">
     <span>State</span>
-    <t-select [width]="'200px'" formControlName="priority"></t-select>
+    <t-select [width]="inputWidth" formControlName="priority"></t-select>
   </div>
 
   <div class="form__line">
@@ -30,7 +30,7 @@
     <t-select
       isMulti="true"
       [type]="'t-search'"
-      [width]="'200px'"
+      [width]="inputWidth"
       [items]="assignee$ | async"
       [itemTemplate]="isSelected"
       formControlName="performers"
@@ -46,18 +46,21 @@
   <div class="form__line">
     <span>Assignee</span>
     <t-select
-      [width]="'200px'"
+      [width]="inputWidth"
       [items]="assignee$ | async"
       formControlName="assignee"
     ></t-select>
   </div>
 
   <div class="form__context">
-    <t-input [placeholder]="'Описание'" [type]="'textarea'"></t-input>
+    <t-input
+      [placeholder]="'Описание'"
+      [type]="'textarea'"
+      formControlName="info"
+    ></t-input>
   </div>
 
   <div class="form__submit">
     <button type="submit">создать</button>
-    <button (click)="auto()">создать</button>
   </div>
 </form>

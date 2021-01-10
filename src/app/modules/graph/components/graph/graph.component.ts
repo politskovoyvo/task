@@ -79,7 +79,7 @@ export class GraphComponent implements OnInit, OnChanges, AfterViewInit {
 
     tasks.forEach((task: Task) => {
       task.history.forEach((history, ind) => {
-        const findType = group.find((g) => g.type && g.type === history.position);
+        const findType = group.find((g) => g.type && g.type === history.trackId);
         if (findType) {
           if (findType.ids.includes(task.id)) {
             return;
@@ -87,9 +87,9 @@ export class GraphComponent implements OnInit, OnChanges, AfterViewInit {
           findType.ids.push(task.id);
         } else {
           group.push({
-            type: history.position,
+            type: history.trackId,
             ids: [task.id],
-            color: tracks.find((pc) => pc.id === history.position)?.color || '',
+            color: tracks.find((pc) => pc.id === history.trackId)?.color || '',
           });
         }
       });
@@ -221,7 +221,7 @@ export class GraphComponent implements OnInit, OnChanges, AfterViewInit {
     task.history.forEach((history) => {
       let marginLeft = 0;
       const position = group.find((h) => {
-        const isFindIndex = h.type === history.position;
+        const isFindIndex = h.type === history.trackId;
         if (!isFindIndex) {
           marginLeft += h.ids.length * step;
         }
@@ -243,7 +243,7 @@ export class GraphComponent implements OnInit, OnChanges, AfterViewInit {
         info: {
           id: task.id,
           date: history.startDate,
-          assignes: task.assignee,
+          assignes: task.performers,
         } as SelectedNodeInfo,
       });
 
@@ -255,7 +255,7 @@ export class GraphComponent implements OnInit, OnChanges, AfterViewInit {
         info: {
           id: task.id,
           date: history.stopDate,
-          assignes: task.assignee,
+          assignes: task.performers,
         } as SelectedNodeInfo,
       });
     });

@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { BoardCoreService } from '@core/services/board-core.service';
 import { CompanyCoreService } from '@core/services/company-core.service';
+import { TaskCoreService } from '@core/services/task-core.service';
 import { Base } from '@share/models/base';
 import { Task } from '@share/models/task';
 import { NzDrawerService } from 'ng-zorro-antd/drawer';
@@ -10,13 +12,19 @@ import { Observable } from 'rxjs';
   selector: 'app-create-task',
   templateUrl: './create-task.component.html',
   styleUrls: ['./create-task.component.scss'],
-  providers: [CompanyCoreService],
+  providers: [CompanyCoreService, TaskCoreService],
 })
 export class CreateTaskComponent implements OnInit {
   assignee$: Observable<Base[]>;
   form: FormGroup;
+  inputWidth = '300px';
 
-  constructor(private companyService: CompanyCoreService, private fb: FormBuilder) {
+  constructor(
+    private companyService: CompanyCoreService,
+    private fb: FormBuilder,
+    private taskCoreService: TaskCoreService,
+    private boardCoreService: BoardCoreService
+  ) {
     this.formInit();
   }
 
@@ -25,9 +33,10 @@ export class CreateTaskComponent implements OnInit {
   }
 
   submit() {
-    console.log('assignee', this.form.get('assignee').value);
-    console.log('performers', this.form.get('performers').value);
-    console.log('spendTime', this.form.get('spendTime').value);
+    const newTask = this.convertFormToTask(this.form);
+    this.taskCoreService
+      .createTask(this.boardCoreService.currentBoard.id, newTask)
+      .subscribe();
   }
 
   auto() {
@@ -41,7 +50,35 @@ export class CreateTaskComponent implements OnInit {
       type: ['', [Validators.required]],
       priority: ['', [Validators.required]],
       performers: [null, [Validators.required]],
-      assignee: ['', [Validators.required]]
-    })
+      assignee: ['', [Validators.required]],
+      info: ['', [Validators.required]],
+    });
+  }
+
+  private convertFormToTask(form: FormGroup): Task {
+    const newTask = form.getRawValue();
+    return {
+      type: '',
+      simbol: 'TASK',
+      color: '#228B22',
+      assignee: newTask.assignee,
+      priorityId: newTask.priority?.id,
+      spendTime: +newTask.spendTime,
+      history: [
+        {
+          trackId: 0,
+          startDate: new Date(),
+          stopDate: new Date(),
+        },
+      ],
+    } as Task;
+    // type: string;
+    // color: string;
+    // simbol: string;
+    // priorityId: number;
+    // assignee: Base[];
+    // interval: IntervalDate;
+    // history: TaskHistory[]; // массив событий
+    // info?: string; // описание
   }
 }

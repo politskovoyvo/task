@@ -3,25 +3,53 @@ import { Injectable } from '@angular/core';
 import { IntervalDate } from '@share/models/interval-date';
 import { Track } from '@share/models/track';
 import { Task } from '@share/models/task';
-import { Observable, of } from 'rxjs';
+import { BehaviorSubject, Observable, of } from 'rxjs';
 import { Base } from '@share/models/base';
+import { tap } from 'rxjs/operators';
 
-@Injectable()
+@Injectable({
+  providedIn: 'root'
+})
 export class TaskCoreService {
   private readonly _URL = 'https://...ru';
+  private _tasks = new BehaviorSubject<Task[]>([]);
+  private mockTasks: Task[];
+  private mockTracks: Track[];
 
-  constructor(private httpClient: HttpClient) {}
+  constructor(private httpClient: HttpClient) {
+    this.initMock();
+  }
 
   getTaskTypes(): Observable<Base[]> {
     return of([
       { id: 1, name: 'task' },
       { id: 2, name: 'bug' },
-      { id: 3, name: 'bug' },
+      { id: 3, name: 'newType' },
     ]);
   }
 
+  createTask(boardId: number, newTask: Task): Observable<any> {
+    this.mockTasks.push(newTask);
+    return of({}).pipe(tap(() => this.mockTasks.push(newTask)));
+    return this.httpClient.post(`${this._URL}/api/board_id=${boardId}`, `${newTask}`);
+  }
+
+  editTask(editTask: Task) {
+    return this.httpClient.post(`${this._URL}/api/edit`, `${editTask}`);
+  }
+
   getTasks(boardId: number): Observable<Task[]> {
-    return of([
+    return of(this.mockTasks);
+    return this.httpClient.get<Task[]>(`${this._URL}/api/board_id=${boardId}`);
+  }
+
+  public getTrackes(boardId: number = 0): Observable<Track[]> {
+    return of(this.mockTracks);
+    return this.httpClient.get<Track[]>(`${this._URL}/api/board_id=${boardId}`);
+  }
+
+  private initMock() {
+    this.mockTasks = [
       {
         id: 1,
         name: 'Реализовать функционал 1',
@@ -29,38 +57,35 @@ export class TaskCoreService {
         color: '#70227E',
         history: [
           {
-            position: 1,
+            trackId: 1,
             startDate: new Date(2020, 11, 1),
             stopDate: new Date(2020, 11, 5),
           },
           {
-            position: 2,
+            trackId: 2,
             startDate: new Date(2020, 11, 5),
             stopDate: new Date(2020, 11, 7),
           },
           {
-            position: 3,
+            trackId: 3,
             startDate: new Date(2020, 11, 7),
             stopDate: new Date(2020, 11, 8),
           },
           {
-            position: 4,
+            trackId: 4,
             startDate: new Date(2020, 11, 8),
             stopDate: new Date(2020, 11, 12),
           },
           {
-            position: 5,
+            trackId: 5,
             startDate: new Date(2020, 11, 13),
             stopDate: new Date(2020, 11, 13),
           },
         ],
-        interval: {
-          startDate: new Date(2020, 11, 1),
-          stopDate: new Date(2020, 11, 10),
-        } as IntervalDate,
-        priority: 'mego-need',
+        spendTime: 20,
+        priorityId: 1,
         type: 'type',
-        assignee: [
+        performers: [
           { id: 1, name: 'Тест 1 Тестович' },
           { id: 2, name: 'Тест 2 Тестович' },
           { id: 3, name: 'Тест 3 Тестович' },
@@ -73,33 +98,30 @@ export class TaskCoreService {
         color: 'blue',
         history: [
           {
-            position: 1,
+            trackId: 1,
             startDate: new Date(2020, 11, 2),
             stopDate: new Date(2020, 11, 4),
           },
           {
-            position: 3,
+            trackId: 3,
             startDate: new Date(2020, 11, 4),
             stopDate: new Date(2020, 11, 5),
           },
           {
-            position: 4,
+            trackId: 4,
             startDate: new Date(2020, 11, 7),
             stopDate: new Date(2020, 11, 12),
           },
           {
-            position: 5,
+            trackId: 5,
             startDate: new Date(2020, 11, 13),
             stopDate: new Date(2020, 11, 13),
           },
         ],
-        interval: {
-          startDate: new Date(2020, 11, 1),
-          stopDate: new Date(2020, 11, 10),
-        } as IntervalDate,
-        priority: 'mego-need',
+        spendTime: 10,
+        priorityId: 2,
         type: 'type',
-        assignee: [
+        performers: [
           { id: 1, name: 'Тест 1 Тестович' },
           { id: 5, name: 'Тест 5 Тестович' },
           { id: 2, name: 'Тест 2 Тестович' },
@@ -113,45 +135,39 @@ export class TaskCoreService {
         color: 'green',
         history: [
           {
-            position: 1,
+            trackId: 1,
             startDate: new Date(2020, 11, 2),
             stopDate: new Date(2020, 11, 8),
           },
           {
-            position: 2,
+            trackId: 2,
             startDate: new Date(2020, 11, 9),
             stopDate: new Date(2020, 11, 10),
           },
           {
-            position: 4,
+            trackId: 4,
             startDate: new Date(2020, 11, 10),
             stopDate: new Date(2020, 11, 12),
           },
           {
-            position: 5,
+            trackId: 5,
             startDate: new Date(2020, 11, 13),
             stopDate: new Date(2020, 11, 13),
           },
         ],
-        interval: {
-          startDate: new Date(2020, 11, 14),
-          stopDate: new Date(2020, 11, 14),
-        } as IntervalDate,
-        priority: 'mego-need',
+        spendTime: 5,
+        priorityId: 3,
         type: 'type',
-        assignee: [
+        performers: [
           { id: 1, name: 'Тест 1 Тестович' },
           { id: 2, name: 'Тест 2 Тестович' },
           { id: 2, name: 'Тест 2 Тестович' },
           { id: 6, name: 'Тест 6 Тестович' },
         ],
       } as Task,
-    ]);
-    return this.httpClient.get<Task[]>(`${this._URL}/api/board_id=${boardId}`);
-  }
+    ];
 
-  public getTypes(boardId: number = 0): Observable<Track[]> {
-    return of([
+    this.mockTracks = [
       {
         id: 1,
         name: 'Wait',
@@ -177,7 +193,6 @@ export class TaskCoreService {
         name: 'Release',
         color: '#FF7F50',
       } as Track,
-    ]);
-    return this.httpClient.get<Track[]>(`${this._URL}/api/board_id=${boardId}`);
+    ];
   }
 }

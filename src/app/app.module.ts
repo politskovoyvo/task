@@ -13,6 +13,8 @@ import { NzIconModule } from 'ng-zorro-antd/icon';
 import { AuthModule } from './core/auth/auth.module';
 import { NzModalModule } from 'ng-zorro-antd/modal';
 import { NzDrawerModule } from 'ng-zorro-antd/drawer';
+import { BoardCoreService } from '@core/services/board-core.service';
+import { TaskCoreService } from '@core/services/task-core.service';
 
 registerLocaleData(en);
 
@@ -30,7 +32,7 @@ registerLocaleData(en);
     NzDrawerModule,
     ReactiveFormsModule,
   ],
-  providers: [{ provide: NZ_I18N, useValue: en_US }],
+  providers: [{ provide: NZ_I18N, useValue: en_US }, BoardCoreService, TaskCoreService],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

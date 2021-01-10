@@ -5,7 +5,7 @@ import {
   Component,
   OnInit,
 } from '@angular/core';
-import { BehaviorSubject, Observable, of, Subject } from 'rxjs';
+import { BehaviorSubject, from, Observable, of, Subject } from 'rxjs';
 import { switchMap, tap } from 'rxjs/operators';
 import { Track } from '@share/models/track';
 import { GraphService } from '../services/graph.service';
@@ -65,10 +65,10 @@ export class GraphIndexComponent implements OnInit, AfterViewInit {
   }
 
   createTask() {
-    this.drawerService.create({
+    const a = this.drawerService.create({
       nzTitle: 'Создание задания',
       nzWidth: '80%',
-      nzContent: CreateTaskComponent,
+      nzContent: CreateTaskComponent
     });
   }
 

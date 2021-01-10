@@ -44,8 +44,6 @@ import { TSelectModule } from '@share/controls/t-select/t-select.module';
       provide: NZ_I18N,
       useValue: en_US,
     },
-    TaskCoreService,
-    BoardCoreService,
   ],
 })
 export class GraphModule {}

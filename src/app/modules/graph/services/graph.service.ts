@@ -33,7 +33,7 @@ export class GraphService {
   }
 
   getProcessTypes(): Observable<Track[]> {
-    return this.taskCoreService.getTypes();
+    return this.taskCoreService.getTrackes();
   }
 
   getTaskObserver(): Observable<Task[]> {
