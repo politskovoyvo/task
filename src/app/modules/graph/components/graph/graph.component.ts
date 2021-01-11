@@ -17,7 +17,6 @@ import { Track } from '@share/models/track';
 import { Task } from '@share/models/task';
 import * as d3 from 'd3';
 import { LineOptions } from '../../models/line-options';
-import { GraphService } from '../../services/graph.service';
 
 const Node = d3.hierarchy.prototype.constructor;
 type TODO_NODE = any;
@@ -39,33 +38,39 @@ export class GraphComponent implements OnInit, OnChanges, AfterViewInit {
   @Output() lineEmit = new EventEmitter();
   @Output() lineMouseEnterEmit = new EventEmitter();
 
+  svg;
   maxDate = new Date();
   nowDate = new Date();
 
   constructor(private change: ChangeDetectorRef, private datePipe: DatePipe) {}
   ngAfterViewInit(): void {
     this.change.detectChanges();
+    this.initSvg();
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    if (this.tasks?.length && changes.tasks && this.processTypes) {
-      this.paintGrid(this.tasks, this.processTypes);
+    if (this.tasks?.length && this.processTypes && this.svg) {
+      this.svg.selectAll("*").remove();
+      this.grid(this.processTypes, this.tasks, this.svg);
     }
   }
 
   ngOnInit(): void {}
 
-  private paintGrid = (tasks: Task[], processTypes: Track[]) => {
-    const width = 400;
-    const height = 1000;
-    const svg = d3
+  initSvg() {
+    const date1 = new Date(2020, 11, 30);
+    const date2 = new Date(2021, 0, 1);
+    const res = Math.ceil(Math.abs(date2.getTime() - date1.getTime()) / (1000 * 3600 * 24)) + 1
+    console.log(res)
+
+    const width = 3000;
+    const height = 5000;
+    this.svg = d3
       .select(this.canvas.nativeElement)
-      .append('svg')
       .attr('height', height)
       .attr('width', width)
       .attr('viewBox', [-40, -100, width, height] as any);
-    this.grid(processTypes, tasks, svg);
-  };
+  }
 
   private grid = (tracks: Track[], tasks: Task[], svg: TODO_SVG) => {
     this.maxDate = this.getMaxDate(tasks);
@@ -202,7 +207,7 @@ export class GraphComponent implements OnInit, OnChanges, AfterViewInit {
       this.paintTask(svg, task, group, {
         lineColor: task.color,
         nodeColor: 'black',
-        nodeRadius: '5',
+        nodeRadius: '6',
         strokeWidth: '3',
       } as LineOptions);
     });
@@ -320,9 +325,12 @@ export class GraphComponent implements OnInit, OnChanges, AfterViewInit {
   };
 
   private differenceDateDay = (date1: Date, date2: Date) => {
+    if (date1.getTime() === date2.getTime()) {
+      return 1
+    }
     // +1 для того чтобы была свободная строчка
     return (
-      Math.ceil(Math.abs(date2.getTime() - date1.getTime()) / (1000 * 3600 * 24)) + 1
+      Math.ceil(Math.abs(date2.getTime() - date1.getTime()) / (1000 * 3600 * 24))
     );
   };
 }

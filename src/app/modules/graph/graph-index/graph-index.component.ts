@@ -65,7 +65,7 @@ export class GraphIndexComponent implements OnInit, AfterViewInit {
   }
 
   createTask() {
-    const a = this.drawerService.create({
+    this.drawerService.create({
       nzTitle: 'Создание задания',
       nzWidth: '80%',
       nzContent: CreateTaskComponent

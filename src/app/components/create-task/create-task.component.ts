@@ -7,12 +7,13 @@ import { Base } from '@share/models/base';
 import { Task } from '@share/models/task';
 import { NzDrawerService } from 'ng-zorro-antd/drawer';
 import { Observable } from 'rxjs';
+import { tap } from 'rxjs/operators';
 
 @Component({
   selector: 'app-create-task',
   templateUrl: './create-task.component.html',
   styleUrls: ['./create-task.component.scss'],
-  providers: [CompanyCoreService, TaskCoreService],
+  providers: [CompanyCoreService],
 })
 export class CreateTaskComponent implements OnInit {
   assignee$: Observable<Base[]>;
@@ -66,19 +67,12 @@ export class CreateTaskComponent implements OnInit {
       spendTime: +newTask.spendTime,
       history: [
         {
-          trackId: 0,
+          // чтобы появилась точка создания
+          trackId: 1,
           startDate: new Date(),
           stopDate: new Date(),
         },
       ],
     } as Task;
-    // type: string;
-    // color: string;
-    // simbol: string;
-    // priorityId: number;
-    // assignee: Base[];
-    // interval: IntervalDate;
-    // history: TaskHistory[]; // массив событий
-    // info?: string; // описание
   }
 }

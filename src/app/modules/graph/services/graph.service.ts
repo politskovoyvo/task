@@ -11,7 +11,7 @@ import { map, switchMap, tap } from 'rxjs/operators';
 export class GraphService {
   private _cash: Task[] = [];
   private _tasks$ = new BehaviorSubject<Task[]>([]);
-  private _refresh$ = new Subject();
+  private _refresh$;
 
   constructor(
     private taskCoreService: TaskCoreService,
@@ -45,12 +45,13 @@ export class GraphService {
   }
 
   private init() {
+    this._refresh$ = this.taskCoreService.getRefresh();
     this._refresh$
       .pipe(
         switchMap(() =>
           this.taskCoreService.getTasks(this.boardCoreService.currentBoard?.id || 0)
         ),
-        tap((tasks) => (this._cash = tasks))
+        tap((tasks: Task[]) => (this._cash = tasks))
       )
       .subscribe(this._tasks$);
   }
