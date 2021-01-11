@@ -1,3 +1,4 @@
+import { Point } from '@modules/graph/components/graph/graph.component';
 import { Base } from './base';
 import { IntervalDate } from './interval-date';
 
@@ -17,6 +18,8 @@ export interface Task extends Base {
     info?: string; // описание
 
     options: {
-        coordinates: []
+        coordinates: [];
+        minDate: Date;
+        points: Point[];
     }
 }

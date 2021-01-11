@@ -3,12 +3,14 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { BoardCoreService } from '@core/services/board-core.service';
 import { CompanyCoreService } from '@core/services/company-core.service';
 import { TaskCoreService } from '@core/services/task-core.service';
+import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { Base } from '@share/models/base';
 import { Task } from '@share/models/task';
 import { NzDrawerService } from 'ng-zorro-antd/drawer';
 import { Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
 
+@UntilDestroy()
 @Component({
   selector: 'app-create-task',
   templateUrl: './create-task.component.html',
@@ -37,6 +39,9 @@ export class CreateTaskComponent implements OnInit {
     const newTask = this.convertFormToTask(this.form);
     this.taskCoreService
       .createTask(this.boardCoreService.currentBoard.id, newTask)
+      .pipe(
+        untilDestroyed(this)
+      )
       .subscribe();
   }
 
@@ -59,7 +64,8 @@ export class CreateTaskComponent implements OnInit {
   private convertFormToTask(form: FormGroup): Task {
     const newTask = form.getRawValue();
     return {
-      type: '',
+      id: 10,
+      type: 'type',
       simbol: 'TASK',
       color: '#228B22',
       assignee: newTask.assignee,
@@ -69,8 +75,8 @@ export class CreateTaskComponent implements OnInit {
         {
           // чтобы появилась точка создания
           trackId: 1,
-          startDate: new Date(),
-          stopDate: new Date(),
+          startDate: new Date(new Date().toDateString()),
+          stopDate:  new Date(new Date().toDateString()),
         },
       ],
     } as Task;

@@ -37,7 +37,6 @@ export class TaskCoreService {
   }
 
   createTask(boardId: number, newTask: Task): Observable<any> {
-    this.mockTasks.push(newTask);
     return of({}).pipe(
       tap(() => {
         this.mockTasks.push(newTask);
@@ -71,28 +70,28 @@ export class TaskCoreService {
         history: [
           {
             trackId: 1,
-            startDate: new Date(2020, 11, 10),
-            stopDate: new Date(2020, 11, 20),
+            startDate: new Date(2020, 11, 16),
+            stopDate: new Date(2020, 11, 16),
           },
           {
             trackId: 2,
-            startDate: new Date(2020, 11, 20),
-            stopDate: new Date(2020, 11, 22),
+            startDate: new Date(2020, 11, 18),
+            stopDate: new Date(2020, 11, 18),
           },
           {
             trackId: 3,
-            startDate: new Date(2020, 11, 22),
+            startDate: new Date(2020, 11, 24),
             stopDate: new Date(2020, 11, 24),
           },
           {
             trackId: 4,
-            startDate: new Date(2020, 11, 24),
+            startDate: new Date(2020, 11, 26),
             stopDate: new Date(2020, 11, 26),
           },
           {
             trackId: 5,
-            startDate: new Date(2020, 11, 26),
-            stopDate: new Date(2021, 0, 11),
+            startDate: new Date(2021, 0, 2),
+            stopDate: new Date(2021, 0, 2),
           },
         ],
         spendTime: 20,
@@ -113,22 +112,28 @@ export class TaskCoreService {
           {
             trackId: 1,
             startDate: new Date(2020, 11, 16),
-            stopDate: new Date(2020, 11, 20),
+            stopDate: new Date(2020, 11, 16),
           },
           {
-            trackId: 3,
+            trackId: 2,
             startDate: new Date(2020, 11, 20),
-            stopDate: new Date(2020, 11, 22),
+            stopDate: new Date(2020, 11, 20),
+          },
+          
+          {
+            trackId: 3,
+            startDate: new Date(2020, 11, 29),
+            stopDate: new Date(2020, 11, 29),
           },
           {
             trackId: 4,
-            startDate: new Date(2020, 11, 22),
-            stopDate: new Date(2020, 11, 24),
+            startDate: new Date(2020, 11, 30),
+            stopDate: new Date(2020, 11, 30),
           },
           {
             trackId: 5,
-            startDate: new Date(2020, 11, 24),
-            stopDate: new Date(2020, 11, 28),
+            startDate: new Date(2021, 0, 2),
+            stopDate: new Date(2021, 0, 2),
           },
         ],
         spendTime: 10,
@@ -141,71 +146,71 @@ export class TaskCoreService {
           { id: 4, name: 'Тест 4 Тестович' },
         ],
       } as Task,
-    //   {
-    //     id: 3,
-    //     name: 'Реализовать функционал 2',
-    //     simbol: 'ORR-2022',
-    //     color: 'green',
-    //     history: [
-    //       {
-    //         trackId: 1,
-    //         startDate: new Date(2020, 11, 2),
-    //         stopDate: new Date(2020, 11, 8),
-    //       },
-    //       {
-    //         trackId: 2,
-    //         startDate: new Date(2020, 11, 9),
-    //         stopDate: new Date(2020, 11, 10),
-    //       },
-    //       {
-    //         trackId: 4,
-    //         startDate: new Date(2020, 11, 10),
-    //         stopDate: new Date(2020, 11, 12),
-    //       },
-    //       {
-    //         trackId: 5,
-    //         startDate: new Date(2020, 11, 13),
-    //         stopDate: new Date(2020, 11, 13),
-    //       },
-    //     ],
-    //     spendTime: 5,
-    //     priorityId: 3,
-    //     type: 'type',
-    //     performers: [
-    //       { id: 1, name: 'Тест 1 Тестович' },
-    //       { id: 2, name: 'Тест 2 Тестович' },
-    //       { id: 2, name: 'Тест 2 Тестович' },
-    //       { id: 6, name: 'Тест 6 Тестович' },
-    //     ],
-    //   } as Task,
-    // ];
+      {
+        id: 3,
+        name: 'Реализовать функционал 2',
+        simbol: 'ORR-2022',
+        color: 'green',
+        history: [
+          {
+            trackId: 1,
+            startDate: new Date(2020, 11, 16),
+            stopDate: new Date(2020, 11, 16),
+          },
+          {
+            trackId: 2,
+            startDate: new Date(2020, 11, 24),
+            stopDate: new Date(2020, 11, 24),
+          },
+          {
+            trackId: 3,
+            startDate: new Date(2020, 11, 28),
+            stopDate: new Date(2020, 11, 28),
+          },
+          {
+            trackId: 5,
+            startDate: new Date(2021, 0, 2),
+            stopDate: new Date(2021, 0, 2),
+          },
+        ],
+        spendTime: 5,
+        priorityId: 3,
+        type: 'type',
+        performers: [
+          { id: 1, name: 'Тест 1 Тестович' },
+          { id: 2, name: 'Тест 2 Тестович' },
+          { id: 2, name: 'Тест 2 Тестович' },
+          { id: 6, name: 'Тест 6 Тестович' },
+        ],
+      } as Task,
+      // ];
 
-    // this.mockTracks = [
-    //   {
-    //     id: 1,
-    //     name: 'Wait',
-    //     color: '#F0E68C',
-    //   } as Track,
-    //   {
-    //     id: 2,
-    //     name: 'Process',
-    //     color: '#BA55D3',
-    //   } as Track,
-    //   {
-    //     id: 3,
-    //     name: 'Test',
-    //     color: '#4169E1',
-    //   } as Track,
-    //   {
-    //     id: 4,
-    //     name: 'Done',
-    //     color: '#008B8B',
-    //   } as Track,
-    //   {
-    //     id: 5,
-    //     name: 'Release',
-    //     color: '#FF7F50',
-    //   } as Track,
+      // this.mockTracks = [
+      //   {
+      //     id: 1,
+      //     name: 'Wait',
+      //     color: '#F0E68C',
+      //   } as Track,
+      //   {
+      //     id: 2,
+      //     name: 'Process',
+      //     color: '#BA55D3',
+      //   } as Track,
+      //   {
+      //     id: 3,
+      //     name: 'Test',
+      //     color: '#4169E1',
+      //   } as Track,
+      //   {
+      //     id: 4,
+      //     name: 'Done',
+      //     color: '#008B8B',
+      //   } as Track,
+      //   {
+      //     id: 5,
+      //     name: 'Release',
+      //     color: '#FF7F50',
+      //   } as Track,
     ];
   }
 }

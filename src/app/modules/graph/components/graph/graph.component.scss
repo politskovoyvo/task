@@ -23,7 +23,15 @@
   opacity: 0.7;
   &:hover {
     stroke-width: 6;
+    z-index: 10000;
+    opacity: 1;
   }
+}
+
+::ng-deep.panel__name {
+  background: lightblue;
+  text-align: center;
+  font-size: 0.8em;
 }
 
 ::ng-deep.task__name {
