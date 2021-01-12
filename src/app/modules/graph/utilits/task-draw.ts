@@ -5,12 +5,10 @@ import { Point } from '../components/graph/graph.component';
 
 interface ITaskDraw {
   getPoints(): Point[];
-  getSimbol(): string;
-  getInfo(): string;
-  isCreateTaskInDay(tasks: Task[]): number;
+  createTaskToSomeDayCount(tasks: Task[]): number;
   createDate(): Date;
-  getPerformers(): Base[];
   getCreatePoint(): Point;
+  getTask(): Task;
 }
 
 export class TaskDraw implements ITaskDraw {
@@ -29,7 +27,7 @@ export class TaskDraw implements ITaskDraw {
     this.setPoint();
   }
 
-  isCreateTaskInDay(): number {
+  createTaskToSomeDayCount(): number {
     if (!this._tasks?.length) {
       return 0;
     }
@@ -45,20 +43,12 @@ export class TaskDraw implements ITaskDraw {
     return createdToSameDateFilter?.length || 0;
   }
 
-  getPerformers(): Base[] {
-    return this._task.performers;
-  }
-
   getPoints(): Point[] {
     return this._points;
   }
 
-  getSimbol(): string {
-    return this._task.simbol;
-  }
-
-  getInfo(): string {
-    return this._task.name;
+  getTask(): Task {
+    return this._task;
   }
 
   createDate(): Date | undefined {
@@ -89,8 +79,8 @@ export class TaskDraw implements ITaskDraw {
           this._step / 2;
         if (val.startDate.toDateString() === createDateString) {
           const marginBotton = 15;
-          start_y += this.isCreateTaskInDay() * marginBotton;
-          end_y += this.isCreateTaskInDay() * marginBotton;
+          start_y += this.createTaskToSomeDayCount() * marginBotton;
+          end_y += this.createTaskToSomeDayCount() * marginBotton;
         }
         acc = acc.concat({ x, y: start_y }, { x, y: end_y });
         return acc;

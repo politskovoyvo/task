@@ -70,28 +70,29 @@ export class TaskCoreService {
         history: [
           {
             trackId: 1,
-            startDate: new Date(2020, 11, 16),
-            stopDate: new Date(2020, 11, 16),
+            startDate: new Date(2020, 11, 30),
+            stopDate: new Date(2020, 11, 30),
           },
           {
             trackId: 2,
-            startDate: new Date(2020, 11, 18),
-            stopDate: new Date(2020, 11, 18),
+            startDate: new Date(2020, 11, 31),
+            stopDate: new Date(2020, 11, 31),
           },
+
           {
             trackId: 3,
-            startDate: new Date(2020, 11, 24),
-            stopDate: new Date(2020, 11, 24),
+            startDate: new Date(2021, 0, 8),
+            stopDate: new Date(2021, 0, 8),
           },
           {
             trackId: 4,
-            startDate: new Date(2020, 11, 26),
-            stopDate: new Date(2020, 11, 26),
+            startDate: new Date(2021, 0, 10),
+            stopDate: new Date(2021, 0, 10),
           },
           {
             trackId: 5,
-            startDate: new Date(2021, 0, 2),
-            stopDate: new Date(2021, 0, 2),
+            startDate: new Date(2021, 0, 12),
+            stopDate: new Date(2021, 0, 12),
           },
         ],
         spendTime: 20,
@@ -111,29 +112,29 @@ export class TaskCoreService {
         history: [
           {
             trackId: 1,
-            startDate: new Date(2020, 11, 16),
-            stopDate: new Date(2020, 11, 16),
-          },
-          {
-            trackId: 2,
-            startDate: new Date(2020, 11, 20),
-            stopDate: new Date(2020, 11, 20),
-          },
-          
-          {
-            trackId: 3,
-            startDate: new Date(2020, 11, 29),
-            stopDate: new Date(2020, 11, 29),
-          },
-          {
-            trackId: 4,
             startDate: new Date(2020, 11, 30),
             stopDate: new Date(2020, 11, 30),
           },
           {
-            trackId: 5,
+            trackId: 2,
+            startDate: new Date(2020, 11, 31),
+            stopDate: new Date(2020, 11, 31),
+          },
+
+          {
+            trackId: 3,
             startDate: new Date(2021, 0, 2),
             stopDate: new Date(2021, 0, 2),
+          },
+          {
+            trackId: 4,
+            startDate: new Date(2021, 0, 5),
+            stopDate: new Date(2021, 0, 5),
+          },
+          {
+            trackId: 5,
+            startDate: new Date(2021, 0, 11),
+            stopDate: new Date(2021, 0, 11),
           },
         ],
         spendTime: 10,
@@ -154,23 +155,23 @@ export class TaskCoreService {
         history: [
           {
             trackId: 1,
-            startDate: new Date(2020, 11, 16),
-            stopDate: new Date(2020, 11, 16),
+            startDate: new Date(2020, 11, 30),
+            stopDate: new Date(2020, 11, 30),
           },
           {
             trackId: 2,
-            startDate: new Date(2020, 11, 24),
-            stopDate: new Date(2020, 11, 24),
+            startDate: new Date(2021, 0, 1),
+            stopDate: new Date(2021, 0, 1),
           },
           {
             trackId: 3,
-            startDate: new Date(2020, 11, 28),
-            stopDate: new Date(2020, 11, 28),
+            startDate: new Date(2021, 0, 5),
+            stopDate: new Date(2021, 0, 5),
           },
           {
             trackId: 5,
-            startDate: new Date(2021, 0, 2),
-            stopDate: new Date(2021, 0, 2),
+            startDate: new Date(2021, 0, 12),
+            stopDate: new Date(2021, 0, 12),
           },
         ],
         spendTime: 5,

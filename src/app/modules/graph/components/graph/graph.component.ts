@@ -60,7 +60,7 @@ export class GraphComponent implements OnInit, OnChanges, AfterViewInit {
   ngOnInit(): void {}
 
   initSvg() {
-    const width = 3000;
+    const width = 400;
     const height = 5000;
     this.svg = d3
       .select(this.canvas.nativeElement)
@@ -71,8 +71,9 @@ export class GraphComponent implements OnInit, OnChanges, AfterViewInit {
 
   private grid = (tracks: Track[], tasks: Task[], svg: TODO_SVG) => {
     this.maxDate = this.getMaxDate(tasks);
-
+    const taskDraws = tasks.map((task) => new TaskDraw(task, tasks, tracks, step));
     const daysInSelectedMonth = this.nowDate.daysInMonth();
+
     let groups: {
       type: number;
       color: string;
@@ -84,14 +85,7 @@ export class GraphComponent implements OnInit, OnChanges, AfterViewInit {
         const findType = groups.find(
           (group) => group.type && group.type === history.trackId
         );
-        if (findType) {
-          // if (findType.ids.includes(task.id)
-          // // для одной колонки ожидания
-          // || findType.type === 1) {
-          //   return;
-          // }
-          // findType.ids.push(task.id);
-        } else {
+        if (!findType) {
           groups.push({
             type: history.trackId,
             ids: [task.id],
@@ -101,116 +95,49 @@ export class GraphComponent implements OnInit, OnChanges, AfterViewInit {
       });
     });
 
-    const countGroupType = groups.reduce((acc, curr) => {
-      return acc + curr.ids.length;
-    }, 0);
-
-    // последовательность типов
-    groups = groups.sort((a, b) => a.type - b.type);
-
     // vertical grid
-    let marginLeft = 0;
-    groups.forEach((type, index) => {
-      type.ids = type.ids.sort();
-      marginLeft = !index ? 0 : groups[index - 1].ids.length * step + marginLeft;
-
+    tracks.forEach((type, index) => {
       svg
-        .selectAll('vertical__line')
-        .data(new Array(type.ids.length + 1))
-        .enter()
         .append('line')
-        .attr('x1', (d, ind) => marginLeft + ind * step)
+        .attr('x1', (d, ind) => (index + 1) * step)
         .attr('y1', 0)
-        .attr('x2', (d, ind) => marginLeft + ind * step)
+        .attr('x2', (d, ind) => (index + 1) * step)
         .attr('y2', '100%')
         .attr('class', 'vertical__line')
         .style('fill', 'none')
-        .style('stroke', (d, ind) => (type.ids.length === ind ? 'green' : 'black'))
+        .style('stroke', 'black')
         .style('stroke-dasharray', '20, 4')
         .style('troke-dashoffset', 0)
-        .style('opacity', 0.3)
-        .style('stroke-width', (d, ind) => (type.ids.length === ind ? 1 : 0.2));
+        .style('opacity', 0.3);
 
       svg
-        .selectAll('task__name')
-        .data(new Array(type.ids.length))
-        .enter()
         .append('foreignObject')
         .attr('class', 'task__name')
-        .style('y', (d, ind) => marginLeft + ind * step)
+        .style('y', (d, ind) => index * step)
         .style('x', () => 0)
         .style('width', 100)
         .style('height', step)
         .style('transform', 'rotate(-90deg)')
         .html((d, i) => {
-          // const typeId = type.ids[i];
-          // return tasks.find((t) => t.id === typeId)?.simbol || '';
-          const findType = tracks.find((tr) => tr.id === type.type);
-          return findType.name;
+          return type.name;
         });
-
-      // svg
-      //   .append('foreignObject')
-      //   .attr('class', 'type__name')
-      //   .style('y', () => 0)
-      //   .style('zIndex', -5)
-      //   .style('x', () => marginLeft)
-      //   .style('width', () => step * type.ids.length)
-      //   .style('height', step)
-      //   .style('background', () => type.color);
     });
 
     svg
       .append('foreignObject')
       .attr('class', 'task__name')
       .style('y', () => -100)
-      .style('zIndex', -5)
+      .style('zIndex', -100)
       .style('x', () => -40)
       .style('width', () => 40)
       .style('height', '100%');
 
-    // horizontal grid
-    svg
-      .selectAll('horizontal__line')
-      .data(new Array(daysInSelectedMonth))
-      .enter()
-      .append('line')
-      .attr('x1', -40)
-      .attr('y1', (d, ind) => ind * step)
-      .attr('class', 'horizontal__line')
-      .attr('x2', step * countGroupType)
-      .attr('y2', (d, ind) => ind * step)
-      .style('fill', 'none')
-      .style('stroke', 'black')
-      .style('stroke-dasharray', '10, 4')
-      .style('stroke-width', 0.15);
-
-    svg
-      .selectAll('barsEndlineText')
-      .data(new Array(daysInSelectedMonth + 1))
-      .enter()
-      .append('text')
-      .attr('class', 'barsEndlineText')
-      .attr(
-        'x',
-        -35
-        // () => group.reduce((acc, val) => acc + val.ids.length * step, 0) + 15
-      )
-      .attr('y', (d, ind) => ind * step - 2)
-      .text((d, i) => {
-        if (!i) {
-          return '';
-        }
-        const date = new Date(this.maxDate);
-        date.setDate(date.getDate() - i + 1);
-        return this.datePipe.transform(date, 'dd.MM');
-      });
+    this.paintHorizontalDates(taskDraws, tracks);
 
     // paint Tasks
-    tasks.forEach((task, ind) => {
-      const taskDraw = new TaskDraw(task, tasks, tracks, step);
-      this.paintTask(taskDraw, svg, task, groups, {
-        lineColor: task.color,
+    taskDraws.forEach((taskDraw, ind) => {
+      this.paintTask(taskDraw, svg, {
+        lineColor: taskDraw.getTask().color,
         nodeColor: 'black',
         nodeRadius: '5',
         strokeWidth: '3',
@@ -218,54 +145,96 @@ export class GraphComponent implements OnInit, OnChanges, AfterViewInit {
     });
   };
 
-  private paintTaskNamePanel(task: Task) {
-    const minDate = task.history.map((h) => h.stopDate).sort(this.dateSortDown)[0];
+  private paintTaskNamePanel(taskDraw: TaskDraw) {
+    const task = taskDraw.getTask();
     this.svg
       .append('foreignObject')
       .attr('class', 'panel__name')
-      .style(
-        'y',
-        () => this.differenceDateDay(this.maxDate, minDate) * step - step / 2 / 2
-      )
-      .style('zIndex', -5)
+      .style('y', taskDraw.getCreatePoint().y - 10)
       .style('x', () => -150)
       .style('width', () => 100)
       .style('height', 20)
       .style('border', `2px solid ${task.color}`)
-      .html((d, i) => task.simbol);
+      .html(() => task.simbol);
 
-    return [
-      {
-        point: {
-          x: -50,
-          y: this.differenceDateDay(this.maxDate, minDate) * step,
-        } as Point,
-        info: {
-          id: task.id,
-          assignes: task.performers,
-        } as SelectedNodeInfo,
-      },
-    ] as any[];
-  }
-
-  private paintTask = (
-    taskDraw: TaskDraw,
-    svg: TODO_SVG,
-    task: Task,
-    group: {
-      type: number;
-      ids: number[];
-    }[],
-    options: LineOptions
-  ): void => {
-    // const data = this.paintTaskNamePanel(task);
-
-    const data = taskDraw.getPoints().map((point) => ({
+    return taskDraw.getPoints().map((point) => ({
       point,
       info: {
-        assignes: taskDraw.getPerformers(),
+        assignes: taskDraw.getTask().performers,
       },
     }));
+  }
+
+  private paintVerticalWaitLine(taskDraws: TaskDraw[]) {
+    const ys = taskDraws.map(t => t.getCreatePoint()).map(point => point.y);
+    const x = taskDraws.map(t => t.getCreatePoint()).map(point => point.x)[0];
+    const y1 = ys.sort()[0];
+    const y2 = ys.sort()[ys.length - 1];
+
+    this.svg
+      .append('line')
+      .attr('x1', step/2)
+      .attr('y1', y1)
+      .attr('class', 'horizontal__line')
+      .attr('x2', step/2)
+      .attr('y2', y2)
+      .style('fill', 'none')
+      .style('stroke', '#2A4480')
+      .style('stroke-dasharray', '10, 5')
+      .style('stroke-width', 2);
+  }
+
+  private paintHorizontalDates(taskDraws: TaskDraw[], tracks: Track[]) {
+    const maxDate = this.getMaxDate(this.tasks);
+    const minDate = this.getMinDate(this.tasks);
+    const lineCount = this.differenceDateDay(maxDate, minDate);
+    const dateArray = Array.from({ length: lineCount }, (_, i) => i + 1);
+    let marginTop = 0;
+
+    this.paintVerticalWaitLine(taskDraws);
+
+    dateArray.forEach((d) => {
+      const date = new Date(this.maxDate);
+      const dateSet = date.setDate(date.getDate() - d + 1);
+      const currentDateToString = new Date(dateSet).toDateString();
+      let createTaskToSomeDayCount = 0;
+
+      const findTask = taskDraws.filter(
+        (t) => t.createDate().toDateString() === currentDateToString
+      );
+
+      if (findTask.length) {
+        const counts = findTask.map((task) => task.createTaskToSomeDayCount()).sort();
+        createTaskToSomeDayCount =
+          counts.length !== 1 ? counts[counts.length - 1] + 1 : 0;
+        console.log('d', counts.length);
+      }
+
+      marginTop += step + createTaskToSomeDayCount * 15;
+
+      this.svg
+        .append('line')
+        .attr('x1', -40)
+        .attr('y1', marginTop)
+        .attr('class', 'horizontal__line')
+        .attr('x2', step * tracks.length)
+        .attr('y2', marginTop)
+        .style('fill', 'none')
+        .style('stroke', 'black')
+        .style('stroke-dasharray', '10, 4')
+        .style('stroke-width', 0.15);
+
+      this.svg
+        .append('text')
+        .attr('class', 'barsEndlineText')
+        .attr('x', -step)
+        .attr('y', () => marginTop - 3)
+        .text(() => this.datePipe.transform(date, 'dd.MM'));
+    });
+  }
+
+  private paintTask = (taskDraw: TaskDraw, svg: TODO_SVG, options: LineOptions): void => {
+    const data = this.paintTaskNamePanel(taskDraw);
 
     const line = d3
       .line()
@@ -298,9 +267,7 @@ export class GraphComponent implements OnInit, OnChanges, AfterViewInit {
         .attr('r', options.nodeRadius)
         .attr('cx', element.point.x)
         .attr('cy', element.point.y)
-        .on('click', (e) => {
-          this.nodeEmit.emit(node);
-        });
+        .on('click', () => this.nodeEmit.emit(node));
 
       node['data'] = element.info;
     });
@@ -315,22 +282,31 @@ export class GraphComponent implements OnInit, OnChanges, AfterViewInit {
     return color;
   };
 
-  dateSortUp = (date1: Date, date2: Date) => {
+  private dateSortUp(date1: Date, date2: Date) {
     return date1 > date2 ? -1 : 1;
-  };
+  }
 
-  dateSortDown = (date1: Date, date2: Date) => {
+  private dateSortDown(date1: Date, date2: Date) {
     return date1 > date2 ? 1 : -1;
-  };
+  }
 
-  private getMaxDate = (tasks: Task[]): Date => {
+  private getMaxDate(tasks: Task[]): Date {
     return tasks.reduce((acc, task) => {
       return task.history
         .map((h) => h.stopDate)
         .concat(acc)
         .sort(this.dateSortUp)[0];
     }, {} as Date);
-  };
+  }
+
+  private getMinDate(tasks: Task[]): Date {
+    return tasks.reduce((acc, task) => {
+      return task.history
+        .map((h) => h.startDate)
+        .concat(acc)
+        .sort(this.dateSortDown)[0];
+    }, new Date());
+  }
 
   private differenceDateDay = (maxDate: Date, date: Date) => {
     // +1 для того чтобы была свободная строчка
