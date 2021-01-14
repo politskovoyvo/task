@@ -8,20 +8,22 @@ import {
 import { BehaviorSubject, from, Observable, of, Subject } from 'rxjs';
 import { switchMap, tap } from 'rxjs/operators';
 import { Track } from '@share/models/track';
-import { GraphService } from '../services/graph.service';
 import { CreateTaskComponent } from '@components/create-task/create-task.component';
 import { CreateBoardComponent } from '@components/create-board/create-board.component';
 import { BoardCoreService } from '@core/services/board-core.service';
 import { Base } from '@share/models/base';
 import { Task } from '@share/models/task';
 import { NzDrawerService } from 'ng-zorro-antd/drawer';
-import { AuthService } from '@core/auth/services/auth.service';
+import { select, Store } from '@ngrx/store';
+import { IAppState } from '@core/stores/app.state';
+import { selectedTasks } from '@core/stores/task/task.selectors';
+import { GetTasks } from '@core/stores/task/task.actions';
 
 @Component({
     selector: 'app-graph-index',
     templateUrl: './graph-index.component.html',
     styleUrls: ['./graph-index.component.scss'],
-    providers: [GraphService, NzDrawerService],
+    providers: [NzDrawerService],
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class GraphIndexComponent implements OnInit, AfterViewInit {
@@ -30,20 +32,22 @@ export class GraphIndexComponent implements OnInit, AfterViewInit {
     selectedAssigneIds: number[];
     tasks$: Observable<Task[]>;
     assignes$ = new BehaviorSubject<Base[]>([]);
-
     processTypes: Track[];
 
+    taskStore$ = this._taskStore.pipe(select(selectedTasks));
+
     constructor(
-        private _graphService: GraphService,
         private _boardCoreService: BoardCoreService,
         private _drawerService: NzDrawerService,
-        private _authService: AuthService
+        private _taskStore: Store<IAppState>
     ) {}
 
     ngOnInit(): void {
         this.board = this._boardCoreService.currentBoard;
 
-        this.tasks$ = this._graphService.getTaskObserver().pipe(
+        this.boards$ = this._boardCoreService.getBoardsObservable();
+
+        this.tasks$ = this.taskStore$.pipe(
             switchMap(
                 () => this._boardCoreService.getTracks(),
                 (tasks, res) => {
@@ -52,12 +56,14 @@ export class GraphIndexComponent implements OnInit, AfterViewInit {
                 }
             )
         );
-
-        this.boards$ = this._boardCoreService.getBoardsObservable();
     }
 
     ngAfterViewInit(): void {
-        setTimeout(() => this._graphService.refresh());
+        setTimeout(() => this._taskStore.dispatch(new GetTasks()));
+    }
+
+    changeBoard(board: Base) {
+        this._boardCoreService.setLocalBoard(board);
     }
 
     createTask() {
@@ -92,7 +98,5 @@ export class GraphIndexComponent implements OnInit, AfterViewInit {
 
     dateChange($event: Date) {}
 
-    refresh() {
-        this._graphService.refresh();
-    }
+    refresh() {}
 }

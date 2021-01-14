@@ -1,59 +1,63 @@
 @import '../../../../assets/styles/variables.scss';
 
 .graph {
-  width: 100%;
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-
-  &__index {
-    padding: 10px;
+    width: 100%;
     height: 100%;
     display: flex;
+    flex-direction: column;
 
-    &-track {
-      max-width: 50%;
-      height: 80vh;
+    &__index {
+        padding: 10px;
+        height: 100%;
+        display: flex;
+
+        &-track {
+            max-width: 50%;
+            height: 80vh;
+        }
+
+        &-list {
+            width: 100%;
+            height: 100%;
+        }
     }
 
-    &-list {
-      width: 100%;
-      height: 100%;
+    &__menu {
+        display: flex;
+        justify-content: space-between;
+        background: $basic;
+        padding: 5px;
+        width: 100%;
+
+        nz-select {
+            margin-right: 10px;
+            width: 200px;
+        }
+
+        nz-date-picker {
+            width: 150px;
+        }
+
+        &-left {
+            display: flex;
+
+            i {
+                font-size: 20px;
+                color: white;
+                padding: 5px 10px;
+            }
+        }
+
+        &-right {
+            i {
+                font-size: 20px;
+                color: white;
+                padding: 5px 10px;
+            }
+        }
     }
-  }
+}
 
-  &__menu {
-    display: flex;
-    justify-content: space-between;
-    background: $basic;
-    padding: 5px;
-    width: 100%;
-
-    nz-select {
-      margin-right: 10px;
-      width: 200px;
-    }
-
-    nz-date-picker {
-      width: 150px;
-    }
-
-    &-left {
-      display: flex;
-
-      i {
-        font-size: 20px;
-        color: white;
-        padding: 5px 10px;
-      }
-    }
-
-    &-right {
-      i {
-        font-size: 20px;
-        color: white;
-        padding: 5px 10px;
-      }
-    }
-  }
+.m-r-10 {
+    margin-right: 10px;
 }

@@ -1,9 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { BoardCoreService } from '@core/services/board-core.service';
 import { CompanyCoreService } from '@core/services/company-core.service';
-import { TaskCoreService } from '@core/services/task-core.service';
+import { IAppState } from '@core/stores/app.state';
+import { CreateTask } from '@core/stores/task/task.actions';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
+import { Store } from '@ngrx/store';
 import { Base } from '@share/models/base';
 import { Task } from '@share/models/task';
 import { Observable } from 'rxjs';
@@ -23,8 +24,7 @@ export class CreateTaskComponent implements OnInit {
     constructor(
         private _companyService: CompanyCoreService,
         private _fb: FormBuilder,
-        private _taskCoreService: TaskCoreService,
-        private _boardCoreService: BoardCoreService
+        private _taskStore: Store<IAppState>
     ) {
         this.formInit();
     }
@@ -34,11 +34,7 @@ export class CreateTaskComponent implements OnInit {
     }
 
     submit() {
-        const newTask = this.convertFormToTask(this.form);
-        this._taskCoreService
-            .createTask(this._boardCoreService.currentBoard.id, newTask)
-            .pipe(untilDestroyed(this))
-            .subscribe();
+        this._taskStore.dispatch(new CreateTask(this.convertFormToTask(this.form)));
     }
 
     auto() {

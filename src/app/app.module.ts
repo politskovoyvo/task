@@ -16,25 +16,34 @@ import { NzDrawerModule } from 'ng-zorro-antd/drawer';
 import { BoardCoreService } from '@core/services/board-core.service';
 import { TaskCoreService } from '@core/services/task-core.service';
 import { StoreModule } from '@ngrx/store';
+import { appReducers } from '@core/stores/app.redusers';
+import { EffectsModule } from '@ngrx/effects';
+import { TaskEffects } from '@core/stores/task/task.effects';
+import { StoreRouterConnectingModule } from '@ngrx/router-store';
+import { environment } from 'src/environments/environment.prod';
+import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 
 registerLocaleData(en);
 
 @NgModule({
-  declarations: [AppComponent],
-  imports: [
-    BrowserModule,
-    AppRoutingModule,
-    FormsModule,
-    HttpClientModule,
-    BrowserAnimationsModule,
-    NzIconModule,
-    NzModalModule,
-    AuthModule,
-    NzDrawerModule,
-    ReactiveFormsModule,
-    StoreModule.forRoot({}, {}),
-  ],
-  providers: [{ provide: NZ_I18N, useValue: en_US }, BoardCoreService, TaskCoreService],
-  bootstrap: [AppComponent],
+    declarations: [AppComponent],
+    imports: [
+        BrowserModule,
+        AppRoutingModule,
+        FormsModule,
+        HttpClientModule,
+        BrowserAnimationsModule,
+        NzIconModule,
+        NzModalModule,
+        AuthModule,
+        NzDrawerModule,
+        ReactiveFormsModule,
+        StoreModule.forRoot(appReducers),
+        EffectsModule.forRoot([TaskEffects]),
+        StoreRouterConnectingModule.forRoot({ stateKey: 'router' }),
+        environment.production ? StoreDevtoolsModule.instrument() : [],
+    ],
+    providers: [{ provide: NZ_I18N, useValue: en_US }, BoardCoreService, TaskCoreService],
+    bootstrap: [AppComponent],
 })
 export class AppModule {}

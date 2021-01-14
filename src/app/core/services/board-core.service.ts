@@ -1,7 +1,10 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { AuthService } from '@core/auth/services/auth.service';
+import { IAppState } from '@core/stores/app.state';
+import { GetTasks } from '@core/stores/task/task.actions';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
+import { Store } from '@ngrx/store';
 import { Base } from '@share/models/base';
 import { Track } from '@share/models/track';
 import { BehaviorSubject, Observable, of } from 'rxjs';
@@ -19,7 +22,11 @@ export class BoardCoreService {
     private _currentBoard$ = new BehaviorSubject<Base>({} as Base);
     private _boards$ = new BehaviorSubject<Base[]>([]);
 
-    constructor(private httpClient: HttpClient, private _authService: AuthService) {}
+    constructor(
+        private _httpClient: HttpClient,
+        private _authService: AuthService,
+        private _taskStore: Store<IAppState>
+    ) {}
 
     get currentBoard(): Base {
         return this._currentBoard$.value;
@@ -35,20 +42,26 @@ export class BoardCoreService {
 
     getUsersByBoardId(boardId: number): Observable<TODO_USERS[]> {
         return this.getUsersByBoardId_MOCK();
-        return this.httpClient.get<TODO_USERS[]>(`${this._URL}/api/board_id=${boardId}`);
+        return this._httpClient.get<TODO_USERS[]>(`${this._URL}/api/board_id=${boardId}`);
     }
 
     getBoardsByUserId(userId: number): Observable<Base[]> {
         return this.getBoardsByUserId_MOCK();
-        return this.httpClient.get<Track[]>(`${this._URL}/api/board_id=${userId}`);
+        return this._httpClient.get<Track[]>(`${this._URL}/api/board_id=${userId}`);
     }
 
     getTracks(boardId: number = 0): Observable<Track[]> {
         return this.getTracks_MOCK();
-        return this.httpClient.get<Track[]>(`${this._URL}/api/board_id=${boardId}`);
+        return this._httpClient.get<Track[]>(`${this._URL}/api/board_id=${boardId}`);
     }
 
     initBoards() {
+        this._currentBoard$.pipe(
+            tap((board) => {
+                this._taskStore.dispatch(new GetTasks());
+            })
+        );
+
         return this.getBoardsByUserId(this._authService.user.id).pipe(
             untilDestroyed(this),
             tap((boards: Base[]) => {
@@ -57,14 +70,9 @@ export class BoardCoreService {
                     const findLocalBoard = boards.find(
                         (board) => board.id === keyValue.id
                     );
-                    console.log(keyValue);
                     this._currentBoard$.next(findLocalBoard);
                 } else {
-                    this._currentBoard$.next(boards[0]);
-                    localStorage.setItem(
-                        this._KEY,
-                        JSON.stringify(this._currentBoard$.value)
-                    );
+                    this.setLocalBoard(boards[0]);
                 }
                 this._boards$.next(boards);
             })

@@ -1,66 +1,79 @@
-import { Component, forwardRef, Input, OnInit, TemplateRef } from '@angular/core';
+import {
+    Component,
+    EventEmitter,
+    forwardRef,
+    Input,
+    OnInit,
+    Output,
+    TemplateRef,
+} from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 
 @Component({
-  // tslint:disable-next-line:component-selector
-  selector: 't-select',
-  templateUrl: './t-select.component.html',
-  styleUrls: ['./t-select.component.scss'],
-  providers: [
-    {
-      provide: NG_VALUE_ACCESSOR,
-      useExisting: forwardRef(() => TSelectComponent),
-      multi: true,
-    },
-  ],
+    // tslint:disable-next-line:component-selector
+    selector: 't-select',
+    templateUrl: './t-select.component.html',
+    styleUrls: ['./t-select.component.scss'],
+    providers: [
+        {
+            provide: NG_VALUE_ACCESSOR,
+            useExisting: forwardRef(() => TSelectComponent),
+            multi: true,
+        },
+    ],
 })
 export class TSelectComponent implements OnInit, ControlValueAccessor {
-  @Input() items: any[] = [];
-  @Input() value: any = {};
-  @Input() width = '100px';
-  @Input() isMulti = false;
-  @Input() itemTemplate: TemplateRef<any>;
-  @Input() type: 't-default' | 't-search' = 't-default';
+    @Input() items: any[] = [];
+    @Input() value: any = {};
+    @Input() width = '100px';
+    @Input() isMulti = false;
+    @Input() itemTemplate: TemplateRef<any>;
+    @Input() type: 't-default' | 't-search' = 't-default';
 
-  constructor() {}
+    @Output() changeEmit = new EventEmitter();
 
-  ngOnInit(): void {}
+    constructor() {}
 
-  get isSelectedItems() {
-    return this.items.filter((i) => i?.isSelected);
-  }
+    ngOnInit(): void {}
 
-  get isNotSelectedItems() {
-    return this.items.filter((i) => !i?.isSelected);
-  }
-
-  onChange: any = () => {};
-
-  onTouched: any = () => {};
-
-  openChange($event) {
-    console.log($event)
-  }
-
-  writeValue(obj: any): void {
-    if (!obj) {
-      return;
+    get isSelectedItems() {
+        return this.items.filter((i) => i?.isSelected);
     }
 
-    if (this.isMulti) {
-      obj.isSelected = !obj.isSelected;
-      this.onChange(this.isSelectedItems);
-      return;
+    get isNotSelectedItems() {
+        return this.items.filter((i) => !i?.isSelected);
     }
 
-    this.onChange(this.value);
-  }
+    onChange: any = () => {};
 
-  registerOnChange(fn: any): void {
-    this.onChange = fn;
-  }
+    change() {
+        this.changeEmit.emit(this.value);
+    }
 
-  registerOnTouched(fn: any): void {
-    this.onTouched = fn;
-  }
+    onTouched: any = () => {};
+
+    openChange($event) {
+        console.log($event);
+    }
+
+    writeValue(obj: any): void {
+        if (!obj) {
+            return;
+        }
+        if (this.isMulti) {
+            obj.isSelected = !obj.isSelected;
+            this.onChange(this.isSelectedItems);
+            return;
+        }
+        this.onChange(this.value);
+        this.change();
+    }
+
+    registerOnChange(fn: any): void {
+        this.onChange = fn;
+    }
+
+    registerOnTouched(fn: any): void {
+        this.onTouched = fn;
+    }
 }

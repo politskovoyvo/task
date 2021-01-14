@@ -1,43 +1,44 @@
 <div class="graph">
-  <div class="graph__menu">
-    <div class="graph__menu-left">
-      <t-select
-        [value]="board"
-        [items]="boards$ | async"
-        [width]="'300px'"
-        style="margin-right: 10px;"
-      ></t-select>
+    <div class="graph__menu">
+        <div class="graph__menu-left">
+            <t-select
+                class="m-r-10"
+                [value]="board"
+                [items]="boards$ | async"
+                [width]="'300px'"
+                (changeEmit)="changeBoard($event)"
+            ></t-select>
 
-      <nz-date-picker
-        nzMode="month"
-        (ngModelChange)="dateChange($event)"
-      ></nz-date-picker>
+            <nz-date-picker
+                nzMode="month"
+                (ngModelChange)="dateChange($event)"
+            ></nz-date-picker>
+        </div>
+
+        <div class="graph__menu-right">
+            <t-dropdown [icon]="'appstore-add'">
+                <ul nz-menu nzSelectable>
+                    <li nz-menu-item (click)="createTask()">Создать задачу</li>
+                    <li nz-menu-item (click)="createBoard()">Создать доску</li>
+                </ul>
+            </t-dropdown>
+        </div>
     </div>
 
-    <div class="graph__menu-right">
-      <t-dropdown [icon]="'appstore-add'">
-        <ul nz-menu nzSelectable>
-          <li nz-menu-item (click)="createTask()">Создать задачу</li>
-          <li nz-menu-item (click)="createBoard()">Создать доску</li>
-        </ul>
-      </t-dropdown>
+    <div class="graph__index">
+        <app-graph
+            class="graph__index-track"
+            [tasks]="tasks$ | async"
+            [processTypes]="processTypes"
+            (lineEmit)="lineEmit($event)"
+            (nodeEmit)="nodeEmit($event)"
+            (lineMouseEnterEmit)="lineMouseEnterEmit($event)"
+        ></app-graph>
+
+        <app-people-list
+            [boardId]="board.id"
+            [selectedIds]="selectedAssigneIds"
+            class="graph__index-list"
+        ></app-people-list>
     </div>
-  </div>
-
-  <div class="graph__index">
-    <app-graph
-      class="graph__index-track"
-      [tasks]="tasks$ | async"
-      [processTypes]="processTypes"
-      (lineEmit)="lineEmit($event)"
-      (nodeEmit)="nodeEmit($event)"
-      (lineMouseEnterEmit)="lineMouseEnterEmit($event)"
-    ></app-graph>
-
-    <app-people-list
-      [boardId]="board.id"
-      [selectedIds]="selectedAssigneIds"
-      class="graph__index-list"
-    ></app-people-list>
-  </div>
 </div>

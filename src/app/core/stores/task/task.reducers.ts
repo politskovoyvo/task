@@ -9,16 +9,15 @@ export const taskReducers = (
         // case TaskActionsType.GetTask:
         //     return {
         //         ...state,
-        //         selectedTask: action.payload
         //     };
         // case TaskActionsType.GetTasks:
         //     return {
         //         ...state,
         //     };
-        case TaskActionsType.GetTasksSuccess:
+        case TaskActionsType.GetTaskSuccess:
             return {
                 ...state,
-                tasks: action.payload,
+                selectedTask: action.payload,
             };
         case TaskActionsType.GetTasksSuccess:
             return {

@@ -5,11 +5,17 @@ import { Actions, Effect, ofType } from '@ngrx/effects';
 import { select, Store } from '@ngrx/store';
 import { Task } from '@share/models/task';
 import { of } from 'rxjs';
-import { map, switchMap, withLatestFrom } from 'rxjs/operators';
+import { map, switchMap, tap, withLatestFrom } from 'rxjs/operators';
 import { IAppState } from '../app.state';
-import { GetTask, GetTasks, GetTaskSuccess, TaskActionsType } from './task.actions';
-import { selectedTask, selectedTasks } from './task.selectors';
-import { ITaskState } from './task.state';
+import {
+    CreateTask,
+    GetTask,
+    GetTasks,
+    GetTasksSuccess,
+    GetTaskSuccess,
+    TaskActionsType,
+} from './task.actions';
+import { selectedTasks } from './task.selectors';
 
 @Injectable()
 export class TaskEffects {
@@ -27,7 +33,20 @@ export class TaskEffects {
     @Effect()
     getTasks$ = this._actions$.pipe(
         ofType<GetTasks>(TaskActionsType.GetTasks),
-        switchMap(() => this._taskCoreService.getTasks(this._boardCoreService.currentBoard.id))
+        switchMap(() =>
+            this._taskCoreService.getTasks(this._boardCoreService.currentBoard.id)
+        ),
+        switchMap((tasks: Task[]) => of(new GetTasksSuccess(tasks)))
+    );
+
+    @Effect()
+    createTask$ = this._actions$.pipe(
+        ofType<CreateTask>(TaskActionsType.CreateTask),
+        map((action) => action.payload),
+        switchMap((task) =>
+            this._taskCoreService.createTask(this._boardCoreService.currentBoard.id, task)
+        ),
+        switchMap((tasks: Task[]) => of(new GetTasks()))
     );
 
     constructor(

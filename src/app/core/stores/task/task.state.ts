@@ -5,6 +5,6 @@ export interface ITaskState {
   selectedTask: Task;
 }
 export const initialTaskState: ITaskState = {
-  tasks: null,
+  tasks: [],
   selectedTask: null,
 };
