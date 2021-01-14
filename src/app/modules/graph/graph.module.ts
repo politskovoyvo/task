@@ -8,8 +8,6 @@ import { GraphComponent } from './components/graph/graph.component';
 import { GraphIndexComponent } from './graph-index/graph-index.component';
 import { NzIconModule } from 'ng-zorro-antd/icon';
 import { TInputModule } from '@share/controls/t-input/t-input.module';
-import { TaskCoreService } from '@core/services/task-core.service';
-import { BoardCoreService } from '@core/services/board-core.service';
 import { PeopleListComponent } from '@components/people-list/people-list.component';
 import { CreateTaskComponent } from '@components/create-task/create-task.component';
 import { CreateBoardComponent } from '@components/create-board/create-board.component';

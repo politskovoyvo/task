@@ -1,9 +1,9 @@
 import {
-  AfterViewInit,
-  ChangeDetectionStrategy,
-  ChangeDetectorRef,
-  Component,
-  OnInit,
+    AfterViewInit,
+    ChangeDetectionStrategy,
+    ChangeDetectorRef,
+    Component,
+    OnInit,
 } from '@angular/core';
 import { BehaviorSubject, from, Observable, of, Subject } from 'rxjs';
 import { switchMap, tap } from 'rxjs/operators';
@@ -18,83 +18,81 @@ import { NzDrawerService } from 'ng-zorro-antd/drawer';
 import { AuthService } from '@core/auth/services/auth.service';
 
 @Component({
-  selector: 'app-graph-index',
-  templateUrl: './graph-index.component.html',
-  styleUrls: ['./graph-index.component.scss'],
-  providers: [GraphService, NzDrawerService],
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    selector: 'app-graph-index',
+    templateUrl: './graph-index.component.html',
+    styleUrls: ['./graph-index.component.scss'],
+    providers: [GraphService, NzDrawerService],
+    changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class GraphIndexComponent implements OnInit, AfterViewInit {
-  boards$: Observable<Base[]>;
-  board: Base;
-  selectedAssigneIds: number[];
-  tasks$: Observable<Task[]>;
-  assignes$ = new BehaviorSubject<Base[]>([]);
+    boards$: Observable<Base[]>;
+    board: Base;
+    selectedAssigneIds: number[];
+    tasks$: Observable<Task[]>;
+    assignes$ = new BehaviorSubject<Base[]>([]);
 
-  processTypes: Track[];
+    processTypes: Track[];
 
-  constructor(
-    private graphService: GraphService,
-    private boardCoreService: BoardCoreService,
-    private drawerService: NzDrawerService,
-    private authService: AuthService
-  ) {}
+    constructor(
+        private _graphService: GraphService,
+        private _boardCoreService: BoardCoreService,
+        private _drawerService: NzDrawerService,
+        private _authService: AuthService
+    ) {}
 
-  ngOnInit(): void {
-    this.tasks$ = this.graphService.getTaskObserver().pipe(
-      switchMap(
-        () => this.boardCoreService.getTracks(),
-        (tasks, res) => {
-          this.processTypes = res;
-          return tasks;
-        }
-      )
-    );
+    ngOnInit(): void {
+        this.board = this._boardCoreService.currentBoard;
 
-    this.boards$ = this.boardCoreService
-      .getBoardsByUserId(this.authService.user.id)
-      ?.pipe(
-        tap(() => {
-          this.board = this.boardCoreService.currentBoard;
-        })
-      );
-  }
+        this.tasks$ = this._graphService.getTaskObserver().pipe(
+            switchMap(
+                () => this._boardCoreService.getTracks(),
+                (tasks, res) => {
+                    this.processTypes = res;
+                    return tasks;
+                }
+            )
+        );
 
-  ngAfterViewInit(): void {
-    setTimeout(() => this.graphService.refresh());
-  }
+        this.boards$ = this._boardCoreService.getBoardsObservable();
+    }
 
-  createTask() {
-    this.drawerService.create({
-      nzTitle: 'Создание задания',
-      nzWidth: '80%',
-      nzContent: CreateTaskComponent
-    });
-  }
+    ngAfterViewInit(): void {
+        setTimeout(() => this._graphService.refresh());
+    }
 
-  createBoard() {
-    this.drawerService.create({
-      nzTitle: 'Создание доски',
-      nzWidth: '80%',
-      nzContent: CreateBoardComponent,
-    });
-  }
+    createTask() {
+        this._drawerService.create({
+            nzTitle: 'Создание задания',
+            nzWidth: '80%',
+            nzContent: CreateTaskComponent,
+        });
+    }
 
-  lineEmit($event) {
-    console.log($event);
-  }
+    createBoard() {
+        this._drawerService.create({
+            nzTitle: 'Создание доски',
+            nzWidth: '80%',
+            nzContent: CreateBoardComponent,
+        });
+    }
 
-  nodeEmit($event) {
-    console.log($event);
-  }
+    lineEmit($event) {
+        console.log($event);
+    }
 
-  lineMouseEnterEmit($event) {
-    this.selectedAssigneIds = $event?.map((i) => i.info.assignes)[0].map((ass) => ass.id);
-  }
+    nodeEmit($event) {
+        console.log($event);
+    }
 
-  dateChange($event: Date) {}
+    lineMouseEnterEmit($event) {
+        this.selectedAssigneIds = $event
+            ?.map((i) => i.info.assignes)[0]
+            .map((ass) => ass.id);
+    }
 
-  refresh() {
-    this.graphService.refresh();
-  }
+    dateChange($event: Date) {}
+
+    refresh() {
+        this._graphService.refresh();
+    }
 }

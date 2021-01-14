@@ -14,8 +14,8 @@ export class GraphService {
   private _refresh$;
 
   constructor(
-    private taskCoreService: TaskCoreService,
-    private boardCoreService: BoardCoreService
+    private _taskCoreService: TaskCoreService,
+    private _boardCoreService: BoardCoreService
   ) {
     this.init();
   }
@@ -33,7 +33,7 @@ export class GraphService {
   }
 
   getProcessTypes(): Observable<Track[]> {
-    return this.taskCoreService.getTrackes();
+    return this._taskCoreService.getTrackes();
   }
 
   getTaskObserver(): Observable<Task[]> {
@@ -45,11 +45,12 @@ export class GraphService {
   }
 
   private init() {
-    this._refresh$ = this.taskCoreService.getRefresh();
+    console.log(this._boardCoreService.currentBoard)
+    this._refresh$ = this._taskCoreService.getRefresh();
     this._refresh$
       .pipe(
         switchMap(() =>
-          this.taskCoreService.getTasks(this.boardCoreService.currentBoard?.id || 0)
+          this._taskCoreService.getTasks(this._boardCoreService.currentBoard?.id || 0)
         ),
         tap((tasks: Task[]) => (this._cash = tasks))
       )

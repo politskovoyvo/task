@@ -15,6 +15,7 @@ import { NzModalModule } from 'ng-zorro-antd/modal';
 import { NzDrawerModule } from 'ng-zorro-antd/drawer';
 import { BoardCoreService } from '@core/services/board-core.service';
 import { TaskCoreService } from '@core/services/task-core.service';
+import { StoreModule } from '@ngrx/store';
 
 registerLocaleData(en);
 
@@ -31,6 +32,7 @@ registerLocaleData(en);
     AuthModule,
     NzDrawerModule,
     ReactiveFormsModule,
+    StoreModule.forRoot({}, {}),
   ],
   providers: [{ provide: NZ_I18N, useValue: en_US }, BoardCoreService, TaskCoreService],
   bootstrap: [AppComponent],
