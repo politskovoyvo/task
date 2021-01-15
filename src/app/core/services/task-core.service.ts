@@ -32,7 +32,7 @@ export class TaskCoreService {
         );
         return this._httpClient.post(
             `${this._URL}/api/board_id=${boardId}`,
-            `${newTask}`
+            `${newTask}`  
         );
     }
 

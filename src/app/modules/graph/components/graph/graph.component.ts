@@ -1,9 +1,11 @@
 import { DatePipe } from '@angular/common';
 import {
+    AfterContentInit,
     AfterViewInit,
     ChangeDetectionStrategy,
     ChangeDetectorRef,
     Component,
+    DoCheck,
     ElementRef,
     EventEmitter,
     Input,
@@ -18,11 +20,15 @@ import { Task } from '@share/models/task';
 import * as d3 from 'd3';
 import { LineOptions } from '../../models/line-options';
 import { TaskDraw } from '@modules/graph/utilits/task-draw';
+import { BehaviorSubject, ReplaySubject, Subject } from 'rxjs';
+import { tap } from 'rxjs/operators';
+import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 
 type TODO_SVG = any;
 const step = 35;
 const horizontalStep = 10;
 
+@UntilDestroy()
 @Component({
     selector: 'app-graph',
     templateUrl: './graph.component.html',
@@ -38,20 +44,32 @@ export class GraphComponent implements OnInit, OnChanges, AfterViewInit {
     @Output() lineEmit = new EventEmitter();
     @Output() lineMouseEnterEmit = new EventEmitter();
 
-    svg;
+    changeSubj$ = new ReplaySubject<void>();
+
+    svg = null;
     maxDate = new Date();
     nowDate = new Date();
 
     constructor(private change: ChangeDetectorRef, private datePipe: DatePipe) {}
+
     ngAfterViewInit(): void {
-        this.change.detectChanges();
         this.initSvg();
+        this.changeSubj$
+            .pipe(
+                untilDestroyed(this),
+                tap(() => {
+                    if (this.svg) {
+                        this.paint();
+                        this.change.detectChanges();
+                    }
+                })
+            )
+            .subscribe();
     }
 
     ngOnChanges(changes: SimpleChanges): void {
-        if (this.tasks?.length && this.processTypes && this.svg) {
-            this.svg.selectAll('*').remove();
-            this.grid(this.processTypes, this.tasks, this.svg);
+        if (changes.tasks.currentValue.length && this.processTypes) {
+            this.changeSubj$.next();
         }
     }
 
@@ -67,11 +85,14 @@ export class GraphComponent implements OnInit, OnChanges, AfterViewInit {
             .attr('viewBox', [-150, -100, width, height] as any);
     }
 
+    paint() {
+        this.svg.selectAll('*').remove();
+        this.grid(this.processTypes, this.tasks, this.svg);
+    }
+
     private grid = (tracks: Track[], tasks: Task[], svg: TODO_SVG) => {
         this.maxDate = this.getMaxDate(tasks);
         const taskDraws = tasks.map((task) => new TaskDraw(task, tasks, tracks, step));
-        const daysInSelectedMonth = this.nowDate.daysInMonth();
-
         let groups: {
             type: number;
             color: string;

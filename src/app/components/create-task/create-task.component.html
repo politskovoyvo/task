@@ -1,66 +1,66 @@
 <form class="form" [formGroup]="form" (ngSubmit)="submit()">
-  <t-input [placeholder]="'Task name'" formControlName="name"></t-input>
+    <t-input [placeholder]="'Task name'" formControlName="name"></t-input>
 
-  <!-- <div class="form__line">
+    <!-- <div class="form__line">
     <span>Type</span>
     <t-select [width]="'200px'" formControlName="type"></t-select>
   </div> -->
 
-  <div class="form__line">
-    <span>Spend time</span>
-    <t-input
-      [width]="inputWidth"
-      [placeholder]="'spend time'"
-      formControlName="spendTime"
-    ></t-input>
-  </div>
+    <div class="form__line">
+        <span>Spend time</span>
+        <t-input
+            [width]="inputWidth"
+            [placeholder]="'spend time'"
+            formControlName="spendTime"
+        ></t-input>
+    </div>
 
-  <div class="form__line">
-    <span>Priority</span>
-    <t-select [width]="inputWidth" formControlName="priority"></t-select>
-  </div>
+    <div class="form__line">
+        <span>Priority</span>
+        <t-select [width]="inputWidth" formControlName="priority"></t-select>
+    </div>
 
-  <div class="form__line">
-    <span>State</span>
-    <t-select [width]="inputWidth" formControlName="priority"></t-select>
-  </div>
+    <div class="form__line">
+        <span>State</span>
+        <t-select [width]="inputWidth" formControlName="priority"></t-select>
+    </div>
 
-  <div class="form__line">
-    <span>Performers</span>
-    <t-select
-      isMulti="true"
-      [type]="'t-search'"
-      [width]="inputWidth"
-      [items]="assignee$ | async"
-      [itemTemplate]="isSelected"
-      formControlName="performers"
-    ></t-select>
-    <ng-template let-option="option" #isSelected>
-      <div>
-        <i nz-icon nzType="check" nzTheme="outline" style="margin-right: 5px"></i>
-        <span>{{ option.name }}</span>
-      </div>
-    </ng-template>
-  </div>
+    <div class="form__line">
+        <span>Performers</span>
+        <t-select
+            isMulti="true"
+            [type]="'t-search'"
+            [width]="inputWidth"
+            [items]="assignee$ | async"
+            [itemTemplate]="isSelected"
+            formControlName="performers"
+        ></t-select>
+        <ng-template let-option="option" #isSelected>
+            <div>
+                <i nz-icon nzType="check" nzTheme="outline" style="margin-right: 5px"></i>
+                <span>{{ option.name }}</span>
+            </div>
+        </ng-template>
+    </div>
 
-  <div class="form__line">
-    <span>Assignee</span>
-    <t-select
-      [width]="inputWidth"
-      [items]="assignee$ | async"
-      formControlName="assignee"
-    ></t-select>
-  </div>
+    <div class="form__line">
+        <span>Assignee</span>
+        <t-select
+            [width]="inputWidth"
+            [items]="assignee$ | async"
+            formControlName="assignee"
+        ></t-select>
+    </div>
 
-  <div class="form__context">
-    <t-input
-      [placeholder]="'Описание'"
-      [type]="'textarea'"
-      formControlName="info"
-    ></t-input>
-  </div>
+    <div class="form__context">
+        <t-input
+            [placeholder]="'Описание'"
+            [type]="'textarea'"
+            formControlName="info"
+        ></t-input>
+    </div>
 
-  <div class="form__submit">
-    <button type="submit">создать</button>
-  </div>
+    <div class="form__submit">
+        <button type="submit">{{ submitName[action] }}</button>
+    </div>
 </form>

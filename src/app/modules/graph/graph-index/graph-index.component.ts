@@ -28,10 +28,10 @@ import { GetTasks } from '@core/stores/task/task.actions';
 })
 export class GraphIndexComponent implements OnInit, AfterViewInit {
     boards$: Observable<Base[]>;
-    board: Base;
-    selectedAssigneIds: number[];
     tasks$: Observable<Task[]>;
     assignes$ = new BehaviorSubject<Base[]>([]);
+    selectedAssigneIds: number[];
+    board: Base;
     processTypes: Track[];
 
     taskStore$ = this._taskStore.pipe(select(selectedTasks));
@@ -91,9 +91,12 @@ export class GraphIndexComponent implements OnInit, AfterViewInit {
     }
 
     lineMouseEnterEmit($event) {
+        if(!$event) {
+            return;
+        }
         this.selectedAssigneIds = $event
             ?.map((i) => i.info.assignes)[0]
-            .map((ass) => ass.id);
+            ?.map((ass) => ass.id);
     }
 
     dateChange($event: Date) {}
