@@ -9,10 +9,12 @@ import { map, switchMap, tap, withLatestFrom } from 'rxjs/operators';
 import { IAppState } from '../app.state';
 import {
     CreateTask,
+    EditTask,
     GetTask,
     GetTasks,
     GetTasksSuccess,
     GetTaskSuccess,
+    RemoveTask,
     TaskActionsType,
 } from './task.actions';
 import { selectedTasks } from './task.selectors';
@@ -47,6 +49,22 @@ export class TaskEffects {
             this._taskCoreService.createTask(this._boardCoreService.currentBoard.id, task)
         ),
         switchMap((tasks: Task[]) => of(new GetTasks()))
+    );
+
+    @Effect()
+    editTask$ = this._actions$.pipe(
+        ofType<EditTask>(TaskActionsType.EditTask),
+        map((action) => action.payload),
+        switchMap((task: Task) => this._taskCoreService.editTask(task)),
+        switchMap(() => of(new GetTasks()))
+    );
+
+    @Effect()
+    removeTask$ = this._actions$.pipe(
+        ofType<RemoveTask>(TaskActionsType.RemoveTask),
+        map((action) => action.payload),
+        switchMap((taskId: number) => this._taskCoreService.removeTask(taskId)),
+        switchMap(() => of(new GetTasks()))
     );
 
     constructor(

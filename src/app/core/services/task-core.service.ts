@@ -37,7 +37,14 @@ export class TaskCoreService {
     }
 
     editTask(editTask: Task) {
+        let findTask = this.tasks_MOCK.find((task) => task.id === editTask.id);
+        findTask = { ...editTask };
         return this._httpClient.post(`${this._URL}/api/edit`, `${editTask}`);
+    }
+
+    removeTask(taskId: number) {
+        this.tasks_MOCK.filter((task) => task.id !== taskId);
+        return this._httpClient.post(`${this._URL}/api/edit`, `${taskId}`);
     }
 
     getTasks(boardId: number): Observable<Task[]> {

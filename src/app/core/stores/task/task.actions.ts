@@ -7,6 +7,8 @@ export enum TaskActionsType {
     GetTask = '[TASK] Get Task',
     GetTaskSuccess = '[TASK] Get Task Success',
     CreateTask = '[TASK] Create Task',
+    EditTask = '[TASK] Edit Task',
+    RemoveTask = '[TASK] Remove Task',
 }
 
 export class GetTasks implements Action {
@@ -31,6 +33,16 @@ export class GetTaskSuccess implements Action {
 export class CreateTask implements Action {
     public readonly type = TaskActionsType.CreateTask;
     constructor(public payload: Task) {}
+}
+
+export class EditTask implements Action {
+    public readonly type = TaskActionsType.EditTask;
+    constructor(public payload: Task) {}
+}
+
+export class RemoveTask implements Action {
+    public readonly type = TaskActionsType.RemoveTask;
+    constructor(public payload: number) {}
 }
 
 export type TaskActions =
