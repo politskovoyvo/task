@@ -16,12 +16,12 @@ enum ESubmitName {
 
 @UntilDestroy()
 @Component({
-    selector: 'app-create-task',
-    templateUrl: './create-task.component.html',
-    styleUrls: ['./create-task.component.scss'],
+    selector: 'task-card',
+    templateUrl: './task-card.component.html',
+    styleUrls: ['./task-card.component.scss'],
     providers: [CompanyCoreService],
 })
-export class CreateTaskComponent implements OnInit {
+export class CreateCardComponent implements OnInit {
     submitName = ESubmitName;
     assignee$: Observable<Base[]>;
     form: FormGroup;

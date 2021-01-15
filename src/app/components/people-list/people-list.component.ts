@@ -7,9 +7,12 @@ import {
     SimpleChanges,
 } from '@angular/core';
 import { BoardCoreService } from '@core/services/board-core.service';
+import { IAppState } from '@core/stores/app.state';
+import { selectedTask } from '@core/stores/task/task.selectors';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
-import { BehaviorSubject, Observable, Subject } from 'rxjs';
-import { switchMap, withLatestFrom } from 'rxjs/operators';
+import { select, Store } from '@ngrx/store';
+import { BehaviorSubject, Subject } from 'rxjs';
+import { switchMap, tap } from 'rxjs/operators';
 import { Base } from 'src/app/share/models/base';
 
 @UntilDestroy()
@@ -25,7 +28,10 @@ export class PeopleListComponent implements OnInit, OnChanges {
     refreshSubj$ = new Subject<number>();
     assignesSubj$ = new BehaviorSubject<Base[]>([]);
 
-    constructor(private _boardCoreService: BoardCoreService) {}
+    constructor(
+        private taskStore$: Store<IAppState>,
+        private _boardCoreService: BoardCoreService
+    ) {}
 
     ngOnChanges(changes: SimpleChanges): void {
         if (this.boardId && changes.boardId) {
@@ -40,6 +46,17 @@ export class PeopleListComponent implements OnInit, OnChanges {
     ngOnInit(): void {
         this.initRefreshSubj();
         this.refreshSubj$.next(this.boardId);
+
+        this.taskStore$
+            .pipe(
+                select(selectedTask),
+                untilDestroyed(this),
+                tap((task) => {
+                    const ids = task?.performers?.map((p) => p.id);
+                    this.getSelectedAssignes(ids);
+                })
+            )
+            .subscribe();
     }
 
     private initRefreshSubj() {
