@@ -23,7 +23,7 @@ module.exports = {
     },
     devServer: {
         historyApiFallback: true,
-        port: 21576,
+        port: 4200,
         hot: isDev,
     },
     resolve: {
@@ -31,8 +31,8 @@ module.exports = {
         extensions: ['.ts', '.js'],
 
         alias: {
-            '@core': path.resolve(__dirname, './src/app/core'),
-            src: path.resolve(__dirname, './src'),
+            '@core': path.resolve(__dirname, 'src/app/core'),
+            src: path.resolve(__dirname, 'src'),
         },
     },
     module: {
@@ -73,7 +73,7 @@ module.exports = {
         new CleanWebpackPlugin(),
         new AngularCompilerPlugin({
             tsConfigPath: 'tsconfig.json',
-            entryModule: './src/app/app.module#AppModule',
+            entryModule: 'src/app/app.module#AppModule',
             sourceMap: true,
         }),
         new webpack.ContextReplacementPlugin(
@@ -96,14 +96,6 @@ module.exports = {
                 {
                     from: path.resolve(__dirname, 'src/favicon.ico'),
                     to: path.resolve(__dirname, 'dist'),
-                },
-                {
-                    from: path.resolve(__dirname, 'src/manifest.webmanifest'),
-                    to: path.resolve(__dirname, 'dist'),
-                },
-                {
-                    from: 'src/assets',
-                    to: 'assets',
                 },
             ],
         }),
