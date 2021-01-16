@@ -1,9 +1,8 @@
 <div class="container">
     <div *ngFor="let task of tasks" class="container__task" (click)="selected(task.id)">
         <div class="container__task-simbol">
-            <span>{{ task.name }}</span>
+            <a>{{ task.simbol }}</a>
         </div>
-        <div class="container__task-name"></div>
-        <div class="container__task-icons"></div>
+        <div class="container__task-name">{{task.name}}</div>
     </div>
 </div>

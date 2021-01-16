@@ -16,6 +16,13 @@
         </div>
 
         <div class="graph__menu-right">
+            <t-dropdown [icon]="'layout'">
+                <ul nz-menu nzSelectable>
+                    <li nz-menu-item (click)="createTask()">Карточка задач</li>
+                    <li nz-menu-item (click)="createBoard()">Карточка исполнителей</li>
+                </ul>
+            </t-dropdown>
+
             <t-dropdown [icon]="'appstore-add'">
                 <ul nz-menu nzSelectable>
                     <li nz-menu-item (click)="createTask()">Создать задачу</li>
