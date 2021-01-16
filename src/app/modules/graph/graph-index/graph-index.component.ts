@@ -8,7 +8,7 @@ import {
 import { BehaviorSubject, from, Observable, of, Subject } from 'rxjs';
 import { switchMap, tap } from 'rxjs/operators';
 import { Track } from '@share/models/track';
-import { CreateTaskComponent } from '@components/create-task/create-task.component';
+import { CreateCardComponent } from '@components/task-card/task-card.component';
 import { CreateBoardComponent } from '@components/create-board/create-board.component';
 import { BoardCoreService } from '@core/services/board-core.service';
 import { Base } from '@share/models/base';
@@ -70,7 +70,7 @@ export class GraphIndexComponent implements OnInit, AfterViewInit {
         this._drawerService.create({
             nzTitle: 'Создание задания',
             nzWidth: '80%',
-            nzContent: CreateTaskComponent,
+            nzContent: CreateCardComponent,
         });
     }
 
@@ -80,23 +80,6 @@ export class GraphIndexComponent implements OnInit, AfterViewInit {
             nzWidth: '80%',
             nzContent: CreateBoardComponent,
         });
-    }
-
-    lineEmit($event) {
-        console.log($event);
-    }
-
-    nodeEmit($event) {
-        console.log($event);
-    }
-
-    lineMouseEnterEmit($event) {
-        if(!$event) {
-            return;
-        }
-        this.selectedAssigneIds = $event
-            ?.map((i) => i.info.assignes)[0]
-            ?.map((ass) => ass.id);
     }
 
     dateChange($event: Date) {}

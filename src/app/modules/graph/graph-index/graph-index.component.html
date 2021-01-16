@@ -30,15 +30,15 @@
             class="graph__index-track"
             [tasks]="tasks$ | async"
             [processTypes]="processTypes"
-            (lineEmit)="lineEmit($event)"
-            (nodeEmit)="nodeEmit($event)"
-            (lineMouseEnterEmit)="lineMouseEnterEmit($event)"
         ></app-graph>
 
-        <app-people-list
-            [boardId]="board.id"
-            [selectedIds]="selectedAssigneIds"
-            class="graph__index-list"
-        ></app-people-list>
+        <div class="graph__index-list">
+            <app-people-list
+                [boardId]="board.id"
+                [selectedIds]="selectedAssigneIds"
+            ></app-people-list>
+
+            <app-task-list [tasks]="tasks$ | async"></app-task-list>
+        </div>
     </div>
 </div>

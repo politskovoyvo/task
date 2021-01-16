@@ -1,11 +1,9 @@
 import { DatePipe } from '@angular/common';
 import {
-    AfterContentInit,
     AfterViewInit,
     ChangeDetectionStrategy,
     ChangeDetectorRef,
     Component,
-    DoCheck,
     ElementRef,
     EventEmitter,
     Input,
@@ -20,9 +18,13 @@ import { Task } from '@share/models/task';
 import * as d3 from 'd3';
 import { LineOptions } from '../../models/line-options';
 import { TaskDraw } from '@modules/graph/utilits/task-draw';
-import { BehaviorSubject, ReplaySubject, Subject } from 'rxjs';
-import { tap } from 'rxjs/operators';
+import { ReplaySubject } from 'rxjs';
+import { take, tap } from 'rxjs/operators';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
+import { select, Store } from '@ngrx/store';
+import { IAppState } from '@core/stores/app.state';
+import { GetTask, GetTasksSuccess } from '@core/stores/task/task.actions';
+import { selectedTask } from '@core/stores/task/task.selectors';
 
 type TODO_SVG = any;
 const step = 35;
@@ -40,9 +42,7 @@ export class GraphComponent implements OnInit, OnChanges, AfterViewInit {
     @ViewChild('canvas') canvas: ElementRef;
     @Input() tasks: Task[];
     @Input() processTypes: Track[];
-    @Output() nodeEmit = new EventEmitter();
-    @Output() lineEmit = new EventEmitter();
-    @Output() lineMouseEnterEmit = new EventEmitter();
+    selectedTaskId: number;
 
     changeSubj$ = new ReplaySubject<void>();
 
@@ -50,7 +50,11 @@ export class GraphComponent implements OnInit, OnChanges, AfterViewInit {
     maxDate = new Date();
     nowDate = new Date();
 
-    constructor(private change: ChangeDetectorRef, private datePipe: DatePipe) {}
+    constructor(
+        private taskStore$: Store<IAppState>,
+        private change: ChangeDetectorRef,
+        private datePipe: DatePipe
+    ) {}
 
     ngAfterViewInit(): void {
         this.initSvg();
@@ -68,12 +72,20 @@ export class GraphComponent implements OnInit, OnChanges, AfterViewInit {
     }
 
     ngOnChanges(changes: SimpleChanges): void {
-        if (changes.tasks.currentValue.length && this.processTypes) {
+        if (changes.tasks?.currentValue.length && this.processTypes) {
             this.changeSubj$.next();
         }
     }
 
-    ngOnInit(): void {}
+    ngOnInit(): void {
+        this.taskStore$
+            .pipe(
+                select(selectedTask),
+                untilDestroyed(this),
+                tap((task) => (this.selectedTaskId = task?.id))
+            )
+            .subscribe();
+    }
 
     initSvg() {
         const width = 400;
@@ -264,22 +276,41 @@ export class GraphComponent implements OnInit, OnChanges, AfterViewInit {
             .y((d: any) => d.point.y)
             .curve(d3.curveMonotoneX);
 
-        // отрисовка линии задания
-        svg.append('path')
-            .attr('class', 'path-task')
+        // paint point path
+        const path = svg
+            .append('path')
+            .attr('class', () => {
+                if (taskDraw.getTask().id === this.selectedTaskId) {
+                    return 'path-task-selected';
+                }
+                return 'path-task';
+            })
             .style('stroke', options.lineColor)
             .attr('d', line(data as any))
             .on('click', (e) => {
-                this.lineEmit.emit(data);
+                // TODO: выделение жирным path и при обновлении оставлять так же
+                this.taskStore$.dispatch(new GetTask(taskDraw.getTask().id));
             })
             .on('mouseout', (e) => {
-                this.lineMouseEnterEmit.emit(undefined);
+                // TODO: добавить всплывающее окно
             })
-            .on('mouseenter', (e) => {
-                this.lineMouseEnterEmit.emit(data);
-            });
+            .on('mouseenter', (e) => {});
 
-        // отрисовка точек задания
+        this.taskStore$
+            .pipe(
+                untilDestroyed(this),
+                tap((store) => {
+                    if (taskDraw.getTask().id !== store.tasks.selectedTask?.id) {
+                        path.attr('class', 'path-task');
+                    }
+                    else {
+                        path.attr('class', 'path-task-selected');
+                    }
+                })
+            )
+            .subscribe();
+
+        // paint points task
         data.forEach((element) => {
             const node = svg
                 .append('circle')
@@ -287,14 +318,12 @@ export class GraphComponent implements OnInit, OnChanges, AfterViewInit {
                 .style('fill', options.lineColor)
                 .attr('r', options.nodeRadius)
                 .attr('cx', element.point.x)
-                .attr('cy', element.point.y)
-                .on('click', () => this.nodeEmit.emit(node));
-
+                .attr('cy', element.point.y);
             node['data'] = element.info;
         });
     };
 
-    getRandomColor = () => {
+    private getRandomColor = () => {
         const letters = '0123456789ABCDEF';
         let color = '#';
         for (let i = 0; i < 6; i++) {
@@ -337,21 +366,9 @@ export class GraphComponent implements OnInit, OnChanges, AfterViewInit {
         );
     };
 }
-
-export interface SelectedNodeInfo {
-    id: number;
-    date: Date;
-    assignes: [];
-}
 // ДАЛЕЕ
 // формат который я буду здесь принимать
 export interface Point {
     x: number;
     y: number;
 }
-
-type taskFormat = {
-    coord: Point;
-    nodes: [];
-};
-// ...

@@ -6,14 +6,6 @@ export const taskReducers = (
     action: TaskActions
 ): ITaskState => {
     switch (action.type) {
-        // case TaskActionsType.GetTask:
-        //     return {
-        //         ...state,
-        //     };
-        // case TaskActionsType.GetTasks:
-        //     return {
-        //         ...state,
-        //     };
         case TaskActionsType.GetTaskSuccess:
             return {
                 ...state,
