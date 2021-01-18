@@ -54,12 +54,12 @@ export class TaskCoreService {
         return this._httpClient.get<Task[]>(`${this._URL}/api/board_id=${boardId}`);
     }
 
-    public getTrackes(boardId: number = 0): Observable<Track[]> {
+    getTrackes(boardId: number = 0): Observable<Track[]> {
         return of(this.tracks_MOCK);
         return this._httpClient.get<Track[]>(`${this._URL}/api/board_id=${boardId}`);
     }
 
-    private getTaskTypes_MOCK() {
+    getTaskTypes_MOCK() {
         return of([
             { id: 1, name: 'task' },
             { id: 2, name: 'bug' },
@@ -67,7 +67,23 @@ export class TaskCoreService {
         ]);
     }
 
-    private initMock() {
+    addSpendTime(taskId: number, userId: number, value: string): Observable<unknown> {
+        return of();
+    }
+
+    editSpendTime(
+        spendTimeId: number,
+        userId: number,
+        value: string
+    ): Observable<unknown> {
+        return of();
+    }
+
+    removeSpendTime(spendTimeId: number): Observable<unknown> {
+        return of();
+    }
+
+    initMock() {
         this.tasks_MOCK = [
             {
                 id: 1,

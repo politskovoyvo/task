@@ -2,9 +2,10 @@
     <div class="context__row" *ngFor="let spendTime of spendTimes">
         <span>{{ spendTime.perfomer.name }}</span>
         <span>{{ spendTime.spendTime }}</span>
-        <button>edit</button>
+        <button (click)="edit(spendTime)">edit</button>
+        <button (click)="remove(spendTime)">remove</button>
     </div>
     <div class="context__menu">
-        <button>added new spend time</button>
+        <button (click)="add()">added new spend time</button>
     </div>
 </div>
