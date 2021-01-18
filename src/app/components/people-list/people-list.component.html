@@ -1,4 +1,5 @@
 <div class="card">
+  <t-input></t-input>
   <div *ngFor="let assigne of assignesSubj$ | async">
     <div class="card__item" [style.background]="assigne['isSelected'] ? 'green' : ''">
       <span>{{ assigne.name }}</span>

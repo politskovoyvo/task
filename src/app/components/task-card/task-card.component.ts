@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { CompanyCoreService } from '@core/services/company-core.service';
 import { IAppState } from '@core/stores/app.state';
@@ -20,6 +20,7 @@ enum ESubmitName {
     templateUrl: './task-card.component.html',
     styleUrls: ['./task-card.component.scss'],
     providers: [CompanyCoreService],
+    changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class TaskCardComponent implements OnInit {
     submitName = ESubmitName;

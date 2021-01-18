@@ -1,4 +1,5 @@
 <div class="container">
+    <t-input></t-input>
     <div *ngFor="let task of tasks" class="container__task" (click)="selected(task.id)">
         <div class="container__task-simbol">
             <a (click)="openTask(task)">{{ task.simbol }}</a>
