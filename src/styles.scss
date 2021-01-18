@@ -1,8 +1,8 @@
 /* You can add global styles to this file, and also import other style files */
-@import "~ng-zorro-antd/ng-zorro-antd.min.css";
-
+@import '~ng-zorro-antd/ng-zorro-antd.min.css';
+@import './assets/styles/variables.scss';
 
 svg:hover {
-  fill: rgb(104, 93, 199);
-  cursor: pointer;
+    fill: $cursor-hover;
+    cursor: pointer;
 }

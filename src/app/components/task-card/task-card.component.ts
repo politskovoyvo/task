@@ -10,8 +10,8 @@ import { Task } from '@share/models/task';
 import { Observable } from 'rxjs';
 
 enum ESubmitName {
-    'CREATE' = 'Cоздать',
-    'EDIT' = 'Редактировать',
+    'CREATE' = 'Create',
+    'EDIT' = 'Edit',
 }
 
 @UntilDestroy()
