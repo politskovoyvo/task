@@ -6,6 +6,7 @@ import { Task } from '@share/models/task';
 import { BehaviorSubject, Observable, of, Subject } from 'rxjs';
 import { Base } from '@share/models/base';
 import { tap } from 'rxjs/operators';
+import { SpendTime } from '@share/models/spend-time';
 
 @Injectable({
     providedIn: 'root',
@@ -102,6 +103,23 @@ export class TaskCoreService {
                     },
                 ],
                 spendTime: 20,
+                spendTimes: [
+                    {
+                        id: 1111,
+                        perfomer: { id: 1, name: 'Петля Денис Петрович' },
+                        spendTime: '10h',
+                    } as SpendTime,
+                    {
+                        id: 2222,
+                        perfomer: { id: 1, name: 'Петля Денис Петрович' },
+                        spendTime: '10h',
+                    } as SpendTime,
+                    {
+                        id: 3333,
+                        perfomer: { id: 1, name: 'Иванов Николай Николаевич' },
+                        spendTime: '20h',
+                    } as SpendTime,
+                ],
                 priorityId: 1,
                 type: 'type',
                 performers: [
@@ -145,6 +163,23 @@ export class TaskCoreService {
                     },
                 ],
                 spendTime: 10,
+                spendTimes: [
+                    {
+                        id: 1111,
+                        perfomer: { id: 1, name: 'Петля Денис Петрович' },
+                        spendTime: '10h',
+                    } as SpendTime,
+                    {
+                        id: 2222,
+                        perfomer: { id: 1, name: 'Петля Денис Петрович' },
+                        spendTime: '10h',
+                    } as SpendTime,
+                    {
+                        id: 3333,
+                        perfomer: { id: 1, name: 'Иванов Николай Николаевич' },
+                        spendTime: '20h',
+                    } as SpendTime,
+                ],
                 priorityId: 2,
                 type: 'type',
                 performers: [
@@ -183,6 +218,23 @@ export class TaskCoreService {
                     },
                 ],
                 spendTime: 5,
+                spendTimes: [
+                    {
+                        id: 1111,
+                        perfomer: { id: 1, name: 'Петля Денис Петрович' },
+                        spendTime: '10h',
+                    } as SpendTime,
+                    {
+                        id: 2222,
+                        perfomer: { id: 1, name: 'Петля Денис Петрович' },
+                        spendTime: '10h',
+                    } as SpendTime,
+                    {
+                        id: 3333,
+                        perfomer: { id: 1, name: 'Иванов Николай Николаевич' },
+                        spendTime: '20h',
+                    } as SpendTime,
+                ],
                 priorityId: 3,
                 type: 'type',
                 performers: [

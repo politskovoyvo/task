@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, ElementRef, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { CompanyCoreService } from '@core/services/company-core.service';
 import { IAppState } from '@core/stores/app.state';
@@ -57,6 +57,18 @@ export class TaskCardComponent implements OnInit {
 
     auto() {
         // TODO: функционал автораспределения
+    }
+
+    timeSet(htmlElement: HTMLElement) {
+        this.checkHTMLElement(htmlElement, 'check');
+    }
+
+    private checkHTMLElement(htmlElement: HTMLElement, className: string) {
+        if (htmlElement.classList.contains(className)) {
+            htmlElement.classList.remove(className);
+        } else {
+            htmlElement.classList.add(className);
+        }
     }
 
     formInit() {

@@ -65,12 +65,24 @@
                 formControlName="info"
             ></t-input>
         </div>
+
+        <app-spend-time-list
+            *ngIf="time.classList.contains('check')"
+            [spendTimes]="task.spendTimes"
+            class="form__context-times"
+        ></app-spend-time-list>
     </div>
 
     <div class="form__submit">
         <button type="submit">{{ submitName[action] }}</button>
         <div class="form__submit-icons">
-            <i nz-icon nzType="field-time" nzTheme="outline"></i>
+            <i
+                #time
+                (click)="timeSet(time)"
+                nz-icon
+                nzType="field-time"
+                nzTheme="outline"
+            ></i>
             <i nz-icon nzType="field-time" nzTheme="outline"></i>
             <i nz-icon nzType="field-time" nzTheme="outline"></i>
         </div>
