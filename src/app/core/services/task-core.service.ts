@@ -104,10 +104,11 @@ export class TaskCoreService {
                 priorityId: 1,
                 type: 'type',
                 performers: [
-                    { id: 1, name: 'Тест 1 Тестович' },
+                    { id: 1, name: 'Тест1 Тестович1' },
                     { id: 2, name: 'Тест 2 Тестович' },
                     { id: 3, name: 'Тест 3 Тестович' },
                 ],
+                assignee: { id: 1, name: 'Тест1 Тестович1' },
             } as Task,
             {
                 id: 2,
@@ -146,11 +147,12 @@ export class TaskCoreService {
                 priorityId: 2,
                 type: 'type',
                 performers: [
-                    { id: 1, name: 'Тест 1 Тестович' },
+                    { id: 1, name: 'Тест1 Тестович1' },
                     { id: 5, name: 'Тест 5 Тестович' },
                     { id: 2, name: 'Тест 2 Тестович' },
                     { id: 4, name: 'Тест 4 Тестович' },
                 ],
+                assignee: { id: 1, name: 'Тест 1 Тестович' },
             } as Task,
             {
                 id: 3,
@@ -183,11 +185,11 @@ export class TaskCoreService {
                 priorityId: 3,
                 type: 'type',
                 performers: [
-                    { id: 1, name: 'Тест 1 Тестович' },
-                    { id: 2, name: 'Тест 2 Тестович' },
+                    { id: 1, name: 'Тест1 Тестович1' },
                     { id: 2, name: 'Тест 2 Тестович' },
                     { id: 6, name: 'Тест 6 Тестович' },
                 ],
+                assignee: { id: 1, name: 'Тест1 Тестович1' },
             } as Task,
             // ];
 

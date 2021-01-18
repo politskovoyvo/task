@@ -8,7 +8,7 @@ import {
 import { BehaviorSubject, from, Observable, of, Subject } from 'rxjs';
 import { switchMap, tap } from 'rxjs/operators';
 import { Track } from '@share/models/track';
-import { CreateCardComponent } from '@components/task-card/task-card.component';
+import { TaskCardComponent } from '@components/task-card/task-card.component';
 import { CreateBoardComponent } from '@components/create-board/create-board.component';
 import { BoardCoreService } from '@core/services/board-core.service';
 import { Base } from '@share/models/base';
@@ -44,7 +44,6 @@ export class GraphIndexComponent implements OnInit, AfterViewInit {
 
     ngOnInit(): void {
         this.board = this._boardCoreService.currentBoard;
-
         this.boards$ = this._boardCoreService.getBoardsObservable();
 
         this.tasks$ = this.taskStore$.pipe(
@@ -70,7 +69,7 @@ export class GraphIndexComponent implements OnInit, AfterViewInit {
         this._drawerService.create({
             nzTitle: 'Создание задания',
             nzWidth: '80%',
-            nzContent: CreateCardComponent,
+            nzContent: TaskCardComponent,
         });
     }
 

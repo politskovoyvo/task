@@ -13,7 +13,7 @@ export class AuthCoreService {
   login(login: string, password: string): Observable<TokenInfo> {
     //TODO: заглушка пока нет бека
     if (login !== 'admin' || password !== 'admin') {
-      return throwError('не верный логин или пароль');
+      return throwError('User credentials are invalid');
     }
     return of({
       refresh_token:

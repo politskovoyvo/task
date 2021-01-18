@@ -23,26 +23,21 @@ import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
     ],
 })
 export class TSelectComponent implements OnInit, ControlValueAccessor {
-    @Input() items: any[] = [];
-    @Input() value: any = {};
+    @Input() value: any;
     @Input() width = '100px';
     @Input() isMulti = false;
     @Input() itemTemplate: TemplateRef<any>;
     @Input() type: 't-default' | 't-search' = 't-default';
+    @Input() set items(items: []) {
+        this._options = items;
+    }
+    _options: [];
 
     @Output() changeEmit = new EventEmitter();
 
     constructor() {}
 
     ngOnInit(): void {}
-
-    get isSelectedItems() {
-        return this.items.filter((i) => i?.isSelected);
-    }
-
-    get isNotSelectedItems() {
-        return this.items.filter((i) => !i?.isSelected);
-    }
 
     onChange: any = () => {};
 
@@ -60,11 +55,8 @@ export class TSelectComponent implements OnInit, ControlValueAccessor {
         if (!obj) {
             return;
         }
-        if (this.isMulti) {
-            obj.isSelected = !obj.isSelected;
-            this.onChange(this.isSelectedItems);
-            return;
-        }
+
+        this.value = this._options?.find((i: any) => obj.id === i.id);
         this.onChange(this.value);
         this.change();
     }

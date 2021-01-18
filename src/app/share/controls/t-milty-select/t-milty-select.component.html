@@ -1,0 +1,37 @@
+<div class="container">
+    <nz-select
+        nzShowSearch
+        [style.width]="width"
+        [(ngModel)]="value"
+        (ngModelChange)="writeValue($event)"
+        [nzCustomTemplate]="custom"
+    >
+        <nz-option
+            [nzCustomContent]="!!itemTemplate"
+            *ngFor="let item of isSelectedItems"
+            [nzLabel]="item.name"
+            [nzValue]="item"
+        >
+            <ng-container
+                *ngIf="itemTemplate"
+                [ngTemplateOutlet]="itemTemplate"
+                [ngTemplateOutletContext]="{ option: item }"
+            >
+            </ng-container
+        ></nz-option>
+        <nz-option
+            *ngFor="let item of isNotSelectedItems"
+            [nzLabel]="item.name"
+            [nzValue]="item"
+        >
+        </nz-option>
+        <ng-template #custom>
+            <span *ngIf="isSelectedItems?.length; else notLength">{{
+                'выбрано ' + isSelectedItems.length
+            }}</span>
+        </ng-template>
+        <ng-template #notLength>
+            <span>не выбрано</span>
+        </ng-template>
+    </nz-select>
+</div>

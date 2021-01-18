@@ -1,11 +1,6 @@
 <form class="form" [formGroup]="form" (ngSubmit)="submit()">
     <t-input [placeholder]="'Task name'" formControlName="name"></t-input>
 
-    <!-- <div class="form__line">
-    <span>Type</span>
-    <t-select [width]="'200px'" formControlName="type"></t-select>
-  </div> -->
-
     <div class="form__line">
         <span>Spend time</span>
         <t-input
@@ -27,14 +22,13 @@
 
     <div class="form__line">
         <span>Performers</span>
-        <t-select
-            isMulti="true"
+        <t-milty-select
             [type]="'t-search'"
             [width]="inputWidth"
             [items]="assignee$ | async"
             [itemTemplate]="isSelected"
             formControlName="performers"
-        ></t-select>
+        ></t-milty-select>
         <ng-template let-option="option" #isSelected>
             <div>
                 <i nz-icon nzType="check" nzTheme="outline" style="margin-right: 5px"></i>

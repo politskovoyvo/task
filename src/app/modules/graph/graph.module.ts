@@ -9,20 +9,21 @@ import { GraphIndexComponent } from './graph-index/graph-index.component';
 import { NzIconModule } from 'ng-zorro-antd/icon';
 import { TInputModule } from '@share/controls/t-input/t-input.module';
 import { PeopleListComponent } from '@components/people-list/people-list.component';
-import { CreateCardComponent } from '@components/task-card/task-card.component';
+import { TaskCardComponent } from '@components/task-card/task-card.component';
 import { CreateBoardComponent } from '@components/create-board/create-board.component';
 import { TDropdownModule } from '@share/controls/t-dropdown/t-dropdown.module';
 import { NzDropDownModule } from 'ng-zorro-antd/dropdown';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { TSelectModule } from '@share/controls/t-select/t-select.module';
 import { TaskListComponent } from '@components/task-list/task-list.component';
+import { TMiltySelectModule } from '@share/controls/t-milty-select/t-milty-select.module';
 
 @NgModule({
   declarations: [
     GraphComponent,
     PeopleListComponent,
     GraphIndexComponent,
-    CreateCardComponent,
+    TaskCardComponent,
     CreateBoardComponent,
     TaskListComponent
   ],
@@ -37,6 +38,7 @@ import { TaskListComponent } from '@components/task-list/task-list.component';
     NzDropDownModule,
     FormsModule,
     TSelectModule,
+    TMiltySelectModule,
     ReactiveFormsModule
   ],
   providers: [
