@@ -6,6 +6,7 @@ import { Task } from '@share/models/task';
 import { BehaviorSubject, Observable, of, Subject } from 'rxjs';
 import { Base } from '@share/models/base';
 import { tap } from 'rxjs/operators';
+import { SpendTime } from '@share/models/spend-time';
 
 @Injectable({
     providedIn: 'root',
@@ -53,12 +54,12 @@ export class TaskCoreService {
         return this._httpClient.get<Task[]>(`${this._URL}/api/board_id=${boardId}`);
     }
 
-    public getTrackes(boardId: number = 0): Observable<Track[]> {
+    getTrackes(boardId: number = 0): Observable<Track[]> {
         return of(this.tracks_MOCK);
         return this._httpClient.get<Track[]>(`${this._URL}/api/board_id=${boardId}`);
     }
 
-    private getTaskTypes_MOCK() {
+    getTaskTypes_MOCK() {
         return of([
             { id: 1, name: 'task' },
             { id: 2, name: 'bug' },
@@ -66,7 +67,23 @@ export class TaskCoreService {
         ]);
     }
 
-    private initMock() {
+    addSpendTime(taskId: number, userId: number, value: string): Observable<unknown> {
+        return of();
+    }
+
+    editSpendTime(
+        spendTimeId: number,
+        userId: number,
+        value: string
+    ): Observable<unknown> {
+        return of();
+    }
+
+    removeSpendTime(spendTimeId: number): Observable<unknown> {
+        return of();
+    }
+
+    initMock() {
         this.tasks_MOCK = [
             {
                 id: 1,
@@ -102,6 +119,23 @@ export class TaskCoreService {
                     },
                 ],
                 spendTime: 20,
+                spendTimes: [
+                    {
+                        id: 1111,
+                        perfomer: { id: 1, name: 'Петля Денис Петрович' },
+                        spendTime: '10h',
+                    } as SpendTime,
+                    {
+                        id: 2222,
+                        perfomer: { id: 1, name: 'Петля Денис Петрович' },
+                        spendTime: '10h',
+                    } as SpendTime,
+                    {
+                        id: 3333,
+                        perfomer: { id: 1, name: 'Иванов Николай Николаевич' },
+                        spendTime: '20h',
+                    } as SpendTime,
+                ],
                 priorityId: 1,
                 type: 'type',
                 performers: [
@@ -145,6 +179,23 @@ export class TaskCoreService {
                     },
                 ],
                 spendTime: 10,
+                spendTimes: [
+                    {
+                        id: 1111,
+                        perfomer: { id: 1, name: 'Петля Денис Петрович' },
+                        spendTime: '10h',
+                    } as SpendTime,
+                    {
+                        id: 2222,
+                        perfomer: { id: 1, name: 'Петля Денис Петрович' },
+                        spendTime: '10h',
+                    } as SpendTime,
+                    {
+                        id: 3333,
+                        perfomer: { id: 1, name: 'Иванов Николай Николаевич' },
+                        spendTime: '20h',
+                    } as SpendTime,
+                ],
                 priorityId: 2,
                 type: 'type',
                 performers: [
@@ -183,6 +234,23 @@ export class TaskCoreService {
                     },
                 ],
                 spendTime: 5,
+                spendTimes: [
+                    {
+                        id: 1111,
+                        perfomer: { id: 1, name: 'Петля Денис Петрович' },
+                        spendTime: '10h',
+                    } as SpendTime,
+                    {
+                        id: 2222,
+                        perfomer: { id: 1, name: 'Петля Денис Петрович' },
+                        spendTime: '10h',
+                    } as SpendTime,
+                    {
+                        id: 3333,
+                        perfomer: { id: 1, name: 'Иванов Николай Николаевич' },
+                        spendTime: '20h',
+                    } as SpendTime,
+                ],
                 priorityId: 3,
                 type: 'type',
                 performers: [

@@ -1,11 +1,43 @@
-.card {
-  padding: 0 0 10px 10px;
+@import 'variables';
 
-  &__item {
-    display: flex;
-    width: 100%;
-    justify-content: space-between;
-    border: 1px solid steelblue;
-    padding: 2px 4px;
-  }
+.card {
+    &__input {
+        margin-bottom: 5px;
+    }
+
+    &__item {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 2px;
+        width: 100%;
+        background: $basic-back;
+        border: 2px solid $cursor-hover;
+
+        span {
+            font-size: $font_size_title;
+            padding-left: 5px;
+            color: white;
+        }
+    }
+
+    &__icons {
+        margin-right: 10px;
+
+        i {
+            color: white;
+            font-size: $font_size_context;
+        }
+
+        span {
+            font-size: $font_size_context;
+        }
+    }
+}
+
+.select {
+    span {
+        padding-left: 5px;
+        font-size: $font_size_title;
+        color: $cursor-hover;
+    }
 }

@@ -28,9 +28,9 @@ export class TaskListComponent implements OnInit {
             nzWidth: '80%',
             nzContent: TaskCardComponent,
             nzContentParams: {
-              task,
-              action: 'EDIT'
-            }
+                task,
+                action: 'EDIT',
+            },
         });
     }
 

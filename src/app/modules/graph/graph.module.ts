@@ -17,6 +17,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { TSelectModule } from '@share/controls/t-select/t-select.module';
 import { TaskListComponent } from '@components/task-list/task-list.component';
 import { TMiltySelectModule } from '@share/controls/t-milty-select/t-milty-select.module';
+import { SpendTimeListComponent } from '@components/spend-time-list/spend-time-list.component';
 
 @NgModule({
   declarations: [
@@ -25,7 +26,8 @@ import { TMiltySelectModule } from '@share/controls/t-milty-select/t-milty-selec
     GraphIndexComponent,
     TaskCardComponent,
     CreateBoardComponent,
-    TaskListComponent
+    TaskListComponent,
+    SpendTimeListComponent
   ],
   imports: [
     CommonModule,

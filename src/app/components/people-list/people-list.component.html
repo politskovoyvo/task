@@ -1,11 +1,18 @@
 <div class="card">
-  <t-input></t-input>
-  <div *ngFor="let assigne of assignesSubj$ | async">
-    <div class="card__item" [style.background]="assigne['isSelected'] ? 'green' : ''">
-      <span>{{ assigne.name }}</span>
-      <div>
-          <span>освободиться через</span>
-      </div>
+    <div class="card__input">
+        <t-input></t-input>
     </div>
-  </div>
+
+    <div *ngFor="let assigne of assignesSubj$ | async">
+        <div
+            class="card__item"
+            [ngClass]="assigne['isSelected'] ? 'select' : 'no-select'"
+        >
+            <span>{{ assigne.name }}</span>
+            <div class="card__icons">
+              <i nz-icon nzType="field-time" nzTheme="outline"></i>
+              <span>10min</span>
+            </div>
+        </div>
+    </div>
 </div>

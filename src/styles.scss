@@ -2,6 +2,13 @@
 @import '~ng-zorro-antd/ng-zorro-antd.min.css';
 @import './assets/styles/variables.scss';
 
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: 'YourFontFamily', 'arial', sans-serif;
+}
+
 svg:hover {
     fill: $cursor-hover;
     cursor: pointer;

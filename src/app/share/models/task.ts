@@ -1,6 +1,7 @@
 import { Point } from '@modules/graph/components/graph/graph.component';
 import { Base } from './base';
 import { IntervalDate } from './interval-date';
+import { SpendTime } from './spend-time';
 
 interface TaskHistory extends IntervalDate  {
     trackId: number; // id типа таска (например Release, feature  и тд)
@@ -16,6 +17,7 @@ export interface Task extends Base {
     spendTime: number;
     history: TaskHistory[]; // массив событий
     info?: string; // описание
+    spendTimes: SpendTime[];
 
     options: {
         coordinates: [];
