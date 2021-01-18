@@ -32,13 +32,14 @@ export class TaskCoreService {
         );
         return this._httpClient.post(
             `${this._URL}/api/board_id=${boardId}`,
-            `${newTask}`  
+            `${newTask}`
         );
     }
 
     editTask(editTask: Task) {
         let findTask = this.tasks_MOCK.find((task) => task.id === editTask.id);
         findTask = { ...editTask };
+        return of();
         return this._httpClient.post(`${this._URL}/api/edit`, `${editTask}`);
     }
 
@@ -104,10 +105,11 @@ export class TaskCoreService {
                 priorityId: 1,
                 type: 'type',
                 performers: [
-                    { id: 1, name: 'Тест 1 Тестович' },
+                    { id: 1, name: 'Тест1 Тестович1' },
                     { id: 2, name: 'Тест 2 Тестович' },
                     { id: 3, name: 'Тест 3 Тестович' },
                 ],
+                assignee: { id: 1, name: 'Тест1 Тестович1' },
             } as Task,
             {
                 id: 2,
@@ -146,11 +148,12 @@ export class TaskCoreService {
                 priorityId: 2,
                 type: 'type',
                 performers: [
-                    { id: 1, name: 'Тест 1 Тестович' },
+                    { id: 1, name: 'Тест1 Тестович1' },
                     { id: 5, name: 'Тест 5 Тестович' },
                     { id: 2, name: 'Тест 2 Тестович' },
                     { id: 4, name: 'Тест 4 Тестович' },
                 ],
+                assignee: { id: 1, name: 'Тест 1 Тестович' },
             } as Task,
             {
                 id: 3,
@@ -183,40 +186,12 @@ export class TaskCoreService {
                 priorityId: 3,
                 type: 'type',
                 performers: [
-                    { id: 1, name: 'Тест 1 Тестович' },
-                    { id: 2, name: 'Тест 2 Тестович' },
+                    { id: 1, name: 'Тест1 Тестович1' },
                     { id: 2, name: 'Тест 2 Тестович' },
                     { id: 6, name: 'Тест 6 Тестович' },
                 ],
+                assignee: { id: 1, name: 'Тест1 Тестович1' },
             } as Task,
-            // ];
-
-            // this.mockTracks = [
-            //   {
-            //     id: 1,
-            //     name: 'Wait',
-            //     color: '#F0E68C',
-            //   } as Track,
-            //   {
-            //     id: 2,
-            //     name: 'Process',
-            //     color: '#BA55D3',
-            //   } as Track,
-            //   {
-            //     id: 3,
-            //     name: 'Test',
-            //     color: '#4169E1',
-            //   } as Track,
-            //   {
-            //     id: 4,
-            //     name: 'Done',
-            //     color: '#008B8B',
-            //   } as Track,
-            //   {
-            //     id: 5,
-            //     name: 'Release',
-            //     color: '#FF7F50',
-            //   } as Track,
         ];
     }
 }

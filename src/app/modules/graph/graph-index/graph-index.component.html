@@ -39,13 +39,17 @@
             [processTypes]="processTypes"
         ></app-graph>
 
-        <div class="graph__index-list">
+        <div class="graph__index-cards">
             <app-people-list
-                [boardId]="board.id"
+                class="list"
+                [boardId]="board?.id"
                 [selectedIds]="selectedAssigneIds"
             ></app-people-list>
 
-            <app-task-list [tasks]="tasks$ | async"></app-task-list>
+            <app-task-list
+                class="list"
+                [tasks]="tasks$ | async"
+            ></app-task-list>
         </div>
     </div>
 </div>

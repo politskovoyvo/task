@@ -1,20 +1,20 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { TaskInfoComponent } from './task-info.component';
+import { TMiltySelectComponent } from './t-milty-select.component';
 
-describe('TaskInfoComponent', () => {
-  let component: TaskInfoComponent;
-  let fixture: ComponentFixture<TaskInfoComponent>;
+describe('TMiltySelectComponent', () => {
+  let component: TMiltySelectComponent;
+  let fixture: ComponentFixture<TMiltySelectComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ TaskInfoComponent ]
+      declarations: [ TMiltySelectComponent ]
     })
     .compileComponents();
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(TaskInfoComponent);
+    fixture = TestBed.createComponent(TMiltySelectComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

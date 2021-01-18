@@ -67,7 +67,7 @@ export class BoardCoreService {
             tap((boards: Base[]) => {
                 const keyValue: Base = this.getLocalBoard();
                 if (keyValue) {
-                    const findLocalBoard = boards.find(
+                    const findLocalBoard: Base = boards.find(
                         (board) => board.id === keyValue.id
                     );
                     this._currentBoard$.next(findLocalBoard);

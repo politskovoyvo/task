@@ -4,36 +4,13 @@
     [style.width]="width"
     [(ngModel)]="value"
     (ngModelChange)="writeValue($event)"
-    [nzCustomTemplate]="isMulti ? custom : false"
   >
-    <ng-container *ngIf="isMulti">
-      <nz-option
-        [nzCustomContent]="!!itemTemplate"
-        *ngFor="let item of isSelectedItems"
-        [nzLabel]="item.name"
-        [nzValue]="item"
-      >
-        <ng-container
-          *ngIf="itemTemplate"
-          [ngTemplateOutlet]="itemTemplate"
-          [ngTemplateOutletContext]="{ option: item }"
-        >
-        </ng-container
-      ></nz-option>
-    </ng-container>
+
     <nz-option
-      *ngFor="let item of isNotSelectedItems"
+      *ngFor="let item of _options"
       [nzLabel]="item.name"
       [nzValue]="item"
     >
     </nz-option>
-    <ng-template #custom>
-      <span *ngIf="isSelectedItems?.length; else notLength">{{
-        'выбрано ' + isSelectedItems.length
-      }}</span>
-    </ng-template>
-    <ng-template #notLength>
-      <span>не выбрано</span>
-    </ng-template>
   </nz-select>
 </div>

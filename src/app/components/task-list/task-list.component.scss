@@ -1,17 +1,17 @@
-
+@import 'variables';
 
 .container {
     display: flex;
     flex-direction: column;
+    height: 100%;
 
     &__task {
         display: flex;
         justify-content: center;
         align-items: center;
-
-        height: 40px;
+        min-height: 40px;
         width: 100%;
-        margin: 5px;
+        margin: 2px;
         background: cornflowerblue;
 
         span {
@@ -20,8 +20,7 @@
 
         &-simbol {
             display: flex;
-            padding: 5px;
-            width: auto;
+            width: 150px;
             height: 100%;
             border: 1px solid steelblue;
 
@@ -42,8 +41,6 @@
             width: 100%;
             padding: 5px;
             font-size: 0.8em;
-            // align-items: flex-start;
-            // justify-content: center;
         }
     }
 }
