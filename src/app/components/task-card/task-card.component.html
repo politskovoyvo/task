@@ -2,7 +2,7 @@
     <div class="form__context">
         <div class="form__context-line">
             <t-input
-            [width]="'100%'"
+                [width]="'100%'"
                 [placeholder]="'Task name'"
                 formControlName="name"
             ></t-input>
@@ -69,6 +69,10 @@
 
     <div class="form__submit">
         <button type="submit">{{ submitName[action] }}</button>
-        <i nz-icon nzType="field-time" nzTheme="outline"></i>
+        <div class="form__submit-icons">
+            <i nz-icon nzType="field-time" nzTheme="outline"></i>
+            <i nz-icon nzType="field-time" nzTheme="outline"></i>
+            <i nz-icon nzType="field-time" nzTheme="outline"></i>
+        </div>
     </div>
 </form>

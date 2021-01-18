@@ -5,14 +5,18 @@
     flex-direction: column;
     height: 100%;
 
+    &__input {
+        margin-bottom: 5px;
+    }
+
     &__task {
         display: flex;
         justify-content: center;
         align-items: center;
         min-height: 40px;
         width: 100%;
-        margin: 2px;
-        background: cornflowerblue;
+        margin-bottom: 2px;
+        background: $basic-back;
 
         span {
             white-space: nowrap;
@@ -20,14 +24,15 @@
 
         &-simbol {
             display: flex;
+            padding-left: 5px;
             width: 150px;
             height: 100%;
-            border: 1px solid steelblue;
+            border: 1px solid $cursor-hover;
 
             a {
                 color: white;
                 white-space: nowrap;
-                font-size: 0.9em;
+                font-size: $font_size_title;
 
                 &:hover {
                     text-decoration: underline;
@@ -40,7 +45,8 @@
             height: 100%;
             width: 100%;
             padding: 5px;
-            font-size: 0.8em;
+            font-size: $font_size_context;
+            color: white;
         }
     }
 }
