@@ -1,6 +1,6 @@
-# Task
+# IntelliTracker
 
-This project was generated with [Angular CLI] version 11.
+[Angular CLI] version 11.
 
 ## Development server
 
