@@ -121,19 +121,22 @@ export class TaskCoreService {
                 spendTime: 20,
                 spendTimes: [
                     {
-                        id: 1111,
-                        perfomer: { id: 1, name: 'Петля Денис Петрович' },
+                        id: 222,
+                        perfomer: { id: 1234567890, name: 'Полицковой Владимир Олегович' },
                         spendTime: '10h',
+                        message: 'some text some text some text some text'
                     } as SpendTime,
                     {
                         id: 2222,
                         perfomer: { id: 1, name: 'Петля Денис Петрович' },
                         spendTime: '10h',
+                        message: 'some text some text some text some text'
                     } as SpendTime,
                     {
-                        id: 3333,
-                        perfomer: { id: 1, name: 'Иванов Николай Николаевич' },
-                        spendTime: '20h',
+                        id: 2223,
+                        perfomer: { id: 1234567890, name: 'Полицковой Владимир Олегович' },
+                        spendTime: '20h 30m',
+                        message: 'some text some text some text some text'
                     } as SpendTime,
                 ],
                 priorityId: 1,
@@ -184,16 +187,19 @@ export class TaskCoreService {
                         id: 1111,
                         perfomer: { id: 1, name: 'Петля Денис Петрович' },
                         spendTime: '10h',
+                        message: 'some text some text some text some text'
                     } as SpendTime,
                     {
-                        id: 2222,
-                        perfomer: { id: 1, name: 'Петля Денис Петрович' },
+                        id: 22123,
+                        perfomer: { id: 1234567890, name: 'Полицковой Владимир Олегович' },
                         spendTime: '10h',
+                        message: 'some text some text some text some text'
                     } as SpendTime,
                     {
                         id: 3333,
-                        perfomer: { id: 1, name: 'Иванов Николай Николаевич' },
+                        perfomer: { id: 1234567890, name: 'Полицковой Владимир Олегович' },
                         spendTime: '20h',
+                        message: 'some text some text some text some text'
                     } as SpendTime,
                 ],
                 priorityId: 2,
@@ -239,16 +245,19 @@ export class TaskCoreService {
                         id: 1111,
                         perfomer: { id: 1, name: 'Петля Денис Петрович' },
                         spendTime: '10h',
+                        message: 'some text some text some text some text'
                     } as SpendTime,
                     {
                         id: 2222,
-                        perfomer: { id: 1, name: 'Петля Денис Петрович' },
+                        perfomer: { id: 1234567890, name: 'Полицковой Владимир Олегович' },
                         spendTime: '10h',
+                        message: 'some text some text some text some text'
                     } as SpendTime,
                     {
                         id: 3333,
                         perfomer: { id: 1, name: 'Иванов Николай Николаевич' },
                         spendTime: '20h',
+                        message: 'some text some text some text some text'
                     } as SpendTime,
                 ],
                 priorityId: 3,

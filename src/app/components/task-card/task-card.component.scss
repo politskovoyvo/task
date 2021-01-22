@@ -6,6 +6,7 @@ $padding-left: 20px;
     display: flex;
     flex-direction: column;
     height: 100%;
+    flex: 1 0 auto;
 
     &__context {
         display: flex;
@@ -31,6 +32,7 @@ $padding-left: 20px;
         &-description {
             padding: 10px $padding-right 0 $padding-left;
             height: 100%;
+            min-width: 300px;
         }
 
         &-times {
@@ -77,6 +79,16 @@ $padding-left: 20px;
             }
         }
     }
+}
+
+.flx-row {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.flx-column {
+    display: flex;
+    flex-direction: column;
 }
 
 ::ng-deep.ant-drawer-body {

@@ -1,4 +1,5 @@
 import { ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core';
+import { AuthService } from '@core/auth/services/auth.service';
 import { TaskCoreService } from '@core/services/task-core.service';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { SpendTime } from '@share/models/spend-time';
@@ -11,10 +12,22 @@ import { SpendTime } from '@share/models/spend-time';
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SpendTimeListComponent implements OnInit {
-    @Input() spendTimes: SpendTime[];
     @Input() taskId: number;
 
-    constructor(private _taskCoreService: TaskCoreService) {}
+    _spendTimes: SpendTime[];
+
+    @Input() set spendTimes(spendTimes: SpendTime[]) {
+        this._spendTimes = spendTimes.map((sp) => ({ ...sp }));
+    }
+
+    userId = this._authService.user.id;
+
+    isEdit() {}
+
+    constructor(
+        private _taskCoreService: TaskCoreService,
+        private _authService: AuthService
+    ) {}
 
     ngOnInit(): void {}
 
@@ -28,12 +41,11 @@ export class SpendTimeListComponent implements OnInit {
             .subscribe();
     }
 
-    edit(spendTime: SpendTime) {
-        this._taskCoreService
-            .editSpendTime(spendTime.id, spendTime.perfomer.id, spendTime.spendTime)
-            .pipe(untilDestroyed(this))
-            .subscribe();
+    edit(type: HTMLElement) {
+        type['isEdit'] = !type['isEdit'];
     }
+
+    save(type: HTMLElement, spendTime: SpendTime) {}
 
     remove(spendTime: SpendTime) {
         this._taskCoreService

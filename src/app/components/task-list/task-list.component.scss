@@ -11,8 +11,6 @@
 
     &__task {
         display: flex;
-        justify-content: center;
-        align-items: center;
         min-height: 40px;
         width: 100%;
         margin-bottom: 2px;
@@ -26,16 +24,16 @@
             display: flex;
             padding-left: 5px;
             width: 150px;
-            height: 100%;
-            border: 1px solid $cursor-hover;
 
             a {
+                height: 100%;
                 color: white;
                 white-space: nowrap;
                 font-size: $font_size_title;
 
                 &:hover {
                     text-decoration: underline;
+                    color: $cursor-hover;
                 }
             }
         }
@@ -47,6 +45,11 @@
             padding: 5px;
             font-size: $font_size_context;
             color: white;
+        }
+
+        &:hover {
+            text-decoration: underline;
+            border: 2px solid $cursor-hover;
         }
     }
 }

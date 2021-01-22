@@ -4,4 +4,6 @@ export interface SpendTime {
     id: number,
     perfomer: Base,
     spendTime: string,
+    message: string;
+    date: Date;
 }

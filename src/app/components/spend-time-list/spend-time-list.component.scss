@@ -1,0 +1,47 @@
+.container {
+    display: flex;
+    flex-direction: column;
+
+    &__row {
+        display: flex;
+        flex-direction: column;
+        border-top: 1px solid black;
+        border-bottom: 1px solid black;
+        margin: 5px;
+        background: cornsilk;
+
+        .left-side {
+            display: flex;
+            justify-content: space-between;
+        }
+
+        &-date {
+            width: 80px;
+        }
+
+        &-name {
+            width: 300px;
+        }
+
+        &-spendtime {
+            width: 80px;
+            margin-left: 20px;
+        }
+
+        &-message {
+            width: 100%;
+        }
+
+        &-btns {
+            display: flex;
+
+            button {
+                background: blanchedalmond; margin-left: 5px;
+            }
+        }
+    }
+}
+
+.flx-row {
+    display: flex;
+}

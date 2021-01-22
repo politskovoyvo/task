@@ -16,7 +16,7 @@ import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 })
 export class TInputComponent implements OnInit, ControlValueAccessor {
   @Input() placeholder = 'Введите название';
-  @Input() type: 'input' | 'textarea' = 'input';
+  @Input() type: 'input' | 'textarea' | 'text' = 'input';
   @Input() width = '100%';
 
   textValue = '';
@@ -34,12 +34,13 @@ export class TInputComponent implements OnInit, ControlValueAccessor {
       return;
     }
 
+    this.textValue = obj;
     this.onChange(this.textValue);
   }
 
   inputChange(value: string) {
     this.writeValue(value);
-    this.onChange(value);
+    this.onChange(this.textValue);
   }
 
   registerOnChange(fn: any): void {

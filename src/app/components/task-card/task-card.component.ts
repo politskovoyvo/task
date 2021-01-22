@@ -28,7 +28,8 @@ export class TaskCardComponent implements OnInit {
     form: FormGroup;
     action: 'CREATE' | 'EDIT' = 'CREATE';
     inputWidth = '300px';
-    task: Task;
+
+    task: Task = {} as Task;
 
     constructor(
         private _companyService: CompanyCoreService,
