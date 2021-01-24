@@ -121,22 +121,58 @@ export class TaskCoreService {
                 spendTime: 20,
                 spendTimes: [
                     {
-                        id: 222,
-                        perfomer: { id: 1234567890, name: 'Полицковой Владимир Олегович' },
+                        id: 1111,
+                        date: new Date(),
+                        type: 'spendTime',
+                        perfomer: {
+                            id: 1234567890,
+                            name: 'Полицковой Владимир Олегович',
+                        },
                         spendTime: '10h',
-                        message: 'some text some text some text some text'
+                        message: 'some text some text some text some text',
                     } as SpendTime,
                     {
                         id: 2222,
-                        perfomer: { id: 1, name: 'Петля Денис Петрович' },
+                        date: new Date(),
+                        type: 'message',
+                        perfomer: {
+                            id: 1234567890,
+                            name: 'Полицковой Владимир Олегович',
+                        },
+                        message: 'NEW MESSAGE',
+                    } as SpendTime,
+                    {
+                        id: 2222,
+                        date: new Date(),
+                        type: 'spendTime',
+                        perfomer: {
+                            id: 1234567890,
+                            name: 'Полицковой Владимир Олегович',
+                        },
                         spendTime: '10h',
-                        message: 'some text some text some text some text'
+                        message: 'some text some text some text some text',
+                    } as SpendTime,
+                    {
+                        id: 3232,
+                        date: new Date(),
+                        type: 'spendTime',
+                        perfomer: {
+                            id: 1234567890,
+                            name: 'Полицковой Владимир Олегович',
+                        },
+                        spendTime: '10h',
+                        message: 'some text some text some text some text',
                     } as SpendTime,
                     {
                         id: 2223,
-                        perfomer: { id: 1234567890, name: 'Полицковой Владимир Олегович' },
+                        type: 'spendTime',
+                        date: new Date(),
+                        perfomer: {
+                            id: 1234567890,
+                            name: 'Полицковой Владимир Олегович',
+                        },
                         spendTime: '20h 30m',
-                        message: 'some text some text some text some text'
+                        message: 'some text some text some text some text',
                     } as SpendTime,
                 ],
                 priorityId: 1,
@@ -185,21 +221,33 @@ export class TaskCoreService {
                 spendTimes: [
                     {
                         id: 1111,
+                        date: new Date(),
+                        type: 'spendTime',
                         perfomer: { id: 1, name: 'Петля Денис Петрович' },
                         spendTime: '10h',
-                        message: 'some text some text some text some text'
+                        message: 'some text some text some text some text',
                     } as SpendTime,
                     {
                         id: 22123,
-                        perfomer: { id: 1234567890, name: 'Полицковой Владимир Олегович' },
+                        date: new Date(),
+                        type: 'spendTime',
+                        perfomer: {
+                            id: 1234567890,
+                            name: 'Полицковой Владимир Олегович',
+                        },
                         spendTime: '10h',
-                        message: 'some text some text some text some text'
+                        message: 'some text some text some text some text',
                     } as SpendTime,
                     {
                         id: 3333,
-                        perfomer: { id: 1234567890, name: 'Полицковой Владимир Олегович' },
+                        type: 'spendTime',
+                        date: new Date(),
+                        perfomer: {
+                            id: 1234567890,
+                            name: 'Полицковой Владимир Олегович',
+                        },
                         spendTime: '20h',
-                        message: 'some text some text some text some text'
+                        message: 'some text some text some text some text',
                     } as SpendTime,
                 ],
                 priorityId: 2,
@@ -243,21 +291,30 @@ export class TaskCoreService {
                 spendTimes: [
                     {
                         id: 1111,
+                        date: new Date(),
+                        type: 'spendTime',
                         perfomer: { id: 1, name: 'Петля Денис Петрович' },
                         spendTime: '10h',
-                        message: 'some text some text some text some text'
+                        message: 'some text some text some text some text',
                     } as SpendTime,
                     {
                         id: 2222,
-                        perfomer: { id: 1234567890, name: 'Полицковой Владимир Олегович' },
+                        date: new Date(),
+                        type: 'spendTime',
+                        perfomer: {
+                            id: 1234567890,
+                            name: 'Полицковой Владимир Олегович',
+                        },
                         spendTime: '10h',
-                        message: 'some text some text some text some text'
+                        message: 'some text some text some text some text',
                     } as SpendTime,
                     {
                         id: 3333,
+                        date: new Date(),
+                        type: 'spendTime',
                         perfomer: { id: 1, name: 'Иванов Николай Николаевич' },
                         spendTime: '20h',
-                        message: 'some text some text some text some text'
+                        message: 'some text some text some text some text',
                     } as SpendTime,
                 ],
                 priorityId: 3,

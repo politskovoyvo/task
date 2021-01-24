@@ -1,7 +1,7 @@
-<div [ngSwitch]="type">
+<div [ngSwitch]="type" class="container">
     <ng-template ngSwitchCase="input">
         <input
-            nz-input
+            nz-input    
             [placeholder]="placeholder"
             [style.width]="width"
             [(ngModel)]="textValue"

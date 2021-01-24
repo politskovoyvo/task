@@ -3,6 +3,8 @@ import { AuthService } from '@core/auth/services/auth.service';
 import { TaskCoreService } from '@core/services/task-core.service';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { SpendTime } from '@share/models/spend-time';
+import { Observable } from 'rxjs';
+import { historyType, IHistory, TaskHistory } from './plagins/task-history';
 
 @UntilDestroy()
 @Component({
@@ -16,8 +18,12 @@ export class SpendTimeListComponent implements OnInit {
 
     _spendTimes: SpendTime[];
 
+    _taskHistory: TaskHistory;
+    _storeHistory$: Observable<IHistory[]>;
+
     @Input() set spendTimes(spendTimes: SpendTime[]) {
-        this._spendTimes = spendTimes.map((sp) => ({ ...sp }));
+        this._taskHistory = new TaskHistory(spendTimes);
+        this._storeHistory$ = this._taskHistory.selectedStore$();
     }
 
     userId = this._authService.user.id;
@@ -30,6 +36,11 @@ export class SpendTimeListComponent implements OnInit {
     ) {}
 
     ngOnInit(): void {}
+
+    getTypeIcon(type: historyType) {
+        if (type === 'spendTime') return 'field-time';
+        if (type === 'message') return 'message';
+    }
 
     add() {
         //TODO: новое время в форме

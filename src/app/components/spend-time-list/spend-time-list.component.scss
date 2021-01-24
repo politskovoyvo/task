@@ -1,45 +1,62 @@
 .container {
     display: flex;
     flex-direction: column;
+    overflow: auto;
 
     &__row {
         display: flex;
         flex-direction: column;
-        border-top: 1px solid black;
-        border-bottom: 1px solid black;
         margin: 5px;
-        background: cornsilk;
+        width: 100%;
+        border-top: 1px solid silver;
 
         .left-side {
             display: flex;
-            justify-content: space-between;
+            flex-direction: column;
         }
 
         &-date {
-            width: 80px;
+            width: 70px;
         }
 
         &-name {
-            width: 300px;
+            margin-left: 10px;
+
+            .spendtime {
+                margin-left: 10px;
+                font-weight: 200;
+                color: slateblue;
+            }
+
+            .message {
+                margin-left: 10px;
+                color: slateblue;
+            }
         }
 
         &-spendtime {
-            width: 80px;
-            margin-left: 20px;
+            width: 50px;
+            margin-left: 10px;
+            white-space: nowrap;
         }
 
         &-message {
             width: 100%;
+            margin-left: 10px;
         }
 
         &-btns {
             display: flex;
 
             button {
-                background: blanchedalmond; margin-left: 5px;
             }
         }
     }
+}
+
+.flx-col {
+    display: flex;
+    flex-direction: column;
 }
 
 .flx-row {

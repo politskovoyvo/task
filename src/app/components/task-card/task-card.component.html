@@ -1,6 +1,6 @@
 <form class="form" [formGroup]="form" (ngSubmit)="submit()">
     <div class="form__context">
-        <div class="form__context-line">
+        <div class="form__context-line" style="padding-right: 20px">
             <t-input
                 [width]="'100%'"
                 [placeholder]="'Task name'"
@@ -12,6 +12,7 @@
                 <div class="form__context-line">
                     <span>Spend time</span>
                     <t-input
+                        type="input"
                         [width]="inputWidth"
                         [placeholder]="'spend time'"
                         formControlName="spendTime"
@@ -58,6 +59,18 @@
                         formControlName="assignee"
                     ></t-select>
                 </div>
+
+                <div class="form__context-files">
+                    <nz-upload
+                        nzType="drag"
+                        [nzMultiple]="true"
+                        nzAction="https://www.mocky.io/v2/5cc8019d300000980a055e76"
+                        nzListType="picture"
+                        (nzChange)="handleChange($event)"
+                    >
+                      <span>Click or drag file to this area to upload</span>
+                    </nz-upload>
+                </div>
             </div>
 
             <div class="form__context-description">
@@ -71,7 +84,7 @@
 
         <app-spend-time-list
             class="form__context-times"
-            *ngIf="time.classList.contains('check')"
+            *ngIf="time?.classList.contains('check')"
             [spendTimes]="task.spendTimes"
         ></app-spend-time-list>
     </div>
@@ -81,8 +94,9 @@
         <div class="form__submit-icons">
             <i
                 #time
-                (click)="timeSet(time)"
                 nz-icon
+                [class.disable]="action === 'CREATE'"
+                (click)="timeSet(time)"
                 nzType="field-time"
                 nzTheme="outline"
             ></i>
