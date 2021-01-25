@@ -33,7 +33,7 @@ export class SpendTimeListComponent implements OnInit {
 
     @Input() set spendTimes(spendTimes: SpendTime[]) {
         this._taskHistory = new TaskHistory(spendTimes);
-        this._storeHistory$ = this._taskHistory.selectedStore$().pipe(tap(console.log));
+        this._storeHistory$ = this._taskHistory.selectedStore$();
     }
 
     constructor(
