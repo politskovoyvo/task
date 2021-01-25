@@ -10,10 +10,11 @@ $padding-left: 20px;
     &__context {
         display: flex;
         flex-direction: column;
+        overflow: auto;
         height: 100%;
 
         &-line {
-            padding: 10px $padding-right 0 $padding-left;
+            padding: 10px 0 0 $padding-left;
             display: flex;
             align-items: center;
 
@@ -24,13 +25,26 @@ $padding-left: 20px;
             }
 
             span {
-                width: 100px;
+                min-width: 100px;
+            }
+        }
+
+        &-files {
+            padding: 20px 0 0 $padding-left;
+
+            &.ant-upload {
+                padding: 0;
             }
         }
 
         &-description {
-            padding: 10px $padding-right 0 $padding-left;
-            height: 100%;
+            padding: 20px $padding-right 10px 20px;
+            flex-grow: 10;
+            min-width: 200px;
+
+            ::ng-deep.ant-input {
+                min-height: 200px;
+            }
         }
 
         &-times {
@@ -56,6 +70,10 @@ $padding-left: 20px;
                 color: white;
                 font-size: 1.8em;
 
+                &.disable {
+                    visibility: hidden;
+                }
+
                 &.check {
                     color: $cursor-hover;
                 }
@@ -77,6 +95,16 @@ $padding-left: 20px;
             }
         }
     }
+}
+
+.flx-row {
+    display: flex;
+    flex-flow: row wrap;
+}
+
+.flx-column {
+    display: flex;
+    flex-direction: column;
 }
 
 ::ng-deep.ant-drawer-body {

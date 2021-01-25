@@ -1,4 +1,4 @@
-@import '../../../../assets/styles/variables.scss';
+@import 'variables';
 
 .graph {
     width: 100%;
@@ -18,15 +18,18 @@
 
         &-cards {
             display: flex;
-            flex-direction: column;
+            flex-flow: row wrap;
             width: 100%;
             height: 100%;
 
             .list {
+                flex-grow: 10;
                 margin-bottom: 5px;
+                min-width: 350px;
                 padding: 10px;
-                height: auto;
+                margin-right: 10px;
                 border: 1px solid steelblue;
+                border-radius: 2px;
             }
         }
     }
@@ -50,15 +53,6 @@
         &-left {
             display: flex;
 
-            i {
-                font-size: 20px;
-                color: white;
-                padding: 5px 10px;
-            }
-        }
-
-        &-right {
-            display: flex;
             i {
                 font-size: 20px;
                 color: white;

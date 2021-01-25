@@ -1,31 +1,23 @@
-<input
-  nz-input
-  *ngIf="type === 'input'"
-  [placeholder]="placeholder"
-  [style.width]="width"
-  [(ngModel)]="textValue"
-  (ngModelChange)="inputChange($event)"
-/>
-
-<textarea
-  nz-input
-  *ngIf="type === 'textarea'"
-  [style.width]="width"
-  [placeholder]="placeholder"
-  [(ngModel)]="textValue"
-  (ngModelChange)="inputChange($event)"
-></textarea>
-
-<!-- Нужно ли будет, оставлю -->
-<!-- <nz-input-group [nzSuffix]="inputClearTpl"> -->
-<!-- <textarea -->
-<ng-template #textAreaClearTpl
-  ><i
-    nz-icon
-    class="ant-input-textarea-clear-icon"
-    nzTheme="fill"
-    nzType="close-circle"
-    *ngIf="textValue"
-    (click)="textValue = null"
-  ></i
-></ng-template>
+<div [ngSwitch]="type" class="container">
+    <ng-template ngSwitchCase="input">
+        <input
+            nz-input    
+            [placeholder]="placeholder"
+            [style.width]="width"
+            [(ngModel)]="textValue"
+            (ngModelChange)="inputChange($event)"
+        />
+    </ng-template>
+    <ng-template ngSwitchCase="textarea">
+        <textarea
+            nz-input
+            [style.width]="width"
+            [placeholder]="placeholder"
+            [(ngModel)]="textValue"
+            (ngModelChange)="inputChange($event)"
+        ></textarea>
+    </ng-template>
+    <ng-template ngSwitchCase="text">
+        <ng-content></ng-content>
+    </ng-template>
+</div>

@@ -1,75 +1,91 @@
 <form class="form" [formGroup]="form" (ngSubmit)="submit()">
     <div class="form__context">
-        <div class="form__context-line">
+        <div class="form__context-line" style="padding-right: 20px">
             <t-input
                 [width]="'100%'"
                 [placeholder]="'Task name'"
                 formControlName="name"
             ></t-input>
         </div>
-
-        <div class="form__context-line">
-            <span>Spend time</span>
-            <t-input
-                [width]="inputWidth"
-                [placeholder]="'spend time'"
-                formControlName="spendTime"
-            ></t-input>
-        </div>
-
-        <div class="form__context-line">
-            <span>Priority</span>
-            <t-select [width]="inputWidth" formControlName="priority"></t-select>
-        </div>
-
-        <div class="form__context-line">
-            <span>State</span>
-            <t-select [width]="inputWidth" formControlName="priority"></t-select>
-        </div>
-
-        <div class="form__context-line">
-            <span>Performers</span>
-            <t-milty-select
-                [type]="'t-search'"
-                [width]="inputWidth"
-                [items]="assignee$ | async"
-                [itemTemplate]="isSelected"
-                formControlName="performers"
-            ></t-milty-select>
-            <ng-template let-option="option" #isSelected>
-                <div>
-                    <i
-                        nz-icon
-                        nzType="check"
-                        nzTheme="outline"
-                        style="margin-right: 5px"
-                    ></i>
-                    <span>{{ option.name }}</span>
+        <div class="flx-row">
+            <div class="flex-column">
+                <div class="form__context-line">
+                    <span>Spend time</span>
+                    <t-input
+                        type="input"
+                        [width]="inputWidth"
+                        [placeholder]="'spend time'"
+                        formControlName="spendTime"
+                    ></t-input>
                 </div>
-            </ng-template>
-        </div>
 
-        <div class="form__context-line">
-            <span>Assignee</span>
-            <t-select
-                [width]="inputWidth"
-                [items]="assignee$ | async"
-                formControlName="assignee"
-            ></t-select>
-        </div>
+                <div class="form__context-line">
+                    <span>Priority</span>
+                    <t-select [width]="inputWidth" formControlName="priority"></t-select>
+                </div>
 
-        <div class="form__context-description">
-            <t-input
-                [placeholder]="'Описание'"
-                [type]="'textarea'"
-                formControlName="info"
-            ></t-input>
+                <div class="form__context-line">
+                    <span>State</span>
+                    <t-select [width]="inputWidth" formControlName="priority"></t-select>
+                </div>
+
+                <div class="form__context-line">
+                    <span>Performers</span>
+                    <t-milty-select
+                        [type]="'t-search'"
+                        [width]="inputWidth"
+                        [items]="assignee$ | async"
+                        [itemTemplate]="isSelected"
+                        formControlName="performers"
+                    ></t-milty-select>
+                    <ng-template let-option="option" #isSelected>
+                        <div>
+                            <i
+                                nz-icon
+                                nzType="check"
+                                nzTheme="outline"
+                                style="margin-right: 5px"
+                            ></i>
+                            <span>{{ option.name }}</span>
+                        </div>
+                    </ng-template>
+                </div>
+
+                <div class="form__context-line">
+                    <span>Assignee</span>
+                    <t-select
+                        [width]="inputWidth"
+                        [items]="assignee$ | async"
+                        formControlName="assignee"
+                    ></t-select>
+                </div>
+
+                <div class="form__context-files">
+                    <nz-upload
+                        nzType="drag"
+                        [nzMultiple]="true"
+                        nzAction="https://www.mocky.io/v2/5cc8019d300000980a055e76"
+                        nzListType="picture"
+                        (nzChange)="handleChange($event)"
+                    >
+                      <span>Click or drag file to this area to upload</span>
+                    </nz-upload>
+                </div>
+            </div>
+
+            <div class="form__context-description">
+                <t-input
+                    [placeholder]="'Описание'"
+                    [type]="'textarea'"
+                    formControlName="info"
+                ></t-input>
+            </div>
         </div>
 
         <app-spend-time-list
-            *ngIf="time.classList.contains('check')"
-            [spendTimes]="task.spendTimes"
             class="form__context-times"
+            *ngIf="time?.classList.contains('check')"
+            [spendTimes]="task.spendTimes"
         ></app-spend-time-list>
     </div>
 
@@ -78,8 +94,9 @@
         <div class="form__submit-icons">
             <i
                 #time
-                (click)="timeSet(time)"
                 nz-icon
+                [class.disable]="action === 'CREATE'"
+                (click)="timeSet(time)"
                 nzType="field-time"
                 nzTheme="outline"
             ></i>

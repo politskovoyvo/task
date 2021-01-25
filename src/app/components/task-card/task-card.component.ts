@@ -7,6 +7,7 @@ import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { Store } from '@ngrx/store';
 import { Base } from '@share/models/base';
 import { Task } from '@share/models/task';
+import { NzUploadChangeParam } from 'ng-zorro-antd/upload';
 import { Observable } from 'rxjs';
 
 enum ESubmitName {
@@ -27,8 +28,10 @@ export class TaskCardComponent implements OnInit {
     assignee$: Observable<Base[]>;
     form: FormGroup;
     action: 'CREATE' | 'EDIT' = 'CREATE';
-    inputWidth = '300px';
-    task: Task;
+    inputWidth = '260px';
+    fileList1;
+
+    task: Task = {} as Task;
 
     constructor(
         private _companyService: CompanyCoreService,
@@ -37,6 +40,7 @@ export class TaskCardComponent implements OnInit {
     ) {}
 
     ngOnInit(): void {
+        console.log(this.action);
         this.formInit();
         this.assignee$ = this._companyService.getUsers();
     }
@@ -82,6 +86,16 @@ export class TaskCardComponent implements OnInit {
             assignee: [this.task?.assignee || ({} as Base), [Validators.required]],
             info: [this.task?.info || '', [Validators.required]],
         });
+    }
+
+    handleChange({ file, fileList }: NzUploadChangeParam): void {
+        const status = file.status;
+        if (status !== 'uploading') {
+            console.log(file, fileList);
+        }
+        if (status === 'done') {
+        } else if (status === 'error') {
+        }
     }
 
     private convertFormToTask(form: FormGroup): Task {

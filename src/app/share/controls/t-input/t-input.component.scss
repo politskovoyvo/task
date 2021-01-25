@@ -1,0 +1,10 @@
+.container {
+    // margin-left: 20px;
+    .input {
+        background: darkgray;
+
+        &::placeholder {
+            color: gainsboro;
+        }
+    }
+}

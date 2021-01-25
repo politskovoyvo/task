@@ -1,0 +1,90 @@
+.container {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+
+    &__row {
+        display: flex;
+        flex-direction: column;
+        margin: 5px;
+        width: 100%;
+        border-top: 1px solid silver;
+
+        .left-side {
+            display: flex;
+            flex-direction: column;
+        }
+
+        &-date {
+            width: 70px;
+        }
+
+        &-name {
+            margin-left: 10px;
+
+            .spendtime {
+                margin-left: 10px;
+                font-weight: 200;
+                color: slateblue;
+            }
+
+            .message {
+                margin-left: 10px;
+                color: slateblue;
+            }
+
+            .context {
+                width: 100%;
+            }
+
+            .btns {
+                display: flex;
+                i {
+                    margin-left: 5px;
+                    // display: none;
+                }
+            }
+
+            .spend-time-edit {
+                display: flex;
+                align-items: flex-start;
+
+                nz-date-picker {
+                    min-width: 130px;
+                    margin-right: 10px;
+                }
+
+                t-input {
+                    width: 100%;
+                }
+            }
+        }
+
+        &-spendtime {
+            width: 50px;
+            margin-left: 10px;
+            white-space: nowrap;
+        }
+
+        &-message {
+            width: 100%;
+            margin-left: 10px;
+        }
+
+        &-btns {
+            display: flex;
+
+            button {
+            }
+        }
+    }
+}
+
+.flx-col {
+    display: flex;
+    flex-direction: column;
+}
+
+.flx-row {
+    display: flex;
+}

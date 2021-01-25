@@ -116,6 +116,7 @@ export class AuthService {
 
         this._userSubject.next({
             ...this.user,
+            id: decodeTokenInfo.id,
             accessToken: accessToken,
             name: decodeTokenInfo.name,
         });
