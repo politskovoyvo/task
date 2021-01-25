@@ -2,11 +2,18 @@ import { Base } from '@share/models/base';
 import { SpendTime } from '@share/models/spend-time';
 import { BehaviorSubject, Observable } from 'rxjs';
 
-export type historyType = 'spendTime' | 'message' | 'update';
+export type historyType =
+    | 'spendTime'
+    | 'message'
+    | 'update'
+    | 'spendTimeEDIT'
+    | 'messageEDIT'
+    | 'updateEDIT';
 
 interface ITaskHistory {
     selectedStore$(): Observable<IHistory[]>;
     setFilter(types: historyType[]): void;
+    editHistory(historyItem: IHistoryItem);
     refresh(): void;
 }
 
@@ -16,11 +23,13 @@ export interface IHistory {
     items: IHistoryItem[];
 }
 
-interface IHistoryItem {
+export interface IHistoryItem {
     id: number;
     date: Date;
     message: string;
+    type: historyType;
     spendTime?: string;
+    cash?: IHistoryItem;
 }
 
 // TODO: create type
@@ -28,12 +37,30 @@ export interface IUpdateInfo {}
 
 export class TaskHistory implements ITaskHistory {
     private _store$ = new BehaviorSubject<IHistory[]>([]);
+    private _cashStore: IHistory[] = [];
     private _taskHistory: SpendTime[];
     private _historyTypes: historyType[];
 
     constructor(taskHistory: SpendTime[]) {
         this._taskHistory = [].concat(taskHistory).sort(this.dateSortUp);
         this.groupHistoryByType();
+    }
+
+    reset() {
+        this._store$.next(this.getCloneStore(this._cashStore));
+    }
+
+    editHistory(historyItem: IHistoryItem) {
+        let findHistoryItem = this._cashStore
+            .map((i) => i.items)
+            .reduce((acc, item) => acc.concat(item))
+            .find((i) => i.id === historyItem.id);
+
+        findHistoryItem = historyItem;
+    }
+
+    getStoreValue() {
+        return this._store$.getValue();
     }
 
     selectedStore$(): Observable<IHistory[]> {
@@ -55,6 +82,13 @@ export class TaskHistory implements ITaskHistory {
                     id: value.id,
                     date: value.date,
                     message: value.message,
+                    type: value.type,
+                    cash: {
+                        id: value.id,
+                        date: value.date,
+                        message: value.message,
+                        type: value.type,
+                    },
                 } as IHistoryItem;
             case 'spendTime':
                 return {
@@ -62,6 +96,14 @@ export class TaskHistory implements ITaskHistory {
                     date: value.date,
                     message: value.message,
                     spendTime: value.spendTime,
+                    type: value.type,
+                    cash: {
+                        id: value.id,
+                        date: value.date,
+                        message: value.message,
+                        spendTime: value.spendTime,
+                        type: value.type,
+                    },
                 } as IHistoryItem;
             case 'update':
                 return {} as IHistoryItem;
@@ -101,8 +143,13 @@ export class TaskHistory implements ITaskHistory {
                 }
                 return this._historyTypes.includes(g.type);
             });
-        console.log(group);
+
+        this._cashStore = this.getCloneStore(group);
         this._store$.next(group);
+    }
+
+    getCloneStore(store) {
+        return JSON.parse(JSON.stringify(store));
     }
 
     private dateSortUp(history1: SpendTime, history2: SpendTime) {

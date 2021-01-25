@@ -142,6 +142,16 @@ export class TaskCoreService {
                         message: 'NEW MESSAGE',
                     } as SpendTime,
                     {
+                        id: 3323222,
+                        date: new Date(),
+                        type: 'message',
+                        perfomer: {
+                            id: 1234567890,
+                            name: 'Полицковой Владимир Олегович',
+                        },
+                        message: 'AAA',
+                    } as SpendTime,
+                    {
                         id: 2222,
                         date: new Date(),
                         type: 'spendTime',

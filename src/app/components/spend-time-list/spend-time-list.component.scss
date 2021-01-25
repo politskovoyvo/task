@@ -1,7 +1,7 @@
 .container {
     display: flex;
     flex-direction: column;
-    overflow: auto;
+    width: 100%;
 
     &__row {
         display: flex;
@@ -31,6 +31,32 @@
             .message {
                 margin-left: 10px;
                 color: slateblue;
+            }
+
+            .context {
+                width: 100%;
+            }
+
+            .btns {
+                display: flex;
+                i {
+                    margin-left: 5px;
+                    // display: none;
+                }
+            }
+
+            .spend-time-edit {
+                display: flex;
+                align-items: flex-start;
+
+                nz-date-picker {
+                    min-width: 130px;
+                    margin-right: 10px;
+                }
+
+                t-input {
+                    width: 100%;
+                }
             }
         }
 
