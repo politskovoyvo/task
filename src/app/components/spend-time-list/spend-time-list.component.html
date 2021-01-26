@@ -8,34 +8,56 @@
             <div *ngFor="let history of spendTime.items">
                 <div [ngSwitch]="history.type">
                     <ng-template [ngSwitchCase]="'spendTime'">
-                        <div>
-                            <span>{{ history.date | date: 'dd.MM.yy' }}</span>
-                            <span class="spendtime">{{ history.spendTime }}</span>
+                        <div
+                            #spendTimeRow
+                            (mouseenter)="mouseEnter(spendTimeRow, spendTime.perfomer.id)"
+                            (mouseleave)="mouseLeave(spendTimeRow)"
+                            style="display: flex; justify-content: space-between"
+                        >
+                            <div class="context">
+                                <span>{{ history.date | date: 'dd.MM.yy' }}</span>
+                                <span class="message">{{ history.message }}</span>
+                            </div>
+
+                            <ng-container *ngIf="spendTimeRow.isEdit">
+                                <ng-container
+                                    *ngTemplateOutlet="
+                                        btns;
+                                        context: {
+                                            type: 'spendTimeEDIT',
+                                            history: history
+                                        }
+                                    "
+                                ></ng-container>
+                            </ng-container>
                         </div>
                     </ng-template>
-                    <ng-template [ngSwitchCase]="'spendTimeEDIT'">
-                        <div class="spend-time-edit">
-                            <nz-date-picker [(ngModel)]="history.date"></nz-date-picker>
-                            <t-input
-                                [type]="'textarea'"
-                                [(ngModel)]="history.message"
-                            ></t-input>
-                            <div>
-                                <i
-                                    nz-icon
-                                    [nzType]="'edit'"
-                                    nzTheme="outline"
-                                    (click)="toEditTemplate(history, 'spendTime')"
-                                ></i>
-                                <i nz-icon [nzType]="'delete'" nzTheme="outline"></i>
+
+                    <ng-template [ngSwitchCase]="'spendTimeEDIT'" class="edit-box">
+                        <div class="edit-box">
+                            <div class="spend-time-edit">
+                                <nz-date-picker
+                                    [(ngModel)]="history.date"
+                                ></nz-date-picker>
+                                <t-input
+                                    [type]="'input'"
+                                    [(ngModel)]="history.message"
+                                ></t-input>
                             </div>
+
+                            <ng-container
+                                *ngTemplateOutlet="
+                                    editBtns;
+                                    context: { history: history, type: 'message' }
+                                "
+                            ></ng-container>
                         </div>
                     </ng-template>
 
                     <ng-template [ngSwitchCase]="'message'">
                         <div
                             #messageRow
-                            (mouseenter)="mouseEnter(messageRow)"
+                            (mouseenter)="mouseEnter(messageRow, spendTime.perfomer.id)"
                             (mouseleave)="mouseLeave(messageRow)"
                             style="display: flex; justify-content: space-between"
                         >
@@ -44,49 +66,63 @@
                                 <span class="message">{{ history.message }}</span>
                             </div>
 
-                            <ng-container
-                                *ngIf="!messageRow.isEdit; else messageBtns"
-                            ></ng-container>
-
-                            <ng-template #messageBtns>
-                                <div class="btns">
-                                    <i
-                                        nz-icon
-                                        [nzType]="'edit'"
-                                        nzTheme="outline"
-                                        (click)="toEditTemplate(history, 'messageEDIT')"
-                                    ></i>
-                                    <i nz-icon [nzType]="'delete'" nzTheme="outline"></i>
-                                </div>
-                            </ng-template>
+                            <ng-container *ngIf="messageRow.isEdit">
+                                <ng-container
+                                    *ngTemplateOutlet="
+                                        btns;
+                                        context: { type: 'messageEDIT', history: history }
+                                    "
+                                ></ng-container>
+                            </ng-container>
                         </div>
                     </ng-template>
                     <ng-template [ngSwitchCase]="'messageEDIT'">
-                        <div class="spend-time-edit">
-                            <nz-date-picker [(ngModel)]="history.date"></nz-date-picker>
-                            <t-input
-                                [type]="'textarea'"
-                                [(ngModel)]="history.message"
-                            ></t-input>
-                            <div>
-                                <i
-                                    nz-icon
-                                    [nzType]="'edit'"
-                                    nzTheme="outline"
-                                    (click)="edit(history, 'message')"
-                                ></i>
-                                <i
-                                    nz-icon
-                                    [nzType]="'delete'"
-                                    nzTheme="outline"
-                                    (click)="cancel(history)"
-                                ></i>
+                        <div class="edit-box">
+                            <div class="spend-time-edit editbox">
+                                <nz-date-picker
+                                    [(ngModel)]="history.date"
+                                ></nz-date-picker>
+                                <t-input
+                                    [type]="'textarea'"
+                                    [(ngModel)]="history.message"
+                                ></t-input>
                             </div>
+
+                            <ng-container
+                                *ngTemplateOutlet="
+                                    editBtns;
+                                    context: { history: history, type: 'message' }
+                                "
+                            ></ng-container>
                         </div>
                     </ng-template>
+
                     <ng-template [ngSwitchCase]="'update'"></ng-template>
                 </div>
             </div>
+
+            <ng-template #editBtns let-type="type" let-history="history">
+                <div class="editTemplate">
+                    <button nz-button nzType="primary" (click)="edit(history, type)">
+                        edit
+                    </button>
+                    <button nz-button nzType="primary" (click)="cancel(history)">
+                        cancel
+                    </button>
+                </div>
+            </ng-template>
+
+            <ng-template #btns let-type="type" let-history="history">
+                <div class="btns">
+                    <i
+                        nz-icon
+                        [nzType]="'edit'"
+                        nzTheme="outline"
+                        (click)="toEditTemplate(history, type)"
+                    ></i>
+                    <i nz-icon [nzType]="'delete'" nzTheme="outline"></i>
+                </div>
+            </ng-template>
         </div>
     </div>
 </div>

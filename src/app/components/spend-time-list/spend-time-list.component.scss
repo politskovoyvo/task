@@ -70,21 +70,26 @@
             width: 100%;
             margin-left: 10px;
         }
-
-        &-btns {
-            display: flex;
-
-            button {
-            }
-        }
     }
 }
 
-.flx-col {
+.edit-box {
     display: flex;
     flex-direction: column;
+    padding: 10px;
+    border-radius: 5px;
+    background: rgba(56, 140, 185, 0.3);
+}
+
+.flx-col {
 }
 
 .flx-row {
     display: flex;
+}
+
+.editTemplate {
+    button {
+        margin: 10px 10px 0 0;
+    }
 }

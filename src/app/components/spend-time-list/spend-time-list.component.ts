@@ -52,7 +52,10 @@ export class SpendTimeListComponent implements OnInit {
         }
     }
 
-    mouseEnter(htmlElement: HTMLElement) {
+    mouseEnter(htmlElement: HTMLElement, userId?: number) {
+        if (!userId && this.userId !== userId) {
+            return;
+        }
         htmlElement['isEdit'] = true;
     }
 

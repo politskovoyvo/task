@@ -31,9 +31,11 @@ $padding-left: 20px;
 
         &-files {
             padding: 20px 0 0 $padding-left;
+            width: 200px;
 
-            &.ant-upload {
+            ::ng-deep.ant-upload-btn {
                 padding: 0;
+                height: 5px;
             }
         }
 

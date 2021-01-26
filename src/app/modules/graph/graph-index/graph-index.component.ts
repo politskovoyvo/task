@@ -5,8 +5,8 @@ import {
     Component,
     OnInit,
 } from '@angular/core';
-import { BehaviorSubject, from, Observable, of, Subject } from 'rxjs';
-import { switchMap, tap } from 'rxjs/operators';
+import { BehaviorSubject, Observable } from 'rxjs';
+import { switchMap } from 'rxjs/operators';
 import { Track } from '@share/models/track';
 import { TaskCardComponent } from '@components/task-card/task-card.component';
 import { CreateBoardComponent } from '@components/create-board/create-board.component';
