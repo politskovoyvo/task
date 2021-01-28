@@ -16,7 +16,7 @@
                         >
                             <div class="context">
                                 <span>{{ history.date | date: 'dd.MM.yy' }}</span>
-                                <span class="message">{{ history.message }}</span>
+                                <span class="message">{{ history.value }}</span>
                             </div>
 
                             <ng-container *ngIf="spendTimeRow.isEdit">
@@ -41,7 +41,7 @@
                                 ></nz-date-picker>
                                 <t-input
                                     [type]="'input'"
-                                    [(ngModel)]="history.message"
+                                    [(ngModel)]="history.value"
                                 ></t-input>
                             </div>
 
@@ -63,7 +63,7 @@
                         >
                             <div class="context">
                                 <span>{{ history.date | date: 'dd.MM.yy' }}</span>
-                                <span class="message">{{ history.message }}</span>
+                                <span class="message">{{ history.value }}</span>
                             </div>
 
                             <ng-container *ngIf="messageRow.isEdit">
@@ -84,7 +84,7 @@
                                 ></nz-date-picker>
                                 <t-input
                                     [type]="'textarea'"
-                                    [(ngModel)]="history.message"
+                                    [(ngModel)]="history.value"
                                 ></t-input>
                             </div>
 

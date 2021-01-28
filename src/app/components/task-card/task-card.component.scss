@@ -55,16 +55,38 @@ $padding-left: 20px;
         }
     }
 
-    &__submit {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        width: 100%;
-        height: $header_footer;
+    &__footer {
         background: $basic;
-        padding: 0 20px;
 
-        &-icons {
+        &-edit {
+            display: flex;
+            flex-direction: column;
+            padding: 10px;
+
+            button {
+                width: 200px;
+                align-self: flex-end;
+            }
+
+            .spend-time {
+                height: auto;
+                display: flex;
+
+                t-input {
+                    padding: 5px;
+
+                    &[type='textarea'] {
+                        width: 100%;
+                    }
+                }
+            }
+
+            span {
+                color: white;
+            }
+        }
+
+        .icons {
             display: flex;
 
             i {
@@ -82,18 +104,40 @@ $padding-left: 20px;
             }
         }
 
-        button {
-            border: 1px solid white;
-            cursor: pointer;
-            background: $basic;
-            width: 100px;
-            height: 30px;
-            color: white;
-            margin-left: 10px;
+        &-submit {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 100%;
+            height: $header_footer;
+            padding: 0 20px;
 
-            &:hover {
-                border: 2px solid $cursor-hover;
-                color: $cursor-hover;
+            button {
+                border: 1px solid white;
+                cursor: pointer;
+                background: $basic;
+                width: 100px;
+                height: 30px;
+                color: white;
+                margin-left: 10px;
+
+                &.check {
+                    background: $cursor-hover;
+                    border: 1px solid $cursor-hover;
+
+                    color: black;
+
+                    &:hover {
+                        border: 2px solid black;
+                        background: $basic;
+                        border: 1px solid $cursor-hover;
+                    }
+                }
+
+                &:hover {
+                    border: 2px solid $cursor-hover;
+                    color: $cursor-hover;
+                }
             }
         }
     }

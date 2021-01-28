@@ -26,9 +26,8 @@ export interface IHistory {
 export interface IHistoryItem {
     id: number;
     date: Date;
-    message: string;
+    value: string;
     type: historyType;
-    spendTime?: string;
     cash?: IHistoryItem;
 }
 
@@ -81,12 +80,12 @@ export class TaskHistory implements ITaskHistory {
                 return {
                     id: value.id,
                     date: value.date,
-                    message: value.message,
+                    value: value.message,
                     type: value.type,
                     cash: {
                         id: value.id,
                         date: value.date,
-                        message: value.message,
+                        value: value.message,
                         type: value.type,
                     },
                 } as IHistoryItem;
@@ -94,13 +93,13 @@ export class TaskHistory implements ITaskHistory {
                 return {
                     id: value.id,
                     date: value.date,
-                    message: value.message,
+                    value: value.message,
                     spendTime: value.spendTime,
                     type: value.type,
                     cash: {
                         id: value.id,
                         date: value.date,
-                        message: value.message,
+                        value: value.message,
                         spendTime: value.spendTime,
                         type: value.type,
                     },

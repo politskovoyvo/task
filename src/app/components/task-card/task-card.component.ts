@@ -59,6 +59,10 @@ export class TaskCardComponent implements OnInit {
         }
     }
 
+    addTime() {
+        
+    };
+
     auto() {
         // TODO: функционал автораспределения
     }

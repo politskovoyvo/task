@@ -68,7 +68,7 @@
                         nzListType="picture"
                         (nzChange)="handleChange($event)"
                     >
-                      <span>Upload file</span>
+                        <span>Upload file</span>
                     </nz-upload>
                 </div>
             </div>
@@ -89,19 +89,47 @@
         ></app-spend-time-list>
     </div>
 
-    <div class="form__submit">
-        <button type="submit">{{ submitName[action] }}</button>
-        <div class="form__submit-icons">
-            <i
-                #time
-                nz-icon
-                [class.disable]="action === 'CREATE'"
-                (click)="timeSet(time)"
-                nzType="field-time"
-                nzTheme="outline"
-            ></i>
-            <i nz-icon nzType="field-time" nzTheme="outline"></i>
-            <i nz-icon nzType="field-time" nzTheme="outline"></i>
+    <div class="form__footer">
+        <div class="form__footer-edit" *ngIf="addTimeBtn?.classList.contains('check')">
+            <div class="spend-time">
+                <t-input [placeholder]="'время'"></t-input>
+                <t-input
+                    [placeholder]="'Описание (необязательно)'"
+                    type="textarea"
+                ></t-input>
+            </div>
+            <span>1d - 8h</span>
+            <button nz-button nzType="primary">add spend time</button>
+        </div>
+
+        <div class="form__footer-submit">
+            <div>
+                <button type="submit">{{ submitName[action] }}</button>
+
+                <button #addTimeBtn (click)="timeSet(addTimeBtn)">
+                    <i class="icon" nz-icon nzType="plus"></i>
+                    time
+                </button>
+                <ng-template #addTimeTemplate>
+                    <div>
+                        <t-input [placeholder]="'1d = 8h'"></t-input>
+                        <t-input type="textarea" [placeholder]="'1d = 8h'"></t-input>
+                    </div>
+                </ng-template>
+            </div>
+
+            <div class="icons">
+                <i
+                    #time
+                    nz-icon
+                    [class.disable]="action === 'CREATE'"
+                    (click)="timeSet(time)"
+                    nzType="field-time"
+                    nzTheme="outline"
+                ></i>
+                <i nz-icon nzType="field-time" nzTheme="outline"></i>
+                <i nz-icon nzType="field-time" nzTheme="outline"></i>
+            </div>
         </div>
     </div>
 </form>

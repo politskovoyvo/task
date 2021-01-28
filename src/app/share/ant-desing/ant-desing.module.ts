@@ -7,6 +7,7 @@ import { NzDropDownModule } from 'ng-zorro-antd/dropdown';
 import { NzUploadModule } from 'ng-zorro-antd/upload';
 import { NzDatePickerModule } from 'ng-zorro-antd/date-picker';
 import { NzButtonModule } from 'ng-zorro-antd/button';
+import { NzPopoverModule } from 'ng-zorro-antd/popover';
 
 @NgModule({
     declarations: [],
@@ -18,6 +19,7 @@ import { NzButtonModule } from 'ng-zorro-antd/button';
         NzUploadModule,
         NzDatePickerModule,
         NzButtonModule,
+        NzPopoverModule
     ],
     exports: [
         CommonModule,
@@ -27,6 +29,7 @@ import { NzButtonModule } from 'ng-zorro-antd/button';
         NzUploadModule,
         NzDatePickerModule,
         NzButtonModule,
+        NzPopoverModule
     ],
     providers: [
         {

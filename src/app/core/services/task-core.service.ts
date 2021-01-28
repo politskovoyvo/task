@@ -71,12 +71,11 @@ export class TaskCoreService {
         return of();
     }
 
-    editSpendTime(
-        spendTimeId: number,
-        userId: number,
+    editHistoryItem(
+        historyId: number,
         value: string
     ): Observable<unknown> {
-        return of();
+        return of([]);
     }
 
     removeSpendTime(spendTimeId: number): Observable<unknown> {
@@ -148,7 +147,7 @@ export class TaskCoreService {
                             id: 1234567890,
                             name: 'Полицковой Владимир Олегович',
                         },
-                        message: 'AAA',
+                        message: 'AAВВЫВЫВA',
                     } as SpendTime,
                     {
                         id: 2222,

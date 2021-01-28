@@ -12,7 +12,7 @@ import { TaskCoreService } from '@core/services/task-core.service';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { SpendTime } from '@share/models/spend-time';
 import { Observable } from 'rxjs';
-import { tap } from 'rxjs/operators';
+import { catchError, tap } from 'rxjs/operators';
 import { historyType, IHistory, IHistoryItem, TaskHistory } from './plagins/task-history';
 
 @UntilDestroy()
@@ -65,8 +65,16 @@ export class SpendTimeListComponent implements OnInit {
 
     edit(history: IHistoryItem, type: historyType) {
         // TODO: http запрос на изменение
-        Object.assign(history.cash, { ...history, type });
-        this.toEditTemplate(history, type);
+        this._taskCoreService
+            .editHistoryItem(history.id, history.value)
+            .pipe(
+                untilDestroyed(this),
+                tap(() => {
+                    Object.assign(history.cash, { ...history, type });
+                    this.toEditTemplate(history, type);
+                })
+            )
+            .subscribe();
     }
 
     cancel(history: IHistoryItem) {
