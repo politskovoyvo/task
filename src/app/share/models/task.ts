@@ -17,7 +17,7 @@ export interface Task extends Base {
     spendTime: number;
     history: TaskHistory[]; // массив событий
     info?: string; // описание
-    spendTimes: SpendTime[];
+    histories: SpendTime[];
 
     options: {
         coordinates: [];

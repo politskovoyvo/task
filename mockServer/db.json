@@ -1,0 +1,48 @@
+{
+  "tasks": [
+    {
+      "newTask": {
+        "id": 10,
+        "type": "type",
+        "simbol": "TASK",
+        "color": "#228B22",
+        "assignee": {
+          "id": 6,
+          "name": "Александр Александрович Рович",
+          "isSelected": true
+        },
+        "performers": [
+          {
+            "id": 2,
+            "name": "Тест2 Тестович2",
+            "isSelected": true
+          },
+          {
+            "id": 3,
+            "name": "Тест3 Тестович3",
+            "isSelected": true
+          },
+          {
+            "id": 5,
+            "name": "Тест5 Тестович5",
+            "isSelected": true
+          },
+          {
+            "id": 6,
+            "name": "Александр Александрович Рович",
+            "isSelected": true
+          }
+        ],
+        "spendTime": null,
+        "history": [
+          {
+            "trackId": 1,
+            "startDate": "2021-01-28T21:00:00.000Z",
+            "stopDate": "2021-01-28T21:00:00.000Z"
+          }
+        ]
+      },
+      "id": 1
+    }
+  ]
+}
