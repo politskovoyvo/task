@@ -5,11 +5,9 @@ import {
     ChangeDetectorRef,
     Component,
     ElementRef,
-    EventEmitter,
     Input,
     OnChanges,
     OnInit,
-    Output,
     SimpleChanges,
     ViewChild,
 } from '@angular/core';
@@ -19,16 +17,16 @@ import * as d3 from 'd3';
 import { LineOptions } from '../../models/line-options';
 import { TaskDraw } from '@modules/graph/utilits/task-draw';
 import { ReplaySubject } from 'rxjs';
-import { take, tap } from 'rxjs/operators';
+import { tap } from 'rxjs/operators';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { select, Store } from '@ngrx/store';
 import { IAppState } from '@core/stores/app.state';
-import { GetTask, GetTasksSuccess } from '@core/stores/task/task.actions';
+import { GetTask } from '@core/stores/task/task.actions';
 import { selectedTask } from '@core/stores/task/task.selectors';
 
 type TODO_SVG = any;
 const step = 35;
-const horizontalStep = 10;
+const stepCount = 500;
 
 @UntilDestroy()
 @Component({
@@ -43,12 +41,15 @@ export class GraphComponent implements OnInit, OnChanges, AfterViewInit {
     @Input() tasks: Task[];
     @Input() processTypes: Track[];
     selectedTaskId: number;
+    axis: {
+        date: string;
+        coordinateY: number;
+    }[] = [];
 
     changeSubj$ = new ReplaySubject<void>();
 
     svg = null;
     maxDate = new Date();
-    nowDate = new Date();
 
     constructor(
         private taskStore$: Store<IAppState>,
@@ -99,13 +100,14 @@ export class GraphComponent implements OnInit, OnChanges, AfterViewInit {
 
     paint() {
         this.svg.selectAll('*').remove();
+        this.axis = [];
         this.grid(this.processTypes, this.tasks, this.svg);
     }
 
     private grid = (tracks: Track[], tasks: Task[], svg: TODO_SVG) => {
         this.maxDate = this.getMaxDate(tasks);
-        const taskDraws = tasks.map((task) => new TaskDraw(task, tasks, tracks, step));
-        let groups: {
+
+        const groups: {
             type: number;
             color: string;
             ids: number[];
@@ -161,10 +163,12 @@ export class GraphComponent implements OnInit, OnChanges, AfterViewInit {
             .style('width', () => 40)
             .style('height', '100%');
 
+        const taskDraws = tasks.map((task) => new TaskDraw(task, tasks, tracks, step));
         this.paintHorizontalDates(taskDraws, tracks);
 
         // paint Tasks
         taskDraws.forEach((taskDraw, ind) => {
+            taskDraw.setPoint(this.axis);
             this.paintTask(taskDraw, svg, {
                 lineColor: taskDraw.getTask().color,
                 nodeColor: 'black',
@@ -172,6 +176,7 @@ export class GraphComponent implements OnInit, OnChanges, AfterViewInit {
                 strokeWidth: '3',
             } as LineOptions);
         });
+        this.paintVerticalWaitLine(taskDraws);
     };
 
     private paintTaskNamePanel(taskDraw: TaskDraw) {
@@ -214,13 +219,8 @@ export class GraphComponent implements OnInit, OnChanges, AfterViewInit {
     }
 
     private paintHorizontalDates(taskDraws: TaskDraw[], tracks: Track[]) {
-        const maxDate = this.getMaxDate(this.tasks);
-        const minDate = this.getMinDate(this.tasks);
-        const lineCount = this.differenceDateDay(maxDate, minDate);
-        const dateArray = Array.from({ length: lineCount }, (_, i) => i + 1);
+        const dateArray = Array.from({ length: stepCount }, (_, i) => i + 1);
         let marginTop = 0;
-
-        this.paintVerticalWaitLine(taskDraws);
 
         dateArray.forEach((d) => {
             const date = new Date(this.maxDate);
@@ -235,12 +235,14 @@ export class GraphComponent implements OnInit, OnChanges, AfterViewInit {
             if (findTask.length) {
                 const counts = findTask
                     .map((task) => task.createTaskToSomeDayCount())
-                    .sort();
-                createTaskToSomeDayCount =
-                    counts.length !== 1 ? counts[counts.length - 1] + 1 : 0;
+                    .sort((a, b) => a - b);
+                createTaskToSomeDayCount = counts[counts.length - 1];
+                console.log(counts);
             }
 
             marginTop += step + createTaskToSomeDayCount * 15;
+            // console.log(marginTop);
+            this.axis.push({ date: currentDateToString, coordinateY: marginTop });
 
             this.svg
                 .append('line')
@@ -302,8 +304,7 @@ export class GraphComponent implements OnInit, OnChanges, AfterViewInit {
                 tap((store) => {
                     if (taskDraw.getTask().id !== store.tasks.selectedTask?.id) {
                         path.attr('class', 'path-task');
-                    }
-                    else {
+                    } else {
                         path.attr('class', 'path-task-selected');
                     }
                 })
@@ -366,6 +367,7 @@ export class GraphComponent implements OnInit, OnChanges, AfterViewInit {
         );
     };
 }
+
 // ДАЛЕЕ
 // формат который я буду здесь принимать
 export interface Point {
