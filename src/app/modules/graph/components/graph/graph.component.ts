@@ -201,7 +201,7 @@ export class GraphComponent implements OnInit, OnChanges, AfterViewInit {
 
     private paintVerticalWaitLine(taskDraws: TaskDraw[]) {
         const ys = taskDraws.map((t) => t.getCreatePoint()).map((point) => point.y);
-        const x = taskDraws.map((t) => t.getCreatePoint()).map((point) => point.x)[0];
+        // const x = taskDraws.map((t) => t.getCreatePoint()).map((point) => point.x)[0];
         const y1 = ys.sort()[0];
         const y2 = ys.sort()[ys.length - 1];
 
@@ -237,11 +237,9 @@ export class GraphComponent implements OnInit, OnChanges, AfterViewInit {
                     .map((task) => task.createTaskToSomeDayCount())
                     .sort((a, b) => a - b);
                 createTaskToSomeDayCount = counts[counts.length - 1];
-                console.log(counts);
             }
 
             marginTop += step + createTaskToSomeDayCount * 15;
-            // console.log(marginTop);
             this.axis.push({ date: currentDateToString, coordinateY: marginTop });
 
             this.svg
@@ -271,13 +269,12 @@ export class GraphComponent implements OnInit, OnChanges, AfterViewInit {
         options: LineOptions
     ): void => {
         const data = this.paintTaskNamePanel(taskDraw);
-
         const line = d3
             .line()
             .x((d: any) => d.point.x)
             .y((d: any) => d.point.y)
             .curve(d3.curveMonotoneX);
-
+        //
         // paint point path
         const path = svg
             .append('path')
@@ -320,17 +317,8 @@ export class GraphComponent implements OnInit, OnChanges, AfterViewInit {
                 .attr('r', options.nodeRadius)
                 .attr('cx', element.point.x)
                 .attr('cy', element.point.y);
-            node['data'] = element.info;
+            node.data = element.info;
         });
-    };
-
-    private getRandomColor = () => {
-        const letters = '0123456789ABCDEF';
-        let color = '#';
-        for (let i = 0; i < 6; i++) {
-            color += letters[Math.floor(Math.random() * 16)];
-        }
-        return color;
     };
 
     private dateSortUp(date1: Date, date2: Date) {
@@ -350,22 +338,23 @@ export class GraphComponent implements OnInit, OnChanges, AfterViewInit {
         }, {} as Date);
     }
 
-    private getMinDate(tasks: Task[]): Date {
-        return tasks.reduce((acc, task) => {
-            return task.history
-                .map((h) => h.startDate)
-                .concat(acc)
-                .sort(this.dateSortDown)[0];
-        }, new Date());
-    }
-
-    private differenceDateDay = (maxDate: Date, date: Date) => {
-        // +1 для того чтобы была свободная строчка
-        return (
-            Math.ceil(Math.abs(date.getTime() - maxDate.getTime()) / (1000 * 3600 * 24)) +
-            1
-        );
-    };
+    //
+    // private getMinDate(tasks: Task[]): Date {
+    //     return tasks.reduce((acc, task) => {
+    //         return task.history
+    //             .map((h) => h.startDate)
+    //             .concat(acc)
+    //             .sort(this.dateSortDown)[0];
+    //     }, new Date());
+    // }
+    //
+    // private differenceDateDay = (maxDate: Date, date: Date) => {
+    //     // +1 для того чтобы была свободная строчка
+    //     return (
+    //         Math.ceil(Math.abs(date.getTime() - maxDate.getTime()) / (1000 * 3600 * 24)) +
+    //         1
+    //     );
+    // };
 }
 
 // ДАЛЕЕ

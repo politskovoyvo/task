@@ -34,6 +34,11 @@ export class TaskCoreService {
         return this._httpClient.get<Base[]>(`${this._URL}/api/board_id`);
     }
 
+    getTaskStates() {
+        this.tracks_MOCK;
+        return this._httpClient.get<Base[]>(`${this._URL}/api/board_id`);
+    }
+
     createTask(boardId: number, newTask: Task): Observable<any> {
         return this._httpClient.post(`${this._TEST_URI}/tasks`, newTask);
     }

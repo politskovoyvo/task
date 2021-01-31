@@ -4,8 +4,28 @@
       "type": "type",
       "simbol": "TASK",
       "color": "#228B22",
-      "assignee": {},
-      "performers": [],
+      "assignee": {
+        "id": 6,
+        "name": "Александр Александрович Рович",
+        "isSelected": true
+      },
+      "performers": [
+        {
+          "id": 2,
+          "name": "Тест2 Тестович2",
+          "isSelected": true
+        },
+        {
+          "id": 6,
+          "name": "Александр Александрович Рович",
+          "isSelected": true
+        },
+        {
+          "id": 7,
+          "name": "Тест7 Тестович7",
+          "isSelected": true
+        }
+      ],
       "spendTime": 0,
       "history": [
         {
@@ -20,33 +40,51 @@
       "type": "type",
       "simbol": "TASK",
       "color": "#228B22",
-      "assignee": {},
-      "performers": [],
+      "assignee": {
+        "id": 5,
+        "name": "Тест5 Тестович5"
+      },
+      "performers": [
+        {
+          "id": 1,
+          "name": "Тест1 Тестович1",
+          "isSelected": true
+        },
+        {
+          "id": 2,
+          "name": "Тест2 Тестович2",
+          "isSelected": true
+        },
+        {
+          "id": 6,
+          "name": "Александр Александрович Рович",
+          "isSelected": true
+        },
+        {
+          "id": 7,
+          "name": "Тест7 Тестович7",
+          "isSelected": true
+        }
+      ],
       "spendTime": 0,
       "history": [
         {
           "trackId": 1,
+          "startDate": "2021-01-28T21:00:00.000Z",
+          "stopDate": "2021-01-28T21:00:00.000Z"
+        },
+        {
+          "trackId": 2,
+          "startDate": "2021-01-29T21:00:00.000Z",
+          "stopDate": "2021-01-29T21:00:00.000Z"
+        },
+        {
+          "trackId": 3,
           "startDate": "2021-01-30T21:00:00.000Z",
           "stopDate": "2021-01-30T21:00:00.000Z"
         }
       ],
       "id": 2
-    },
-    {
-      "type": "type",
-      "simbol": "TASK",
-      "color": "#228B22",
-      "assignee": {},
-      "performers": [],
-      "spendTime": 0,
-      "history": [
-        {
-          "trackId": 1,
-          "startDate": "2021-01-30T21:00:00.000Z",
-          "stopDate": "2021-01-30T21:00:00.000Z"
-        }
-      ],
-      "id": 3
     }
   ]
 }

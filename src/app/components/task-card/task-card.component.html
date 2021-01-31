@@ -26,7 +26,11 @@
 
                 <div class="form__context-line">
                     <span>State</span>
-                    <t-select [width]="inputWidth" formControlName="priority"></t-select>
+                    <t-select
+                        [width]="inputWidth"
+                        [items]="states$ | async"
+                        formControlName="state"
+                    ></t-select>
                 </div>
 
                 <div class="form__context-line">
@@ -85,7 +89,7 @@
         <app-spend-time-list
             class="form__context-times"
             *ngIf="time?.classList.contains('check')"
-            [spendTimes]="task.history"
+            [spendTimes]="task.histories"
         ></app-spend-time-list>
     </div>
 

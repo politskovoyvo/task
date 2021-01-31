@@ -1,22 +1,22 @@
 <div class="container">
-    <div #type class="container__row" *ngFor="let spendTime of _storeHistory$ | async">
-        <div class="container__row-name">
+    <div class="container__row" *ngIf="_storeHistory$ | async as histories; else noData">
+        <div class="container__row-name" *ngFor="let history of histories">
             <div>
-                <i nz-icon [nzType]="getTypeIcon(spendTime.type)" nzTheme="outline"></i>
-                {{ spendTime.perfomer.name }}
+                <i nz-icon [nzType]="getTypeIcon(history.type)" nzTheme="outline"></i>
+                {{ history.performer?.name }}
             </div>
-            <div *ngFor="let history of spendTime.items">
-                <div [ngSwitch]="history.type">
+            <div *ngFor="let historyItem of history.items">
+                <div [ngSwitch]="historyItem.type">
                     <ng-template [ngSwitchCase]="'spendTime'">
                         <div
                             #spendTimeRow
-                            (mouseenter)="mouseEnter(spendTimeRow, spendTime.perfomer.id)"
+                            (mouseenter)="mouseEnter(spendTimeRow, history.performer.id)"
                             (mouseleave)="mouseLeave(spendTimeRow)"
                             style="display: flex; justify-content: space-between"
                         >
                             <div class="context">
-                                <span>{{ history.date | date: 'dd.MM.yy' }}</span>
-                                <span class="message">{{ history.value }}</span>
+                                <span>{{ historyItem.date | date: 'dd.MM.yy' }}</span>
+                                <span class="message">{{ historyItem.value }}</span>
                             </div>
 
                             <ng-container *ngIf="spendTimeRow.isEdit">
@@ -25,7 +25,7 @@
                                         btns;
                                         context: {
                                             type: 'spendTimeEDIT',
-                                            history: history
+                                            history: historyItem
                                         }
                                     "
                                 ></ng-container>
@@ -37,18 +37,18 @@
                         <div class="edit-box">
                             <div class="spend-time-edit">
                                 <nz-date-picker
-                                    [(ngModel)]="history.date"
+                                    [(ngModel)]="historyItem.date"
                                 ></nz-date-picker>
                                 <t-input
                                     [type]="'input'"
-                                    [(ngModel)]="history.value"
+                                    [(ngModel)]="historyItem.value"
                                 ></t-input>
                             </div>
 
                             <ng-container
                                 *ngTemplateOutlet="
                                     editBtns;
-                                    context: { history: history, type: 'message' }
+                                    context: { history: historyItem, type: 'message' }
                                 "
                             ></ng-container>
                         </div>
@@ -57,20 +57,23 @@
                     <ng-template [ngSwitchCase]="'message'">
                         <div
                             #messageRow
-                            (mouseenter)="mouseEnter(messageRow, spendTime.perfomer.id)"
+                            (mouseenter)="mouseEnter(messageRow, history.performer.id)"
                             (mouseleave)="mouseLeave(messageRow)"
                             style="display: flex; justify-content: space-between"
                         >
                             <div class="context">
-                                <span>{{ history.date | date: 'dd.MM.yy' }}</span>
-                                <span class="message">{{ history.value }}</span>
+                                <span>{{ historyItem.date | date: 'dd.MM.yy' }}</span>
+                                <span class="message">{{ historyItem.value }}</span>
                             </div>
 
                             <ng-container *ngIf="messageRow.isEdit">
                                 <ng-container
                                     *ngTemplateOutlet="
                                         btns;
-                                        context: { type: 'messageEDIT', history: history }
+                                        context: {
+                                            type: 'messageEDIT',
+                                            history: historyItem
+                                        }
                                     "
                                 ></ng-container>
                             </ng-container>
@@ -80,18 +83,18 @@
                         <div class="edit-box">
                             <div class="spend-time-edit editbox">
                                 <nz-date-picker
-                                    [(ngModel)]="history.date"
+                                    [(ngModel)]="historyItem.date"
                                 ></nz-date-picker>
                                 <t-input
                                     [type]="'textarea'"
-                                    [(ngModel)]="history.value"
+                                    [(ngModel)]="historyItem.value"
                                 ></t-input>
                             </div>
 
                             <ng-container
                                 *ngTemplateOutlet="
                                     editBtns;
-                                    context: { history: history, type: 'message' }
+                                    context: { history: historyItem, type: 'message' }
                                 "
                             ></ng-container>
                         </div>
@@ -125,4 +128,8 @@
             </ng-template>
         </div>
     </div>
+
+    <ng-template #noData>
+        <app-no-data></app-no-data>
+    </ng-template>
 </div>

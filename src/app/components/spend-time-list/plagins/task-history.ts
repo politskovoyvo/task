@@ -1,6 +1,6 @@
 import { Base } from '@share/models/base';
 import { SpendTime } from '@share/models/spend-time';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { BehaviorSubject, Observable, of } from 'rxjs';
 
 export type historyType =
     | 'spendTime'
@@ -12,14 +12,17 @@ export type historyType =
 
 interface ITaskHistory {
     selectedStore$(): Observable<IHistory[]>;
+
     setFilter(types: historyType[]): void;
+
     editHistory(historyItem: IHistoryItem);
+
     refresh(): void;
 }
 
 export interface IHistory {
     type: historyType;
-    perfomer: Base;
+    performer: Base;
     items: IHistoryItem[];
 }
 
@@ -30,9 +33,6 @@ export interface IHistoryItem {
     type: historyType;
     cash?: IHistoryItem;
 }
-
-// TODO: create type
-export interface IUpdateInfo {}
 
 export class TaskHistory implements ITaskHistory {
     private _store$ = new BehaviorSubject<IHistory[]>([]);
@@ -63,7 +63,7 @@ export class TaskHistory implements ITaskHistory {
     }
 
     selectedStore$(): Observable<IHistory[]> {
-        return this._store$.asObservable();
+        return this._store$?.asObservable();
     }
 
     setFilter(types: historyType[]): void {
@@ -110,17 +110,17 @@ export class TaskHistory implements ITaskHistory {
     }
 
     pushHistoryByType(acc: IHistory[], value: SpendTime) {
-        let historyItem: IHistoryItem = this.createHistoryByType(value);
+        const historyItem: IHistoryItem = this.createHistoryByType(value);
 
         acc.push({
             type: value.type,
-            perfomer: value.perfomer,
+            performer: value.perfomer,
             items: [].concat(historyItem),
         } as IHistory);
     }
 
     private groupHistoryByType() {
-        const group: IHistory[] = this._taskHistory
+        let group: IHistory[] = this._taskHistory
             .reduce((acc, value, index) => {
                 if (!index) {
                     this.pushHistoryByType(acc, value);
@@ -128,7 +128,7 @@ export class TaskHistory implements ITaskHistory {
                 }
 
                 const last = acc[acc.length - 1];
-                if (last.perfomer.id === value.perfomer.id && last.type === value.type) {
+                if (last.performer.id === value.perfomer.id && last.type === value.type) {
                     last.items?.push(this.createHistoryByType(value));
                 } else {
                     this.pushHistoryByType(acc, value);
@@ -143,6 +143,7 @@ export class TaskHistory implements ITaskHistory {
                 return this._historyTypes.includes(g.type);
             });
 
+        group = group.filter((g) => g.items.some((i) => !!i));
         this._cashStore = this.getCloneStore(group);
         this._store$.next(group);
     }

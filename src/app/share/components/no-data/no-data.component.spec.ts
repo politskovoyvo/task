@@ -1,20 +1,20 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { TaskCardComponent } from './task-card.component';
+import { NoDataComponent } from './no-data.component';
 
-describe('CreateTaskComponent', () => {
-  let component: TaskCardComponent;
-  let fixture: ComponentFixture<TaskCardComponent>;
+describe('NoDataComponent', () => {
+  let component: NoDataComponent;
+  let fixture: ComponentFixture<NoDataComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ TaskCardComponent ]
+      declarations: [ NoDataComponent ]
     })
     .compileComponents();
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(TaskCardComponent);
+    fixture = TestBed.createComponent(NoDataComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

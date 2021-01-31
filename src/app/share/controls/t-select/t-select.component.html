@@ -1,16 +1,12 @@
 <div class="container">
-  <nz-select
-    nzShowSearch
-    [style.width]="width"
-    [(ngModel)]="value"
-    (ngModelChange)="writeValue($event)"
-  >
-
-    <nz-option
-      *ngFor="let item of _options"
-      [nzLabel]="item.name"
-      [nzValue]="item"
+    <nz-select
+        nzShowSearch
+        [style.width]="width"
+        [(ngModel)]="value"
+        [disabled]="isDisable"
+        (ngModelChange)="writeValue($event)"
     >
-    </nz-option>
-  </nz-select>
+        <nz-option *ngFor="let item of _options" [nzLabel]="item.name" [nzValue]="item">
+        </nz-option>
+    </nz-select>
 </div>

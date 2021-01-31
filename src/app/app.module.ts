@@ -10,7 +10,7 @@ import { en_US } from 'ng-zorro-antd/i18n';
 import { registerLocaleData } from '@angular/common';
 import en from '@angular/common/locales/en';
 import { NzIconModule } from 'ng-zorro-antd/icon';
-import { AuthModule } from './core/auth/auth.module';
+import { AuthModule } from '@core/auth/auth.module';
 import { NzModalModule } from 'ng-zorro-antd/modal';
 import { NzDrawerModule } from 'ng-zorro-antd/drawer';
 import { BoardCoreService } from '@core/services/board-core.service';

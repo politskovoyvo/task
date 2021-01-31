@@ -1,19 +1,11 @@
-import {
-    ChangeDetectionStrategy,
-    Component,
-    ElementRef,
-    Input,
-    OnInit,
-    QueryList,
-    ViewChildren,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core';
 import { AuthService } from '@core/auth/services/auth.service';
 import { TaskCoreService } from '@core/services/task-core.service';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { SpendTime } from '@share/models/spend-time';
-import { Observable } from 'rxjs';
-import { catchError, tap } from 'rxjs/operators';
+import { Observable, of } from 'rxjs';
 import { historyType, IHistory, IHistoryItem, TaskHistory } from './plagins/task-history';
+import { tap } from 'rxjs/operators';
 
 @UntilDestroy()
 @Component({
@@ -24,14 +16,16 @@ import { historyType, IHistory, IHistoryItem, TaskHistory } from './plagins/task
 })
 export class SpendTimeListComponent implements OnInit {
     @Input() taskId: number;
-
-    _spendTimes: SpendTime[];
     _taskHistory: TaskHistory;
     userId = this._authService.user.id;
 
     _storeHistory$: Observable<IHistory[]>;
 
     @Input() set spendTimes(spendTimes: SpendTime[]) {
+        if (!spendTimes) {
+            this._storeHistory$ = of();
+            return;
+        }
         this._taskHistory = new TaskHistory(spendTimes);
         this._storeHistory$ = this._taskHistory.selectedStore$();
     }
@@ -41,7 +35,8 @@ export class SpendTimeListComponent implements OnInit {
         private _authService: AuthService
     ) {}
 
-    ngOnInit(): void {}
+    // tslint:disable-next-line:no-empty
+    ngOnInit() {}
 
     getTypeIcon(type: historyType) {
         switch (type) {
@@ -56,11 +51,11 @@ export class SpendTimeListComponent implements OnInit {
         if (!userId && this.userId !== userId) {
             return;
         }
-        htmlElement['isEdit'] = true;
+        htmlElement.isEdit = true;
     }
 
     mouseLeave(htmlElement: HTMLElement) {
-        htmlElement['isEdit'] = false;
+        htmlElement.isEdit = false;
     }
 
     edit(history: IHistoryItem, type: historyType) {
@@ -82,7 +77,7 @@ export class SpendTimeListComponent implements OnInit {
     }
 
     add() {
-        //TODO: новое время в форме
+        // TODO: новое время в форме
         const spendTime: SpendTime = {} as SpendTime;
 
         this._taskCoreService

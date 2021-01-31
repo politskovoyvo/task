@@ -14,6 +14,7 @@ import { TaskListComponent } from '@components/task-list/task-list.component';
 import { TMiltySelectModule } from '@share/controls/t-milty-select/t-milty-select.module';
 import { SpendTimeListComponent } from '@components/spend-time-list/spend-time-list.component';
 import { AntDesingModule } from '@share/ant-desing/ant-desing.module';
+import { NoDataComponent } from '@share/components/no-data/no-data.component';
 
 @NgModule({
     declarations: [
@@ -24,6 +25,7 @@ import { AntDesingModule } from '@share/ant-desing/ant-desing.module';
         TaskListComponent,
         CreateBoardComponent,
         SpendTimeListComponent,
+        NoDataComponent,
     ],
     imports: [
         GraphRoutingModule,

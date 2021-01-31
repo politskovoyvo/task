@@ -8,6 +8,7 @@ import {
     TemplateRef,
 } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
+import { Base } from '@share/models/base';
 
 @Component({
     // tslint:disable-next-line:component-selector
@@ -26,12 +27,15 @@ export class TSelectComponent implements OnInit, ControlValueAccessor {
     @Input() value: any;
     @Input() width = '100px';
     @Input() isMulti = false;
+    @Input() isDisable = false;
     @Input() itemTemplate: TemplateRef<any>;
     @Input() type: 't-default' | 't-search' = 't-default';
+
     @Input() set items(items: []) {
         this._options = items;
     }
-    _options: [];
+
+    _options: Base[];
 
     @Output() changeEmit = new EventEmitter();
 
@@ -47,9 +51,7 @@ export class TSelectComponent implements OnInit, ControlValueAccessor {
 
     onTouched: any = () => {};
 
-    openChange($event) {
-        console.log($event);
-    }
+    openChange($event) {}
 
     writeValue(obj: any): void {
         if (!obj) {
