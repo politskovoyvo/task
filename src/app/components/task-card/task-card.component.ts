@@ -10,6 +10,7 @@ import { Task } from '@share/models/task';
 import { NzUploadChangeParam } from 'ng-zorro-antd/upload';
 import { Observable } from 'rxjs';
 import { BoardCoreService } from '@core/services/board-core.service';
+import { tap } from 'rxjs/operators';
 
 enum ESubmitName {
     'CREATE' = 'Create',
@@ -43,10 +44,11 @@ export class TaskCardComponent implements OnInit {
 
     ngOnInit(): void {
         this.formInit();
+
         this.assignee$ = this._companyService.getUsers();
-        this.states$ = this._boardCoreService.getTracks(
-            this._boardCoreService.currentBoard.id
-        );
+        this.states$ = this._boardCoreService
+            .getTracks(this._boardCoreService.currentBoard.id)
+            .pipe(tap((states) => this.getCurrentState(states)));
     }
 
     submit() {
@@ -80,8 +82,17 @@ export class TaskCardComponent implements OnInit {
         }
     }
 
-    formInit() {
+    private getCurrentState(states) {
+        const currentHistory = this.task.history?.reduce((acc, history) => {
+            return acc?.stopDate > history.stopDate ? acc : history;
+        }, undefined);
+        const findState = states?.find((s) => s.id === currentHistory?.trackId);
+        this.form.get('state').setValue(findState || states.find((s) => s.id === 1));
+    }
+
+    private formInit() {
         this.task = { ...this.task };
+
         this.form = this._fb.group({
             name: [this.task?.name || '', [Validators.required]],
             spendTime: [this.task?.spendTime || 0, [Validators.required]],
@@ -90,7 +101,7 @@ export class TaskCardComponent implements OnInit {
             performers: [this.task?.performers || [], [Validators.required]],
             assignee: [this.task?.assignee || ({} as Base), [Validators.required]],
             info: [this.task?.info || '', [Validators.required]],
-            state: [this.task?.history[0] || null, [Validators.required]],
+            state: [undefined, [Validators.required]],
         });
     }
 
@@ -104,7 +115,6 @@ export class TaskCardComponent implements OnInit {
 
     private convertFormToTask(form: FormGroup): Task {
         const newTask = form.getRawValue();
-        console.log(newTask);
 
         return {
             type: 'type',
