@@ -15,6 +15,7 @@ import { TMiltySelectModule } from '@share/controls/t-milty-select/t-milty-selec
 import { SpendTimeListComponent } from '@components/spend-time-list/spend-time-list.component';
 import { AntDesingModule } from '@share/ant-desing/ant-desing.module';
 import { NoDataComponent } from '@share/components/no-data/no-data.component';
+import { IsDirtyDirective } from '@share/directives/is-dirty.directive';
 
 @NgModule({
     declarations: [
@@ -26,6 +27,7 @@ import { NoDataComponent } from '@share/components/no-data/no-data.component';
         CreateBoardComponent,
         SpendTimeListComponent,
         NoDataComponent,
+        IsDirtyDirective,
     ],
     imports: [
         GraphRoutingModule,
