@@ -6,7 +6,7 @@ import { CreateTask, EditTask } from '@core/stores/task/task.actions';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { Store } from '@ngrx/store';
 import { Base } from '@share/models/base';
-import { Task } from '@share/models/task';
+import { History, Task } from '@share/models/task';
 import { NzUploadChangeParam } from 'ng-zorro-antd/upload';
 import { Observable } from 'rxjs';
 import { BoardCoreService } from '@core/services/board-core.service';
@@ -64,7 +64,9 @@ export class TaskCardComponent implements OnInit {
         }
     }
 
-    addTime() {}
+    addTime() {
+        // TODO: функционал автораспределения
+    }
 
     auto() {
         // TODO: функционал автораспределения
@@ -94,8 +96,9 @@ export class TaskCardComponent implements OnInit {
         this.task = { ...this.task };
 
         this.form = this._fb.group({
+            id: [this.task.id],
             name: [this.task?.name || '', [Validators.required]],
-            spendTime: [this.task?.spendTime || 0, [Validators.required]],
+            spendTime: [this.task?.spendTime || '', [Validators.required]],
             type: [this.task?.type || '', [Validators.required]],
             priority: [this.task?.priorityId || 0, [Validators.required]],
             performers: [this.task?.performers || [], [Validators.required]],
@@ -114,24 +117,36 @@ export class TaskCardComponent implements OnInit {
     }
 
     private convertFormToTask(form: FormGroup): Task {
-        const newTask = form.getRawValue();
+        const {
+            id,
+            type,
+            assignee,
+            performers,
+            priorityId,
+            spendTime,
+            state,
+        } = form.getRawValue();
+        const histories = [];
+        Object.assign(histories, this.task.history);
+
+        if (this.form.get('state').dirty || !histories.length) {
+            histories?.push({
+                trackId: state.id,
+                startDate: new Date(new Date().toDateString()),
+                stopDate: new Date(new Date().toDateString()),
+            } as History);
+        }
 
         return {
-            type: 'type',
-            simbol: 'TASK',
+            id,
+            type: type || 'type',
+            symbol: 'TASK',
             color: '#228B22',
-            assignee: newTask.assignee,
-            performers: newTask.performers,
-            priorityId: newTask.priority?.id,
-            spendTime: newTask.spendTime,
-            history: [
-                {
-                    // чтобы появилась точка создания
-                    trackId: 1,
-                    startDate: new Date(new Date().toDateString()),
-                    stopDate: new Date(new Date().toDateString()),
-                },
-            ],
+            assignee,
+            performers,
+            priorityId,
+            spendTime,
+            history: histories,
         } as Task;
     }
 }

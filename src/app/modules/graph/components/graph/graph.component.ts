@@ -189,7 +189,7 @@ export class GraphComponent implements OnInit, OnChanges, AfterViewInit {
             .style('width', () => 100)
             .style('height', 20)
             .style('border', `2px solid ${task.color}`)
-            .html(() => task.simbol);
+            .html(() => `${task.symbol}-${task.id}`);
 
         return taskDraw.getPoints().map((point) => ({
             point,

@@ -3,19 +3,19 @@ import { Base } from './base';
 import { IntervalDate } from './interval-date';
 import { SpendTime } from './spend-time';
 
-interface TaskHistory extends IntervalDate  {
+export interface History extends IntervalDate {
     trackId: number; // id типа таска (например Release, feature  и тд)
 }
 
 export interface Task extends Base {
     type: string;
     color: string;
-    simbol: string;
+    symbol: string;
     priorityId: number;
     assignee: Base;
     performers: Base[];
-    spendTime: number;
-    history: TaskHistory[]; // массив событий
+    spendTime: string;
+    history: History[]; // массив событий
     info?: string; // описание
     histories: SpendTime[];
 
@@ -23,5 +23,5 @@ export interface Task extends Base {
         coordinates: [];
         minDate: Date;
         points: Point[];
-    }
+    };
 }

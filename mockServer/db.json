@@ -1,8 +1,9 @@
 {
   "tasks": [
     {
+      "id": 1,
       "type": "type",
-      "simbol": "TASK",
+      "symbol": "TASK",
       "color": "#228B22",
       "assignee": {
         "id": 6,
@@ -19,72 +20,26 @@
           "id": 6,
           "name": "Александр Александрович Рович",
           "isSelected": true
-        },
-        {
-          "id": 7,
-          "name": "Тест7 Тестович7",
-          "isSelected": true
         }
       ],
-      "spendTime": 0,
+      "spendTime": "10h",
       "history": [
         {
           "trackId": 1,
-          "startDate": "2021-01-30T21:00:00.000Z",
-          "stopDate": "2021-01-30T21:00:00.000Z"
-        }
-      ],
-      "id": 1
-    },
-    {
-      "type": "type",
-      "simbol": "TASK",
-      "color": "#228B22",
-      "assignee": {
-        "id": 5,
-        "name": "Тест5 Тестович5"
-      },
-      "performers": [
-        {
-          "id": 1,
-          "name": "Тест1 Тестович1",
-          "isSelected": true
-        },
-        {
-          "id": 2,
-          "name": "Тест2 Тестович2",
-          "isSelected": true
-        },
-        {
-          "id": 6,
-          "name": "Александр Александрович Рович",
-          "isSelected": true
-        },
-        {
-          "id": 7,
-          "name": "Тест7 Тестович7",
-          "isSelected": true
-        }
-      ],
-      "spendTime": 0,
-      "history": [
-        {
-          "trackId": 1,
-          "startDate": "2021-01-28T21:00:00.000Z",
-          "stopDate": "2021-01-28T21:00:00.000Z"
+          "startDate": "2021-02-02T21:00:00.000Z",
+          "stopDate": "2021-02-02T21:00:00.000Z"
         },
         {
           "trackId": 2,
-          "startDate": "2021-01-29T21:00:00.000Z",
-          "stopDate": "2021-01-29T21:00:00.000Z"
+          "startDate": "2021-02-04T21:00:00.000Z",
+          "stopDate": "2021-02-04T21:00:00.000Z"
         },
         {
           "trackId": 3,
-          "startDate": "2021-01-30T21:00:00.000Z",
-          "stopDate": "2021-01-30T21:00:00.000Z"
+          "startDate": "2021-02-04T21:00:00.000Z",
+          "stopDate": "2021-02-04T21:00:00.000Z"
         }
-      ],
-      "id": 2
+      ]
     }
   ]
 }
