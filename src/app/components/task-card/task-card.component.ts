@@ -4,13 +4,14 @@ import { CompanyCoreService } from '@core/services/company-core.service';
 import { IAppState } from '@core/stores/app.state';
 import { CreateTask, EditTask } from '@core/stores/task/task.actions';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
-import { Store } from '@ngrx/store';
+import { select, Store } from '@ngrx/store';
 import { Base } from '@share/models/base';
 import { History, Task } from '@share/models/task';
 import { NzUploadChangeParam } from 'ng-zorro-antd/upload';
 import { Observable } from 'rxjs';
 import { BoardCoreService } from '@core/services/board-core.service';
-import { tap } from 'rxjs/operators';
+import { filter, tap } from 'rxjs/operators';
+import { selectedTask } from '@core/stores/task/task.selectors';
 
 enum ESubmitName {
     'CREATE' = 'Create',
@@ -44,6 +45,32 @@ export class TaskCardComponent implements OnInit {
 
     ngOnInit(): void {
         this.formInit();
+
+        this._taskStore
+            .pipe(
+                select(selectedTask),
+                filter((_) => !!_),
+                tap((task) => {
+                    if (!this.form) {
+                        return;
+                    }
+                    this.form?.get('id')?.setValue(task.id);
+                    this.form?.get('spendTime')?.setValue(task.spendTime);
+                    // id: [this.task.id],
+                    //   name: [this.task?.name || '', [Validators.required]],
+                    //   spendTime: [
+                    //   this.task?.spendTime || '',
+                    //   [Validators.pattern(/[[0-9]*[d|h|m]{1}]{0,1}$/), Validators.required],
+                    // ],
+                    //   type: [this.task?.type || '', [Validators.required]],
+                    //   priority: [this.task?.priorityId || 0, [Validators.required]],
+                    //   performers: [this.task?.performers || [], [Validators.required]],
+                    //   assignee: [this.task?.assignee || ({} as Base), [Validators.required]],
+                    //   info: [this.task?.info || '', [Validators.required]],
+                    //   state: [undefined, [Validators.required]],
+                })
+            )
+            .subscribe();
 
         this.assignee$ = this._companyService.getUsers();
         this.states$ = this._boardCoreService
@@ -119,9 +146,32 @@ export class TaskCardComponent implements OnInit {
         // }
     }
 
+    convertSpentTime(str) {
+        const dSum = this.getSum(str.match(/\d*d/g), 'd');
+        const hSum = this.getSum(str.match(/\d*h/g), 'h');
+        const mSum = this.getSum(str.match(/\d*m/g), 'm');
+
+        return `${dSum} ${hSum} ${mSum}`.trim();
+    }
+
+    getSum(array, str) {
+        if (!array?.length) {
+            return '';
+        }
+        const sum = array.reduce((acc, v) => {
+            return acc + +v.replace(str, '');
+        }, 0);
+        if (!sum) {
+            return '';
+        }
+        return `${sum}${str}`;
+    }
+
     private convertFormToTask(form: FormGroup): Task {
         const {
             id,
+            name,
+            info,
             type,
             assignee,
             performers,
@@ -129,6 +179,7 @@ export class TaskCardComponent implements OnInit {
             spendTime,
             state,
         } = form.getRawValue();
+
         const histories = [];
         Object.assign(histories, this.task.history);
 
@@ -142,13 +193,15 @@ export class TaskCardComponent implements OnInit {
 
         return {
             id,
+            name,
+            info,
             type: type || 'type',
             symbol: 'TASK',
             color: '#228B22',
             assignee,
             performers,
             priorityId,
-            spendTime,
+            spendTime: this.convertSpentTime(spendTime),
             history: histories,
         } as Task;
     }

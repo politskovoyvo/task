@@ -4,7 +4,7 @@ import { TaskCoreService } from '@core/services/task-core.service';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import { select, Store } from '@ngrx/store';
 import { Task } from '@share/models/task';
-import { of } from 'rxjs';
+import { forkJoin, of } from 'rxjs';
 import { map, switchMap, tap, withLatestFrom } from 'rxjs/operators';
 import { IAppState } from '../app.state';
 import {
@@ -17,7 +17,7 @@ import {
     RemoveTask,
     TaskActionsType,
 } from './task.actions';
-import { selectedTasks } from './task.selectors';
+import { selectedTask, selectedTasks } from './task.selectors';
 
 @Injectable()
 export class TaskEffects {
@@ -27,8 +27,8 @@ export class TaskEffects {
         map((action) => action.payload),
         withLatestFrom(this._store.pipe(select(selectedTasks))),
         switchMap(([id, tasks]: [number, Task[]]) => {
-            const selectedTask = tasks.find((task: Task) => task.id === +id);
-            return of(new GetTaskSuccess(selectedTask));
+            const selectTask = tasks.find((task: Task) => task.id === +id);
+            return of(new GetTaskSuccess(selectTask));
         })
     );
 
@@ -38,7 +38,8 @@ export class TaskEffects {
         switchMap(() =>
             this._taskCoreService.getTasks(this._boardCoreService.currentBoard.id)
         ),
-        switchMap((tasks: Task[]) => of(new GetTasksSuccess(tasks)))
+        switchMap((tasks) => of(new GetTasksSuccess(tasks)))
+        // TODO: обновить выбранный GETTASK
     );
 
     @Effect()
@@ -48,7 +49,7 @@ export class TaskEffects {
         switchMap((task) =>
             this._taskCoreService.createTask(this._boardCoreService.currentBoard.id, task)
         ),
-        switchMap((tasks: Task[]) => of(new GetTasks()))
+        switchMap(() => of(new GetTasks()))
     );
 
     @Effect()

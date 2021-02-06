@@ -2,9 +2,10 @@ import { Component, Input, OnInit } from '@angular/core';
 import { TaskCardComponent } from '@components/task-card/task-card.component';
 import { IAppState } from '@core/stores/app.state';
 import { GetTask } from '@core/stores/task/task.actions';
-import { Store } from '@ngrx/store';
+import { select, Store } from '@ngrx/store';
 import { Task } from '@share/models/task';
 import { NzDrawerService } from 'ng-zorro-antd/drawer';
+import { selectedTasks } from '@core/stores/task/task.selectors';
 
 @Component({
     selector: 'app-task-list',
@@ -13,7 +14,7 @@ import { NzDrawerService } from 'ng-zorro-antd/drawer';
     providers: [NzDrawerService],
 })
 export class TaskListComponent implements OnInit {
-    @Input() tasks: Task[];
+    tasks$ = this._taskStore$.pipe(select(selectedTasks));
 
     constructor(
         private _taskStore$: Store<IAppState>,
@@ -23,6 +24,7 @@ export class TaskListComponent implements OnInit {
     ngOnInit(): void {}
 
     openTask(task: Task) {
+        this.selected(task.id);
         this._drawerService.create({
             nzTitle: `${task.symbol}-${task.id}`,
             nzWidth: '80%',

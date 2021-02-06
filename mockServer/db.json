@@ -2,6 +2,8 @@
   "tasks": [
     {
       "id": 1,
+      "name": "store tasks111 s1s111 12111111 2",
+      "info": "Доделать обновление store",
       "type": "type",
       "symbol": "TASK",
       "color": "#228B22",
@@ -32,7 +34,7 @@
           "isSelected": true
         }
       ],
-      "spendTime": "",
+      "spendTime": "100d 1135h 30m",
       "history": [
         {
           "trackId": 1,
@@ -48,11 +50,18 @@
           "trackId": 3,
           "startDate": "2021-02-05T21:00:00.000Z",
           "stopDate": "2021-02-05T21:00:00.000Z"
+        },
+        {
+          "trackId": 4,
+          "startDate": "2021-02-06T21:00:00.000Z",
+          "stopDate": "2021-02-06T21:00:00.000Z"
         }
       ]
     },
     {
       "id": 2,
+      "name": "1",
+      "info": "dddd",
       "type": "type",
       "symbol": "TASK",
       "color": "#228B22",
@@ -77,7 +86,7 @@
           "isSelected": true
         }
       ],
-      "spendTime": "100h",
+      "spendTime": "50d 1h 22m",
       "history": [
         {
           "trackId": 1,

@@ -3,7 +3,11 @@
         <t-input></t-input>
     </div>
 
-    <div *ngFor="let task of tasks" class="container__task" (click)="selected(task.id)">
+    <div
+        *ngFor="let task of tasks$ | async"
+        class="container__task"
+        (click)="selected(task.id)"
+    >
         <div class="container__task-simbol">
             <a (click)="openTask(task)">{{ task.symbol + '-' + task.id }}</a>
         </div>
