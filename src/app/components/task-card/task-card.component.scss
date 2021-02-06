@@ -1,4 +1,6 @@
+@import 'mixins';
 @import 'variables';
+
 $padding-right: 20px;
 $padding-left: 20px;
 
@@ -11,12 +13,20 @@ $padding-left: 20px;
         display: flex;
         flex-direction: column;
         overflow: auto;
+
         height: 100%;
 
         &-line {
             padding: 10px 0 0 $padding-left;
             display: flex;
             align-items: center;
+
+            .ng-invalid {
+                ::ng-deep.ant-input,
+                ::ng-deep.ant-select-selector {
+                    border: 1px solid red;
+                }
+            }
 
             t-input {
                 margin-top: 10px;
@@ -111,6 +121,10 @@ $padding-left: 20px;
             width: 100%;
             height: $header_footer;
             padding: 0 20px;
+
+            .disable {
+                @include disable-btn;
+            }
 
             button {
                 border: 1px solid white;

@@ -12,8 +12,18 @@
       },
       "performers": [
         {
+          "id": 1,
+          "name": "Тест1 Тестович1",
+          "isSelected": true
+        },
+        {
           "id": 2,
           "name": "Тест2 Тестович2",
+          "isSelected": true
+        },
+        {
+          "id": 4,
+          "name": "Тест4 Тестович4",
           "isSelected": true
         },
         {
@@ -22,12 +32,12 @@
           "isSelected": true
         }
       ],
-      "spendTime": "10h",
+      "spendTime": "",
       "history": [
         {
           "trackId": 1,
-          "startDate": "2021-02-02T21:00:00.000Z",
-          "stopDate": "2021-02-02T21:00:00.000Z"
+          "startDate": "2021-02-01T21:00:00.000Z",
+          "stopDate": "2021-02-01T21:00:00.000Z"
         },
         {
           "trackId": 2,
@@ -36,8 +46,48 @@
         },
         {
           "trackId": 3,
+          "startDate": "2021-02-05T21:00:00.000Z",
+          "stopDate": "2021-02-05T21:00:00.000Z"
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "type": "type",
+      "symbol": "TASK",
+      "color": "#228B22",
+      "assignee": {
+        "id": 4,
+        "name": "Тест4 Тестович4"
+      },
+      "performers": [
+        {
+          "id": 2,
+          "name": "Тест2 Тестович2",
+          "isSelected": true
+        },
+        {
+          "id": 3,
+          "name": "Тест3 Тестович3",
+          "isSelected": true
+        },
+        {
+          "id": 6,
+          "name": "Александр Александрович Рович",
+          "isSelected": true
+        }
+      ],
+      "spendTime": "100h",
+      "history": [
+        {
+          "trackId": 1,
           "startDate": "2021-02-04T21:00:00.000Z",
           "stopDate": "2021-02-04T21:00:00.000Z"
+        },
+        {
+          "trackId": 3,
+          "startDate": "2021-02-05T21:00:00.000Z",
+          "stopDate": "2021-02-05T21:00:00.000Z"
         }
       ]
     }

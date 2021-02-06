@@ -1,0 +1,6 @@
+@mixin disable-btn {
+    border: 1px solid gray;
+    opacity: 0.8;
+    color: gray;
+    cursor: no-drop;
+}

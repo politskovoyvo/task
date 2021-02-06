@@ -98,7 +98,10 @@ export class TaskCardComponent implements OnInit {
         this.form = this._fb.group({
             id: [this.task.id],
             name: [this.task?.name || '', [Validators.required]],
-            spendTime: [this.task?.spendTime || '', [Validators.required]],
+            spendTime: [
+                this.task?.spendTime || '',
+                [Validators.pattern(/[[0-9]*[d|h|m]{1}]{0,1}$/), Validators.required],
+            ],
             type: [this.task?.type || '', [Validators.required]],
             priority: [this.task?.priorityId || 0, [Validators.required]],
             performers: [this.task?.performers || [], [Validators.required]],

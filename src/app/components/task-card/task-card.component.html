@@ -108,7 +108,13 @@
 
         <div class="form__footer-submit">
             <div>
-                <button type="submit">{{ submitName[action] }}</button>
+                <button
+                    [class.disable]="form.invalid"
+                    [disabled]="form.invalid"
+                    type="submit"
+                >
+                    {{ submitName[action] }}
+                </button>
 
                 <button #addTimeBtn (click)="timeSet(addTimeBtn)">
                     <i class="icon" nz-icon nzType="plus"></i>
@@ -119,6 +125,7 @@
                         <t-input [placeholder]="'1d = 8h'"></t-input>
                         <t-input type="textarea" [placeholder]="'1d = 8h'"></t-input>
                     </div>
+                    §
                 </ng-template>
             </div>
 
