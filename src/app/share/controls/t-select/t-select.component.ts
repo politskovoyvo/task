@@ -1,4 +1,5 @@
 import {
+    ChangeDetectorRef,
     Component,
     EventEmitter,
     forwardRef,
@@ -39,7 +40,7 @@ export class TSelectComponent implements OnInit, ControlValueAccessor {
 
     @Output() changeEmit = new EventEmitter();
 
-    constructor() {}
+    constructor(private _changeDetRef: ChangeDetectorRef) {}
 
     ngOnInit(): void {}
 
@@ -61,6 +62,7 @@ export class TSelectComponent implements OnInit, ControlValueAccessor {
         this.value = this._options?.find((i: any) => obj.id === i.id);
         this.onChange(this.value);
         this.change();
+        this._changeDetRef.detectChanges();
     }
 
     registerOnChange(fn: any): void {

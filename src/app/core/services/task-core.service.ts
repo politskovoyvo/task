@@ -43,8 +43,6 @@ export class TaskCoreService {
     }
 
     editTask(editTask: Task) {
-        // let findTask = this.tasks_MOCK.find((task) => task.id === editTask.id);
-        // findTask = { ...editTask };
         return this._httpClient.put(`${this._TEST_URI}/tasks/${editTask.id}`, editTask);
     }
 

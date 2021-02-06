@@ -9,8 +9,7 @@
       "color": "#228B22",
       "assignee": {
         "id": 6,
-        "name": "Александр Александрович Рович",
-        "isSelected": true
+        "name": "Александр Александрович Рович"
       },
       "performers": [
         {
@@ -34,7 +33,7 @@
           "isSelected": true
         }
       ],
-      "spendTime": "100d 1135h 30m",
+      "spendTime": "11d 1h 19m",
       "history": [
         {
           "trackId": 1,
@@ -86,7 +85,7 @@
           "isSelected": true
         }
       ],
-      "spendTime": "50d 1h 22m",
+      "spendTime": "50d 1h 32m",
       "history": [
         {
           "trackId": 1,

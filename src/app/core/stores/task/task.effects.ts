@@ -38,6 +38,15 @@ export class TaskEffects {
         switchMap(() =>
             this._taskCoreService.getTasks(this._boardCoreService.currentBoard.id)
         ),
+        withLatestFrom(this._store.pipe(select(selectedTask))),
+        switchMap(([tasks, task]) => {
+            if (!task) {
+                return of(tasks);
+            }
+            const selectTask = tasks.find((t: Task) => t.id === task.id);
+            this._store.dispatch(new GetTaskSuccess(selectTask));
+            return of(tasks);
+        }),
         switchMap((tasks) => of(new GetTasksSuccess(tasks)))
         // TODO: обновить выбранный GETTASK
     );

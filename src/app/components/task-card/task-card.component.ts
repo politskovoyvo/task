@@ -1,4 +1,9 @@
-import { ChangeDetectionStrategy, Component, ElementRef, OnInit } from '@angular/core';
+import {
+    ChangeDetectionStrategy,
+    ChangeDetectorRef,
+    Component,
+    OnInit,
+} from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { CompanyCoreService } from '@core/services/company-core.service';
 import { IAppState } from '@core/stores/app.state';
@@ -40,7 +45,8 @@ export class TaskCardComponent implements OnInit {
         private _companyService: CompanyCoreService,
         private _fb: FormBuilder,
         private _taskStore: Store<IAppState>,
-        private _boardCoreService: BoardCoreService
+        private _boardCoreService: BoardCoreService,
+        private _changeDetRef: ChangeDetectorRef
     ) {}
 
     ngOnInit(): void {
@@ -48,26 +54,16 @@ export class TaskCardComponent implements OnInit {
 
         this._taskStore
             .pipe(
+                untilDestroyed(this),
                 select(selectedTask),
                 filter((_) => !!_),
                 tap((task) => {
                     if (!this.form) {
                         return;
                     }
-                    this.form?.get('id')?.setValue(task.id);
-                    this.form?.get('spendTime')?.setValue(task.spendTime);
-                    // id: [this.task.id],
-                    //   name: [this.task?.name || '', [Validators.required]],
-                    //   spendTime: [
-                    //   this.task?.spendTime || '',
-                    //   [Validators.pattern(/[[0-9]*[d|h|m]{1}]{0,1}$/), Validators.required],
-                    // ],
-                    //   type: [this.task?.type || '', [Validators.required]],
-                    //   priority: [this.task?.priorityId || 0, [Validators.required]],
-                    //   performers: [this.task?.performers || [], [Validators.required]],
-                    //   assignee: [this.task?.assignee || ({} as Base), [Validators.required]],
-                    //   info: [this.task?.info || '', [Validators.required]],
-                    //   state: [undefined, [Validators.required]],
+
+                    this.setFormValues(task);
+                    setTimeout(() => this._changeDetRef.detectChanges(), 0);
                 })
             )
             .subscribe();
@@ -120,20 +116,20 @@ export class TaskCardComponent implements OnInit {
     }
 
     private formInit() {
-        this.task = { ...this.task };
+        // this.task = { ...this.task };
 
         this.form = this._fb.group({
-            id: [this.task.id],
-            name: [this.task?.name || '', [Validators.required]],
+            id: [undefined],
+            name: [undefined, [Validators.required]],
             spendTime: [
-                this.task?.spendTime || '',
+                undefined,
                 [Validators.pattern(/[[0-9]*[d|h|m]{1}]{0,1}$/), Validators.required],
             ],
-            type: [this.task?.type || '', [Validators.required]],
-            priority: [this.task?.priorityId || 0, [Validators.required]],
-            performers: [this.task?.performers || [], [Validators.required]],
-            assignee: [this.task?.assignee || ({} as Base), [Validators.required]],
-            info: [this.task?.info || '', [Validators.required]],
+            type: [undefined, [Validators.required]],
+            priority: [undefined],
+            performers: [undefined, [Validators.required]],
+            assignee: [undefined, [Validators.required]],
+            info: [undefined, [Validators.required]],
             state: [undefined, [Validators.required]],
         });
     }
@@ -179,6 +175,7 @@ export class TaskCardComponent implements OnInit {
             spendTime,
             state,
         } = form.getRawValue();
+        console.log(id);
 
         const histories = [];
         Object.assign(histories, this.task.history);
@@ -204,5 +201,16 @@ export class TaskCardComponent implements OnInit {
             spendTime: this.convertSpentTime(spendTime),
             history: histories,
         } as Task;
+    }
+
+    private setFormValues(task: Task) {
+        this.form.get('id')?.setValue(task.id);
+        this.form.get('priorityId')?.setValue(task.priorityId || 0);
+        this.form.get('name')?.setValue(task.name);
+        this.form.get('spendTime')?.setValue(task.spendTime);
+        this.form.get('type')?.setValue(task.type);
+        this.form.get('performers')?.setValue(task.performers);
+        this.form.get('assignee')?.setValue(task.assignee);
+        this.form.get('info')?.setValue(task.info);
     }
 }
