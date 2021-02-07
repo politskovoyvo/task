@@ -59,7 +59,7 @@
     },
     {
       "id": 2,
-      "name": "1",
+      "name": "Инфа по таску",
       "info": "dddd",
       "type": "type",
       "symbol": "TASK",
@@ -96,6 +96,44 @@
           "trackId": 3,
           "startDate": "2021-02-05T21:00:00.000Z",
           "stopDate": "2021-02-05T21:00:00.000Z"
+        },
+        {
+          "trackId": 5,
+          "startDate": "2021-02-06T21:00:00.000Z",
+          "stopDate": "2021-02-06T21:00:00.000Z"
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "name": "jj",
+      "info": "mm",
+      "type": "type",
+      "symbol": "TASK",
+      "color": "#228B22",
+      "assignee": {
+        "id": 6,
+        "name": "Александр Александрович Рович",
+        "isSelected": true
+      },
+      "performers": [
+        {
+          "id": 2,
+          "name": "Тест2 Тестович2",
+          "isSelected": true
+        },
+        {
+          "id": 6,
+          "name": "Александр Александрович Рович",
+          "isSelected": true
+        }
+      ],
+      "spendTime": "1h",
+      "history": [
+        {
+          "trackId": 1,
+          "startDate": "2021-02-06T21:00:00.000Z",
+          "stopDate": "2021-02-06T21:00:00.000Z"
         }
       ]
     }

@@ -8,9 +8,24 @@
         class="container__task"
         (click)="selected(task.id)"
     >
-        <div class="container__task-simbol">
+        <div class="container__task-symbol">
             <a (click)="openTask(task)">{{ task.symbol + '-' + task.id }}</a>
         </div>
-        <div class="container__task-name">{{ task.name }}</div>
+        <div class="container__task-context">
+            {{ task.name }}
+            <ng-container *ngIf="orderInfo.check">
+                <div class="container__task-name">spend time:{{ task.spendTime }}</div>
+                <div class="container__task-name">type:{{ task.type }}</div>
+                <div class="container__task-name">id:{{ task.id }}</div>
+                <div class="container__task-name">time left:{{ '???' }}</div>
+            </ng-container>
+        </div>
+
+        <i
+            #orderInfo
+            nz-icon
+            [nzType]="orderInfo.check ? 'close' : 'down'"
+            (click)="orderInfo.check = !orderInfo.check"
+        ></i>
     </div>
 </div>

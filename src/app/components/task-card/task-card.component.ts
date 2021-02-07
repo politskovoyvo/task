@@ -58,7 +58,7 @@ export class TaskCardComponent implements OnInit {
                 select(selectedTask),
                 filter((_) => !!_),
                 tap((task) => {
-                    if (!this.form) {
+                    if (!this.form || this.action === 'CREATE') {
                         return;
                     }
 
@@ -125,7 +125,7 @@ export class TaskCardComponent implements OnInit {
                 undefined,
                 [Validators.pattern(/[[0-9]*[d|h|m]{1}]{0,1}$/), Validators.required],
             ],
-            type: [undefined, [Validators.required]],
+            type: [undefined],
             priority: [undefined],
             performers: [undefined, [Validators.required]],
             assignee: [undefined, [Validators.required]],
@@ -175,7 +175,6 @@ export class TaskCardComponent implements OnInit {
             spendTime,
             state,
         } = form.getRawValue();
-        console.log(id);
 
         const histories = [];
         Object.assign(histories, this.task.history);
