@@ -17,6 +17,7 @@ import { Observable } from 'rxjs';
 import { BoardCoreService } from '@core/services/board-core.service';
 import { filter, tap } from 'rxjs/operators';
 import { selectedTask } from '@core/stores/task/task.selectors';
+import { Priority } from '@core/models/priority';
 
 enum ESubmitName {
     'CREATE' = 'Create',
@@ -35,6 +36,8 @@ export class TaskCardComponent implements OnInit {
     submitName = ESubmitName;
     assignee$: Observable<Base[]>;
     states$: Observable<Base[]>;
+    priorities$: Observable<Priority[]>;
+
     form: FormGroup;
     action: 'CREATE' | 'EDIT' = 'CREATE';
     inputWidth = '260px';
@@ -42,10 +45,10 @@ export class TaskCardComponent implements OnInit {
     task: Task = {} as Task;
 
     constructor(
-        private _companyService: CompanyCoreService,
         private _fb: FormBuilder,
         private _taskStore: Store<IAppState>,
         private _boardCoreService: BoardCoreService,
+        private _companyCoreService: CompanyCoreService,
         private _changeDetRef: ChangeDetectorRef
     ) {}
 
@@ -68,7 +71,12 @@ export class TaskCardComponent implements OnInit {
             )
             .subscribe();
 
-        this.assignee$ = this._companyService.getUsers();
+        this.assignee$ = this._companyCoreService.getUsers();
+
+        this.priorities$ = this._companyCoreService
+            .getPriories()
+            .pipe(tap((ps: Priority[]) => this.getCurrentPriority(ps)));
+
         this.states$ = this._boardCoreService
             .getTracks(this._boardCoreService.currentBoard.id)
             .pipe(tap((states) => this.getCurrentState(states)));
@@ -115,11 +123,17 @@ export class TaskCardComponent implements OnInit {
         this.form.get('state').setValue(findState || states.find((s) => s.id === 1));
     }
 
-    private formInit() {
-        // this.task = { ...this.task };
+    private getCurrentPriority(priorities: Priority[]) {
+        priorities?.forEach((p) => {
+            const isPriority = p.id === this.task.priority?.id;
+            this.form.get('priority').setValue(isPriority ? p : priorities[0]);
+        });
+    }
 
+    private formInit() {
         this.form = this._fb.group({
             id: [undefined],
+            symbol: [''],
             name: [undefined, [Validators.required]],
             spendTime: [
                 undefined,
@@ -146,7 +160,6 @@ export class TaskCardComponent implements OnInit {
         const dSum = this.getSum(str.match(/\d*d/g), 'd');
         const hSum = this.getSum(str.match(/\d*h/g), 'h');
         const mSum = this.getSum(str.match(/\d*m/g), 'm');
-
         return `${dSum} ${hSum} ${mSum}`.trim();
     }
 
@@ -171,7 +184,7 @@ export class TaskCardComponent implements OnInit {
             type,
             assignee,
             performers,
-            priorityId,
+            priority,
             spendTime,
             state,
         } = form.getRawValue();
@@ -191,25 +204,29 @@ export class TaskCardComponent implements OnInit {
             id,
             name,
             info,
+            priority,
             type: type || 'type',
+            // TODO: добавить symbol с boarder сервиса
             symbol: 'TASK',
-            color: '#228B22',
             assignee,
             performers,
-            priorityId,
             spendTime: this.convertSpentTime(spendTime),
             history: histories,
         } as Task;
     }
 
     private setFormValues(task: Task) {
-        this.form.get('id')?.setValue(task.id);
-        this.form.get('priorityId')?.setValue(task.priorityId || 0);
-        this.form.get('name')?.setValue(task.name);
-        this.form.get('spendTime')?.setValue(task.spendTime);
-        this.form.get('type')?.setValue(task.type);
-        this.form.get('performers')?.setValue(task.performers);
-        this.form.get('assignee')?.setValue(task.assignee);
-        this.form.get('info')?.setValue(task.info);
+        if (!task) {
+            return;
+        }
+        this.form.get('id').setValue(task.id);
+        this.form.get('symbol').setValue(task.symbol);
+        this.form.get('priority').setValue(task.priority);
+        this.form.get('name').setValue(task.name);
+        this.form.get('spendTime').setValue(task.spendTime);
+        this.form.get('type').setValue(task.type);
+        this.form.get('performers').setValue(task.performers);
+        this.form.get('assignee').setValue(task.assignee);
+        this.form.get('info').setValue(task.info);
     }
 }

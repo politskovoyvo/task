@@ -1,6 +1,9 @@
 @import 'variables';
 
 .card {
+    background: $basic-white;
+    height: 100%;
+
     &__input {
         margin-bottom: 5px;
     }
@@ -8,13 +11,11 @@
     &__item {
         display: flex;
         justify-content: space-between;
-        margin-bottom: 2px;
-        width: 100%;
         background: $basic-back;
-        border: 2px solid $cursor-hover;
+        margin: 5px;
 
         span {
-            font-size: $font_size_title;
+            font-size: $font_size_context;
             padding-left: 5px;
             color: white;
         }

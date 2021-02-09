@@ -2,11 +2,15 @@
   "tasks": [
     {
       "id": 1,
-      "name": "store tasks111 s1s111 12111111 2",
+      "name": "Добавить историю изменения таска",
       "info": "Доделать обновление store",
+      "priority": {
+        "id": 1,
+        "name": "normal",
+        "color": "#8A2BE2"
+      },
       "type": "type",
       "symbol": "TASK",
-      "color": "#228B22",
       "assignee": {
         "id": 6,
         "name": "Александр Александрович Рович"
@@ -33,7 +37,7 @@
           "isSelected": true
         }
       ],
-      "spendTime": "11d 1h 19m",
+      "spendTime": "1d",
       "history": [
         {
           "trackId": 1,
@@ -42,16 +46,16 @@
         },
         {
           "trackId": 2,
-          "startDate": "2021-02-04T21:00:00.000Z",
-          "stopDate": "2021-02-04T21:00:00.000Z"
+          "startDate": "2021-02-03T21:00:00.000Z",
+          "stopDate": "2021-02-03T21:00:00.000Z"
         },
         {
-          "trackId": 3,
+          "trackId": 4,
           "startDate": "2021-02-05T21:00:00.000Z",
           "stopDate": "2021-02-05T21:00:00.000Z"
         },
         {
-          "trackId": 4,
+          "trackId": 5,
           "startDate": "2021-02-06T21:00:00.000Z",
           "stopDate": "2021-02-06T21:00:00.000Z"
         }
@@ -59,11 +63,15 @@
     },
     {
       "id": 2,
-      "name": "Инфа по таску",
-      "info": "dddd",
+      "name": "Информация по времени которое осталось",
+      "info": "сделать расчет на этой странице времени \nкоторое осталось",
+      "priority": {
+        "id": 2,
+        "name": "major",
+        "color": "#DAA520"
+      },
       "type": "type",
       "symbol": "TASK",
-      "color": "#228B22",
       "assignee": {
         "id": 4,
         "name": "Тест4 Тестович4"
@@ -85,10 +93,15 @@
           "isSelected": true
         }
       ],
-      "spendTime": "50d 1h 32m",
+      "spendTime": "1d 1h 32m",
       "history": [
         {
           "trackId": 1,
+          "startDate": "2021-02-03T21:00:00.000Z",
+          "stopDate": "2021-02-03T21:00:00.000Z"
+        },
+        {
+          "trackId": 2,
           "startDate": "2021-02-04T21:00:00.000Z",
           "stopDate": "2021-02-04T21:00:00.000Z"
         },
@@ -98,23 +111,31 @@
           "stopDate": "2021-02-05T21:00:00.000Z"
         },
         {
-          "trackId": 5,
+          "trackId": 1,
           "startDate": "2021-02-06T21:00:00.000Z",
           "stopDate": "2021-02-06T21:00:00.000Z"
+        },
+        {
+          "trackId": 2,
+          "startDate": "2021-02-08T21:00:00.000Z",
+          "stopDate": "2021-02-08T21:00:00.000Z"
         }
       ]
     },
     {
       "id": 3,
-      "name": "jj",
-      "info": "mm",
+      "name": "Приоритеты задач",
+      "info": "в Priority кидать список и сохранять, так список задач отображать по этому списку",
+      "priority": {
+        "id": 3,
+        "name": "critical",
+        "color": "#B22222"
+      },
       "type": "type",
       "symbol": "TASK",
-      "color": "#228B22",
       "assignee": {
         "id": 6,
-        "name": "Александр Александрович Рович",
-        "isSelected": true
+        "name": "Александр Александрович Рович"
       },
       "performers": [
         {
@@ -134,6 +155,135 @@
           "trackId": 1,
           "startDate": "2021-02-06T21:00:00.000Z",
           "stopDate": "2021-02-06T21:00:00.000Z"
+        },
+        {
+          "trackId": 2,
+          "startDate": "2021-02-07T21:00:00.000Z",
+          "stopDate": "2021-02-07T21:00:00.000Z"
+        },
+        {
+          "trackId": 4,
+          "startDate": "2021-02-08T21:00:00.000Z",
+          "stopDate": "2021-02-08T21:00:00.000Z"
+        }
+      ]
+    },
+    {
+      "id": 4,
+      "name": "Фильтр по списку задач",
+      "info": "Добавить фильтр для отображения списка задач",
+      "priority": {
+        "id": 1,
+        "name": "normal",
+        "color": "#8A2BE2"
+      },
+      "type": "type",
+      "symbol": "TASK",
+      "assignee": {
+        "id": 6,
+        "name": "Александр Александрович Рович",
+        "isSelected": true
+      },
+      "performers": [
+        {
+          "id": 6,
+          "name": "Александр Александрович Рович",
+          "isSelected": true
+        }
+      ],
+      "spendTime": "10h",
+      "history": [
+        {
+          "trackId": 1,
+          "startDate": "2021-02-06T21:00:00.000Z",
+          "stopDate": "2021-02-06T21:00:00.000Z"
+        },
+        {
+          "trackId": 2,
+          "startDate": "2021-02-07T21:00:00.000Z",
+          "stopDate": "2021-02-07T21:00:00.000Z"
+        },
+        {
+          "trackId": 3,
+          "startDate": "2021-02-08T21:00:00.000Z",
+          "stopDate": "2021-02-08T21:00:00.000Z"
+        }
+      ]
+    },
+    {
+      "id": 5,
+      "name": "Фильтр отображения задач",
+      "info": "Добавить фильтр в компонен со ссписком задач",
+      "priority": {
+        "id": 3,
+        "name": "critical",
+        "color": "#B22222"
+      },
+      "type": "type",
+      "symbol": "TASK",
+      "assignee": {
+        "id": 6,
+        "name": "Александр Александрович Рович"
+      },
+      "performers": [
+        {
+          "id": 4,
+          "name": "Тест4 Тестович4",
+          "isSelected": true
+        },
+        {
+          "id": 5,
+          "name": "Тест5 Тестович5",
+          "isSelected": true
+        }
+      ],
+      "spendTime": "10h",
+      "history": [
+        {
+          "trackId": 1,
+          "startDate": "2021-02-07T21:00:00.000Z",
+          "stopDate": "2021-02-07T21:00:00.000Z"
+        },
+        {
+          "trackId": 2,
+          "startDate": "2021-02-08T21:00:00.000Z",
+          "stopDate": "2021-02-08T21:00:00.000Z"
+        }
+      ]
+    },
+    {
+      "id": 6,
+      "name": "АДМИНКА",
+      "info": "Админка\n1. \n2. ",
+      "priority": {
+        "id": 2,
+        "name": "major",
+        "color": "#DAA520"
+      },
+      "type": "type",
+      "symbol": "TASK",
+      "assignee": {
+        "id": 4,
+        "name": "Тест4 Тестович4"
+      },
+      "performers": [
+        {
+          "id": 1,
+          "name": "Тест1 Тестович1",
+          "isSelected": true
+        },
+        {
+          "id": 6,
+          "name": "Александр Александрович Рович",
+          "isSelected": true
+        }
+      ],
+      "spendTime": "100d",
+      "history": [
+        {
+          "trackId": 1,
+          "startDate": "2021-02-07T21:00:00.000Z",
+          "stopDate": "2021-02-07T21:00:00.000Z"
         }
       ]
     }

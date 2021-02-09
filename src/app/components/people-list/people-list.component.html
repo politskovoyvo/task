@@ -3,15 +3,16 @@
         <t-input></t-input>
     </div>
 
-    <div *ngFor="let assigne of assignesSubj$ | async">
+    <div *ngFor="let assignee of assigneesSubj$ | async">
         <div
             class="card__item"
-            [ngClass]="assigne['isSelected'] ? 'select' : 'no-select'"
+            [ngClass]="assignee['isSelected'] ? 'select' : 'no-select'"
         >
-            <span>{{ assigne.name }}</span>
+            <span>{{ assignee.name }}</span>
+
             <div class="card__icons">
-              <i nz-icon nzType="field-time" nzTheme="outline"></i>
-              <span>10min</span>
+                <i nz-icon nzType="field-time" nzTheme="outline"></i>
+                <span>10min</span>
             </div>
         </div>
     </div>

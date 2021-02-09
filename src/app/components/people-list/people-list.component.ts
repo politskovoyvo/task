@@ -26,7 +26,7 @@ export class PeopleListComponent implements OnInit, OnChanges {
     @Input() boardId: number;
     @Input() selectedIds: number[];
     refreshSubj$ = new Subject<number>();
-    assignesSubj$ = new BehaviorSubject<Base[]>([]);
+    assigneesSubj$ = new BehaviorSubject<Base[]>([]);
 
     constructor(
         private taskStore$: Store<IAppState>,
@@ -67,17 +67,17 @@ export class PeopleListComponent implements OnInit, OnChanges {
                     this._boardCoreService.getUsersByBoardId(boardId)
                 )
             )
-            .subscribe(this.assignesSubj$);
+            .subscribe(this.assigneesSubj$);
     }
 
     private getSelectedAssignes(ids: number[]) {
-        const filterAssignes = this.assignesSubj$.value
+        const filterAssignes = this.assigneesSubj$.value
             .map((user) => ({
                 ...user,
                 isSelected: ids?.includes(user.id),
             }))
             ?.sortBy((user) => !user.isSelected);
 
-        this.assignesSubj$.next(filterAssignes);
+        this.assigneesSubj$.next(filterAssignes);
     }
 }

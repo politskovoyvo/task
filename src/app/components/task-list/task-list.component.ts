@@ -26,7 +26,6 @@ export class TaskListComponent implements OnInit {
     openTask(task: Task) {
         this.selected(task.id);
         this._drawerService.create({
-            nzTitle: `${task.symbol}-${task.id}`,
             nzWidth: '80%',
             nzContent: TaskCardComponent,
             nzContentParams: {

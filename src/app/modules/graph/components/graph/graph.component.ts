@@ -48,7 +48,7 @@ export class GraphComponent implements OnInit, OnChanges, AfterViewInit {
 
     changeSubj$ = new ReplaySubject<void>();
 
-    svg = null;
+    svg? = null;
     maxDate = new Date();
 
     constructor(
@@ -81,6 +81,7 @@ export class GraphComponent implements OnInit, OnChanges, AfterViewInit {
     ngOnInit(): void {
         this.taskStore$
             .pipe(
+                untilDestroyed(this),
                 select(selectedTask),
                 untilDestroyed(this),
                 tap((task) => (this.selectedTaskId = task?.id))
@@ -138,7 +139,7 @@ export class GraphComponent implements OnInit, OnChanges, AfterViewInit {
                 .attr('y2', '100%')
                 .attr('class', 'vertical__line')
                 .style('fill', 'none')
-                .style('stroke', 'black')
+                .style('stroke', 'white')
                 .style('stroke-dasharray', '20, 4')
                 .style('troke-dashoffset', 0)
                 .style('opacity', 0.3);
@@ -150,7 +151,7 @@ export class GraphComponent implements OnInit, OnChanges, AfterViewInit {
                 .style('width', 100)
                 .style('height', step)
                 .style('transform', 'rotate(-90deg)')
-                .html((d, i) => {
+                .html(() => {
                     return type.name;
                 });
         });
@@ -170,7 +171,7 @@ export class GraphComponent implements OnInit, OnChanges, AfterViewInit {
         taskDraws.forEach((taskDraw, ind) => {
             taskDraw.setPoint(this.axis);
             this.paintTask(taskDraw, svg, {
-                lineColor: taskDraw.getTask().color,
+                lineColor: taskDraw.getTask().priority?.color || '#8A2BE2',
                 nodeColor: 'black',
                 nodeRadius: '5',
                 strokeWidth: '3',
@@ -184,11 +185,12 @@ export class GraphComponent implements OnInit, OnChanges, AfterViewInit {
         this.svg
             .append('foreignObject')
             .attr('class', 'panel__name')
-            .style('y', taskDraw.getCreatePoint().y - 10)
+            .style('y', taskDraw.getCreatePoint().y - 8)
             .style('x', () => -150)
             .style('width', () => 100)
-            .style('height', 20)
-            .style('border', `2px solid ${task.color}`)
+            .style('height', 16)
+            .style('background', () => task.priority?.color || '#8A2BE2')
+            .style('border', `1px solid black`)
             .html(() => `${task.symbol}-${task.id}`);
 
         return taskDraw.getPoints().map((point) => ({
@@ -250,7 +252,7 @@ export class GraphComponent implements OnInit, OnChanges, AfterViewInit {
                 .attr('x2', step * tracks.length)
                 .attr('y2', marginTop)
                 .style('fill', 'none')
-                .style('stroke', 'black')
+                .style('stroke', 'white')
                 .style('stroke-dasharray', '10, 4')
                 .style('stroke-width', 0.15);
 
@@ -325,10 +327,6 @@ export class GraphComponent implements OnInit, OnChanges, AfterViewInit {
         return date1 > date2 ? -1 : 1;
     }
 
-    private dateSortDown(date1: Date, date2: Date) {
-        return date1 > date2 ? 1 : -1;
-    }
-
     private getMaxDate(tasks: Task[]): Date {
         return tasks.reduce((acc, task) => {
             return task.history
@@ -337,24 +335,6 @@ export class GraphComponent implements OnInit, OnChanges, AfterViewInit {
                 .sort(this.dateSortUp)[0];
         }, {} as Date);
     }
-
-    //
-    // private getMinDate(tasks: Task[]): Date {
-    //     return tasks.reduce((acc, task) => {
-    //         return task.history
-    //             .map((h) => h.startDate)
-    //             .concat(acc)
-    //             .sort(this.dateSortDown)[0];
-    //     }, new Date());
-    // }
-    //
-    // private differenceDateDay = (maxDate: Date, date: Date) => {
-    //     // +1 для того чтобы была свободная строчка
-    //     return (
-    //         Math.ceil(Math.abs(date.getTime() - maxDate.getTime()) / (1000 * 3600 * 24)) +
-    //         1
-    //     );
-    // };
 }
 
 // ДАЛЕЕ

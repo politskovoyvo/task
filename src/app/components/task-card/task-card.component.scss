@@ -9,11 +9,34 @@ $padding-left: 20px;
     flex-direction: column;
     height: 100%;
 
+    &__header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        background: $basic;
+        height: 70px;
+        padding-right: 50px;
+
+        .title {
+            font-size: $font_title;
+            margin-left: 20px;
+            color: white;
+        }
+
+        .btns {
+            i {
+                margin-left: 15px;
+                font-size: 1.3rem;
+                color: white;
+            }
+        }
+    }
+
     &__context {
         display: flex;
         flex-direction: column;
         overflow: auto;
-
+        background: $basic-white;
         height: 100%;
 
         &-line {

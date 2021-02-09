@@ -8,11 +8,16 @@
         class="container__task"
         (click)="selected(task.id)"
     >
+        <div
+            class="container__task-priority"
+            [style.background]="task.priority?.color"
+        ></div>
         <div class="container__task-symbol">
             <a (click)="openTask(task)">{{ task.symbol + '-' + task.id }}</a>
         </div>
         <div class="container__task-context">
             {{ task.name }}
+
             <ng-container *ngIf="orderInfo.check">
                 <div class="container__task-name">spend time:{{ task.spendTime }}</div>
                 <div class="container__task-name">type:{{ task.type }}</div>

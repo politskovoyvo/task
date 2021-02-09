@@ -1,4 +1,15 @@
 <form class="form" isDirty [formGroup]="form" (ngSubmit)="submit()">
+    <div class="form__header">
+        <span class="title">{{
+            form.get('symbol')?.value + '-' + form.get('id')?.value
+        }}</span>
+        <div class="btns">
+            <i nz-icon nzType="form"></i>
+            <i nz-icon nzType="link"></i>
+            <i nz-icon nzType="paper-clip"></i>
+        </div>
+    </div>
+
     <div class="form__context">
         <div class="form__context-line" style="padding-right: 20px">
             <t-input
@@ -7,6 +18,7 @@
                 formControlName="name"
             ></t-input>
         </div>
+
         <div class="flx-row">
             <div class="flex-column">
                 <div class="form__context-line">
@@ -21,7 +33,11 @@
 
                 <div class="form__context-line">
                     <span>Priority</span>
-                    <t-select [width]="inputWidth" formControlName="priority"></t-select>
+                    <t-select
+                        [items]="priorities$ | async"
+                        [width]="inputWidth"
+                        formControlName="priority"
+                    ></t-select>
                 </div>
 
                 <div class="form__context-line">
