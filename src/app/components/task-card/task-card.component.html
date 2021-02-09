@@ -1,12 +1,34 @@
 <form class="form" isDirty [formGroup]="form" (ngSubmit)="submit()">
     <div class="form__header">
         <span class="title">{{
-            form.get('symbol')?.value + '-' + form.get('id')?.value
+            action === 'CREATE'
+                ? 'Создание задания'
+                : form.get('symbol')?.value + '-' + form.get('id')?.value
         }}</span>
+
         <div class="btns">
             <i nz-icon nzType="form"></i>
-            <i nz-icon nzType="link"></i>
-            <i nz-icon nzType="paper-clip"></i>
+
+            <ng-container>
+                <i
+                    nz-icon
+                    nzType="link"
+                    nz-popover
+                    [nzPopoverContent]="setLink"
+                    nzPopoverTrigger="click"
+                ></i>
+                <ng-template #setLink>
+                    <app-set-link [taskId]="form.get('id')?.value"></app-set-link>
+                </ng-template>
+            </ng-container>
+
+            <nz-upload
+                [nzMultiple]="true"
+                nzAction="https://www.mocky.io/v2/5cc8019d300000980a055e76"
+                (nzChange)="handleChange($event)"
+            >
+                <i nz-icon nzType="paper-clip"></i>
+            </nz-upload>
         </div>
     </div>
 
@@ -80,17 +102,17 @@
                     ></t-select>
                 </div>
 
-                <div class="form__context-files">
-                    <nz-upload
-                        nzType="drag"
-                        [nzMultiple]="true"
-                        nzAction="https://www.mocky.io/v2/5cc8019d300000980a055e76"
-                        nzListType="picture"
-                        (nzChange)="handleChange($event)"
-                    >
-                        <span>Upload file</span>
-                    </nz-upload>
-                </div>
+                <!--                <div class="form__context-files">-->
+                <!--                    <nz-upload-->
+                <!--                        nzType="drag"-->
+                <!--                        [nzMultiple]="true"-->
+                <!--                        nzAction="https://www.mocky.io/v2/5cc8019d300000980a055e76"-->
+                <!--                        nzListType="picture"-->
+                <!--                        (nzChange)="handleChange($event)"-->
+                <!--                    >-->
+                <!--                        <span>Upload file</span>-->
+                <!--                    </nz-upload>-->
+                <!--                </div>-->
             </div>
 
             <div class="form__context-description">

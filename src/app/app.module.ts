@@ -22,6 +22,7 @@ import { TaskEffects } from '@core/stores/task/task.effects';
 import { StoreRouterConnectingModule } from '@ngrx/router-store';
 import { environment } from 'src/environments/environment.prod';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
+import { SetLinkComponent } from './components/set-link/set-link.component';
 
 registerLocaleData(en);
 

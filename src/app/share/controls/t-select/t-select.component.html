@@ -6,7 +6,10 @@
         [disabled]="isDisable"
         (ngModelChange)="writeValue($event)"
     >
-        <nz-option *ngFor="let item of _options" [nzLabel]="item.name" [nzValue]="item">
-        </nz-option>
+        <nz-option
+            *ngFor="let item of _options"
+            [nzLabel]="item.name"
+            [nzValue]="item"
+        ></nz-option>
     </nz-select>
 </div>

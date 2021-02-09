@@ -16,6 +16,7 @@ import { SpendTimeListComponent } from '@components/spend-time-list/spend-time-l
 import { AntDesingModule } from '@share/ant-desing/ant-desing.module';
 import { NoDataComponent } from '@share/components/no-data/no-data.component';
 import { IsDirtyDirective } from '@share/directives/is-dirty.directive';
+import { SetLinkComponent } from '@components/set-link/set-link.component';
 
 @NgModule({
     declarations: [
@@ -28,6 +29,7 @@ import { IsDirtyDirective } from '@share/directives/is-dirty.directive';
         SpendTimeListComponent,
         NoDataComponent,
         IsDirtyDirective,
+        SetLinkComponent,
     ],
     imports: [
         GraphRoutingModule,
