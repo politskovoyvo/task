@@ -8,6 +8,7 @@
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e",
+    "mock": "ng serve & cd ./mock-server/ && npm run start:dev",
     "start:db": "ng serve & json-server --watch ./mockServer/db.json"
   },
   "private": true,

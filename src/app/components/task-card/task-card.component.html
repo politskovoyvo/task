@@ -7,7 +7,7 @@
         }}</span>
 
         <div class="btns">
-            <i nz-icon nzType="form"></i>
+            <i nz-icon nzType="form" *ngIf="action !== 'CREATE'"></i>
 
             <ng-container>
                 <i
@@ -101,18 +101,6 @@
                         formControlName="assignee"
                     ></t-select>
                 </div>
-
-                <!--                <div class="form__context-files">-->
-                <!--                    <nz-upload-->
-                <!--                        nzType="drag"-->
-                <!--                        [nzMultiple]="true"-->
-                <!--                        nzAction="https://www.mocky.io/v2/5cc8019d300000980a055e76"-->
-                <!--                        nzListType="picture"-->
-                <!--                        (nzChange)="handleChange($event)"-->
-                <!--                    >-->
-                <!--                        <span>Upload file</span>-->
-                <!--                    </nz-upload>-->
-                <!--                </div>-->
             </div>
 
             <div class="form__context-description">
