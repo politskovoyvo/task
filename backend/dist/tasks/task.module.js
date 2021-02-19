@@ -20,7 +20,7 @@ TaskModule = __decorate([
         imports: [
             mongoose_1.MongooseModule.forFeature([
                 {
-                    name: task_schema_1.TaskEntity.name,
+                    name: task_schema_1.TaskDb.name,
                     schema: task_schema_1.TaskSchema,
                 },
             ]),

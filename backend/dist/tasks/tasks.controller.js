@@ -23,18 +23,15 @@ let TasksController = class TasksController {
     }
     async getTasks(parentId) {
         if (!parentId) {
-            return await this._taskDB.find().exec();
+            return this._taskDB.find().exec();
         }
-        return await this._taskDB.find().exec();
+        return this._taskDB.find().exec();
     }
     async createTask(taskDto) {
-        return await new this._taskDB(taskDto).save();
+        return new this._taskDB(taskDto).save();
     }
     async removeTask(id) {
-        await this._taskDB.remove(id);
-    }
-    async gets(id) {
-        await this._taskDB.remove(id);
+        return await this._taskDB.collection.name;
     }
 };
 __decorate([
@@ -52,22 +49,15 @@ __decorate([
     __metadata("design:returntype", Promise)
 ], TasksController.prototype, "createTask", null);
 __decorate([
-    common_1.Post(':id'),
+    common_1.Post('remove/:id'),
     __param(0, common_1.Param('id')),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [Object]),
     __metadata("design:returntype", Promise)
 ], TasksController.prototype, "removeTask", null);
-__decorate([
-    common_1.Post(':id'),
-    __param(0, common_1.Param('id')),
-    __metadata("design:type", Function),
-    __metadata("design:paramtypes", [Object]),
-    __metadata("design:returntype", Promise)
-], TasksController.prototype, "gets", null);
 TasksController = __decorate([
     common_1.Controller('tasks'),
-    __param(0, mongoose_1.InjectModel(task_schema_1.TaskEntity.name)),
+    __param(0, mongoose_1.InjectModel(task_schema_1.TaskDb.name)),
     __metadata("design:paramtypes", [mongoose_2.Model])
 ], TasksController);
 exports.TasksController = TasksController;

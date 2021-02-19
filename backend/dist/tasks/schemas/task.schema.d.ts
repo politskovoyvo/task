@@ -1,7 +1,7 @@
 import { Document } from 'mongoose';
 import { Base, Priority, SpendTime } from '../dto/task.dto';
-export declare type TaskDocument = TaskEntity & Document;
-export declare class TaskEntity {
+export declare type TaskDocument = TaskDb & Document;
+export declare class TaskDb {
     id: number;
     type: string;
     color: string;
@@ -14,4 +14,4 @@ export declare class TaskEntity {
     info?: string;
     histories: SpendTime[];
 }
-export declare const TaskSchema: import("mongoose").Schema<Document<TaskEntity>, import("mongoose").Model<Document<TaskEntity>>, undefined>;
+export declare const TaskSchema: import("mongoose").Schema<Document<TaskDb>, import("mongoose").Model<Document<TaskDb>>, undefined>;

@@ -1542,13 +1542,13 @@
         "affectsGlobalScope": false
       },
       "../src/tasks/schemas/task.schema.ts": {
-        "version": "c12b963c7fdbe3e565040dcbce4cb2564429666188ab956e510f552fe462acb6",
-        "signature": "ff99c041693ba29d9536a9dff1bbc65580c4ad2ce92a289722d1cc0e51eab33d",
+        "version": "caab6b70ce4e161d9ed2e0fda10ab2b05d673a1e30225b963b4877ae70860554",
+        "signature": "7ded6b766d51ad50ff35ecb8f1284187e854b2917f8712910acd0af64fc38e13",
         "affectsGlobalScope": false
       },
       "../src/tasks/tasks.controller.ts": {
-        "version": "8521b4c009c7c8e006e085685c854a7048f1d8147156ba1bf3b8d794c8adbe57",
-        "signature": "2233cbe493daffec56b4d675219acc9e2c27474f349f84b41bf16a4c1d8287c0",
+        "version": "318248f1ec3377421110f93c12f33766aef3d95b3ba0e5c9706d80627dcf421d",
+        "signature": "98fdda7f21a900320aad9d6d624df9a0128baaaf0335fe195f8a8bb65ed11ab2",
         "affectsGlobalScope": false
       },
       "../../node_modules/rxjs/internal/subscription.d.ts": {
@@ -1886,13 +1886,8 @@
         "signature": "c7b7a4ec8c1f2ed88fc70b256e45ddf8458cb295debebd89fd4e302a8d749695",
         "affectsGlobalScope": false
       },
-      "../src/tasks/schemas/base.schema.ts": {
-        "version": "0d17a29647f94791db0ad353b3fa8c66e236727a006ee1ff17fc34939395877b",
-        "signature": "b32eaa8a38fe4a3155ce3e41f1de94b89cbbedffd978df0ba057cbd51389931b",
-        "affectsGlobalScope": false
-      },
       "../src/tasks/task.module.ts": {
-        "version": "921e9a487741baff11d1d214a7e6b4b2f1313d9a2ef93b8b5da7adc6d0e92e00",
+        "version": "4b6a240d5e3f7cb520a3f2aca96a3f6d5cf94853adb3978ee589eeece65e5eb0",
         "signature": "e8f1bca3cc46ab477ded80ab60d1f1a79e912f0d6338b1af6b2635b5a0b4bff9",
         "affectsGlobalScope": false
       },
@@ -3877,10 +3872,6 @@
         "../node_modules/@nestjs/core/index.d.ts",
         "../src/app.module.ts"
       ],
-      "../src/tasks/schemas/base.schema.ts": [
-        "../node_modules/@nestjs/mongoose/index.d.ts",
-        "../node_modules/mongoose/index.d.ts"
-      ],
       "../src/tasks/schemas/priority.schema.ts": [
         "../node_modules/@nestjs/mongoose/index.d.ts"
       ],
@@ -3892,7 +3883,6 @@
       "../src/tasks/task.module.ts": [
         "../node_modules/@nestjs/common/index.d.ts",
         "../node_modules/@nestjs/mongoose/index.d.ts",
-        "../src/tasks/schemas/base.schema.ts",
         "../src/tasks/schemas/task.schema.ts",
         "../src/tasks/tasks.controller.ts",
         "../src/tasks/tasks.service.ts"
@@ -5638,9 +5628,6 @@
       "../src/company/company.controller.ts": [
         "../src/tasks/dto/task.dto.ts"
       ],
-      "../src/tasks/schemas/base.schema.ts": [
-        "../node_modules/mongoose/index.d.ts"
-      ],
       "../src/tasks/schemas/priority.schema.ts": [
         "../node_modules/mongoose/index.d.ts"
       ],
@@ -6368,7 +6355,6 @@
       "../src/company/company.controller.ts",
       "../src/main.ts",
       "../src/tasks/dto/task.dto.ts",
-      "../src/tasks/schemas/base.schema.ts",
       "../src/tasks/schemas/priority.schema.ts",
       "../src/tasks/schemas/task.schema.ts",
       "../src/tasks/task.module.ts",

@@ -2,10 +2,10 @@ import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document } from 'mongoose';
 import { Base, Priority, SpendTime } from '../dto/task.dto';
 
-export type TaskDocument = TaskEntity & Document;
+export type TaskDocument = TaskDb & Document;
 
 @Schema()
-export class TaskEntity {
+export class TaskDb {
   @Prop()
   id: number;
 
@@ -40,4 +40,4 @@ export class TaskEntity {
   histories: SpendTime[];
 }
 
-export const TaskSchema = SchemaFactory.createForClass(TaskEntity);
+export const TaskSchema = SchemaFactory.createForClass(TaskDb);

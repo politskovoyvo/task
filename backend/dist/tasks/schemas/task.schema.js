@@ -9,57 +9,57 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.TaskSchema = exports.TaskEntity = void 0;
+exports.TaskSchema = exports.TaskDb = void 0;
 const mongoose_1 = require("@nestjs/mongoose");
-let TaskEntity = class TaskEntity {
+let TaskDb = class TaskDb {
 };
 __decorate([
     mongoose_1.Prop(),
     __metadata("design:type", Number)
-], TaskEntity.prototype, "id", void 0);
+], TaskDb.prototype, "id", void 0);
 __decorate([
     mongoose_1.Prop(),
     __metadata("design:type", String)
-], TaskEntity.prototype, "type", void 0);
+], TaskDb.prototype, "type", void 0);
 __decorate([
     mongoose_1.Prop(),
     __metadata("design:type", String)
-], TaskEntity.prototype, "color", void 0);
+], TaskDb.prototype, "color", void 0);
 __decorate([
     mongoose_1.Prop(),
     __metadata("design:type", String)
-], TaskEntity.prototype, "symbol", void 0);
+], TaskDb.prototype, "symbol", void 0);
 __decorate([
     mongoose_1.Prop(),
     __metadata("design:type", Array)
-], TaskEntity.prototype, "priority", void 0);
+], TaskDb.prototype, "priority", void 0);
 __decorate([
     mongoose_1.Prop({ type: Object }),
     __metadata("design:type", Object)
-], TaskEntity.prototype, "assignee", void 0);
+], TaskDb.prototype, "assignee", void 0);
 __decorate([
     mongoose_1.Prop(),
     __metadata("design:type", Array)
-], TaskEntity.prototype, "performers", void 0);
+], TaskDb.prototype, "performers", void 0);
 __decorate([
     mongoose_1.Prop(),
     __metadata("design:type", String)
-], TaskEntity.prototype, "spendTime", void 0);
+], TaskDb.prototype, "spendTime", void 0);
 __decorate([
     mongoose_1.Prop(),
     __metadata("design:type", Array)
-], TaskEntity.prototype, "history", void 0);
+], TaskDb.prototype, "history", void 0);
 __decorate([
     mongoose_1.Prop(),
     __metadata("design:type", String)
-], TaskEntity.prototype, "info", void 0);
+], TaskDb.prototype, "info", void 0);
 __decorate([
     mongoose_1.Prop(),
     __metadata("design:type", Array)
-], TaskEntity.prototype, "histories", void 0);
-TaskEntity = __decorate([
+], TaskDb.prototype, "histories", void 0);
+TaskDb = __decorate([
     mongoose_1.Schema()
-], TaskEntity);
-exports.TaskEntity = TaskEntity;
-exports.TaskSchema = mongoose_1.SchemaFactory.createForClass(TaskEntity);
+], TaskDb);
+exports.TaskDb = TaskDb;
+exports.TaskSchema = mongoose_1.SchemaFactory.createForClass(TaskDb);
 //# sourceMappingURL=task.schema.js.map
