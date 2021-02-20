@@ -5,6 +5,7 @@ import { MongooseModule } from '@nestjs/mongoose';
 import { TaskModule } from './tasks/task.module';
 import { BoardController } from './board/board.controller';
 import { CompanyController } from './company/company.controller';
+import { DbModule } from '../core/DB/db.module';
 
 @Module({
   imports: [
@@ -12,6 +13,7 @@ import { CompanyController } from './company/company.controller';
     MongooseModule.forRoot(
       'mongodb+srv://Vladimir:Dkflbvbh19900@cluster0.pwyei.mongodb.net/task?retryWrites=true&w=majority',
     ),
+    DbModule,
   ],
   controllers: [AppController, BoardController, CompanyController],
   providers: [AppService],
