@@ -1,6 +1,6 @@
 {
   "name": "mock-server",
-  "version": "0.0.1",
+  "version": "0.99.999",
   "description": "",
   "author": "",
   "private": true,
@@ -18,10 +18,12 @@
     "test:watch": "jest --watch",
     "test:cov": "jest --coverage",
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
-    "test:e2e": "jest --config ./test/jest-e2e.json"
+    "test:e2e": "jest --config ./test/jest-e2e.json",
+    "run:db": "docker-compose up"
   },
   "dependencies": {
     "@nestjs/common": "^7.5.1",
+    "@nestjs/config": "^0.6.3",
     "@nestjs/core": "^7.5.1",
     "@nestjs/graphql": "^7.9.9",
     "@nestjs/mongoose": "^7.2.3",

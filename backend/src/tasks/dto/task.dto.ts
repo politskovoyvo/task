@@ -1,14 +1,14 @@
-export interface TaskDto {
-  type: string;
-  color: string;
-  symbol: string;
-  priority: Priority;
-  assignee: Base;
-  performers: Base[];
+export class TaskDto {
+  readonly type: string;
+  readonly color: string;
+  readonly symbol: string;
+  readonly priorityId: number;
+  readonly assigneeUserId: number;
   spendTime: string;
   history?: History[]; // массив событий
-  info?: string; // описание
-  // histories: SpendTime[];
+  description?: string; // описание
+  histories: SpendTime[];
+  // performers: Base[];
 }
 
 export type historyType =
@@ -35,10 +35,6 @@ interface History extends IntervalDate {
 export interface IntervalDate {
   startDate: string;
   stopDate: string;
-}
-
-export interface Priority extends Base {
-  color: string;
 }
 
 export interface Base {

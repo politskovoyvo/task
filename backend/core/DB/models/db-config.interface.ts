@@ -1,6 +1,6 @@
 export interface IDBConfig {
-  user: string;
-  pass: string;
+  username: string;
+  password: string;
   database: string;
   port?: number | string;
   host: string;
