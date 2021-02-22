@@ -4,6 +4,9 @@ import { dbConfig } from './models/db.config';
 import { TaskEntity } from '../../src/tasks/entities/task.entity';
 import { BoardEntity } from '../../src/board/entities/board.entity';
 import { UserEntity } from '../../src/user/entities/user.entity';
+import { CompanyEntity } from '../../src/company/entities/company.entity';
+import { LinkUserCompanyEntity } from '../../src/links/link-user-company.entity';
+import { LinkUserBoardEntity } from '../../src/links/link-user-board.entity';
 
 export const databaseProviders = [
   {
@@ -24,12 +27,19 @@ export const databaseProviders = [
           config = dbConfig.dev;
       }
       const sequelize = new Sequelize(config);
-      const linkUserBoarder = sequelize.define('linkUserToBoarderEntities', {});
-      sequelize.addModels([TaskEntity, UserEntity, BoardEntity]);
+      sequelize.addModels([
+        TaskEntity,
+        UserEntity,
+        BoardEntity,
+        CompanyEntity,
 
-      BoardEntity.belongsToMany(UserEntity, { through: linkUserBoarder });
-      UserEntity.belongsToMany(BoardEntity, { through: linkUserBoarder });
+        // LINKS
+        LinkUserCompanyEntity,
+        LinkUserBoardEntity,
+      ]);
 
+      // force: true - пересоздает таблицы если они не соответствуют модели
+      // await sequelize.sync({ force: true });
       await sequelize.sync();
       return sequelize;
     },

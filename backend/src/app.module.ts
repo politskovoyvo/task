@@ -7,10 +7,12 @@ import { BoardController } from './board/board.controller';
 import { CompanyController } from './company/company.controller';
 import { DbModule } from '../core/DB/db.module';
 import { ConfigModule } from '@nestjs/config';
+import { UserController } from './user/user.controller';
+import { UserModule } from './user/user.module';
+import { CompanyModule } from './company/company.module';
 
 @Module({
   imports: [
-    TaskModule,
     // MONGO_db
     // MongooseModule.forRoot(
     //   'mongodb+srv://Vladimir:Dkflbvbh19900@cluster0.pwyei.mongodb.net/task?retryWrites=true&w=majority',
@@ -19,8 +21,11 @@ import { ConfigModule } from '@nestjs/config';
     // PostgreSQL
     ConfigModule.forRoot({ isGlobal: true }),
     DbModule,
+    UserModule,
+    CompanyModule,
+    TaskModule,
   ],
-  controllers: [AppController, BoardController, CompanyController],
+  controllers: [AppController, BoardController],
   providers: [AppService],
 })
 export class AppModule {}
