@@ -19,8 +19,10 @@ export class UserService {
     return this._userRepository.findAll<UserEntity>();
   }
 
-  async getUser(id: number): Promise<UserEntity> {
-    const findUser = await this._userRepository.findOne({ where: { id } });
-    return findUser;
+  getUser(id: number): Promise<UserEntity> {
+    return this._userRepository.findOne({
+      where: { id },
+      include: ['companies'],
+    });
   }
 }

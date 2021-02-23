@@ -2417,18 +2417,23 @@
         "affectsGlobalScope": false
       },
       "../src/user/user.service.ts": {
-        "version": "d979ac15716ff128bfa34aa9da9cbafa994fef3e61ef703f9879a47fa8284c26",
+        "version": "44da522e1f7f014c5b76887fb6aec318ba04d0e79840b533a7b76295902f2589",
         "signature": "e0534fc2d80ad8d7bfa76ee439313a5d51c83ee1bf153b5b0aa42f3d1d8e5d87",
         "affectsGlobalScope": false
       },
+      "../src/company/dto/create-user.dto.ts": {
+        "version": "6fc198737418975241e87bb29959476ea4be3958d5d561a2cd32de4f7a786585",
+        "signature": "5aeba996418f71c73c6ca84a6c8ea3dc162571809e7fdef463f63e7a330397c1",
+        "affectsGlobalScope": false
+      },
       "../src/company/company.service.ts": {
-        "version": "61af101c5824ff50e75192aaa2d5082780a04b7f66ecaaeeac270936c7e77cd7",
-        "signature": "a0a76e1e5528bb28adabcdd82a2f57b4baf108176c4e41c207efaaaecd564c33",
+        "version": "fbf1f50fe4231aaf14576e482a4363b77d5b96d14d120baa89bb81f7e6f1c140",
+        "signature": "ee37049e61273db4524104ff3b146c58114a2e971f3ea91686c2ffc10571d339",
         "affectsGlobalScope": false
       },
       "../src/company/company.controller.ts": {
-        "version": "811802877afbf3f36cbc59d5564533745ae9a0027e3bc8bfd1c32d261da1b231",
-        "signature": "4535c355f55be2cd6e52243f9d53d8eb54162956de848c0e0ef0ddcb25f7979a",
+        "version": "070b06f62abe3102d750bf68dc38fd184e39858ff6285c72da82f1461db0257c",
+        "signature": "8b1a1658e8d043880db95935390364be11f5d60f4993c333618284e1f53c3baa",
         "affectsGlobalScope": false
       },
       "../node_modules/@nestjs/config/dist/interfaces/config-factory.interface.d.ts": {
@@ -6473,6 +6478,7 @@
         "../node_modules/@nestjs/common/index.d.ts",
         "../src/company/company.service.ts",
         "../src/company/dto/company.dto.ts",
+        "../src/company/dto/create-user.dto.ts",
         "../src/tasks/dto/task.dto.ts"
       ],
       "../src/company/company.module.ts": [
@@ -6491,6 +6497,7 @@
         "../node_modules/@nestjs/common/index.d.ts",
         "../src/company/company.provider.ts",
         "../src/company/dto/company.dto.ts",
+        "../src/company/dto/create-user.dto.ts",
         "../src/company/entities/company.entity.ts",
         "../src/user/entities/user.entity.ts",
         "../src/user/user.service.ts"
@@ -9309,6 +9316,7 @@
       "../src/company/company.controller.ts": [
         "../src/company/company.service.ts",
         "../src/company/dto/company.dto.ts",
+        "../src/company/dto/create-user.dto.ts",
         "../src/company/entities/company.entity.ts"
       ],
       "../src/company/company.provider.ts": [
@@ -9316,6 +9324,7 @@
       ],
       "../src/company/company.service.ts": [
         "../src/company/dto/company.dto.ts",
+        "../src/company/dto/create-user.dto.ts",
         "../src/company/entities/company.entity.ts",
         "../src/user/user.service.ts"
       ],

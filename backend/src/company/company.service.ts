@@ -3,6 +3,8 @@ import { CompanyEntity } from './entities/company.entity';
 import { CompanyDto } from './dto/company.dto';
 import { COMPANY_REPOSITORY } from './company.provider';
 import { UserService } from '../user/user.service';
+import { CreateUserDto } from './dto/create-user.dto';
+import { User } from '../../../src/app/core/auth/models/user';
 import { UserEntity } from '../user/entities/user.entity';
 
 @Injectable()
@@ -18,14 +20,21 @@ export class CompanyService {
     return await this._companyRepository.create<CompanyEntity>(user);
   }
 
+  async getUsers(): Promise<UserEntity[]> {
+    return [];
+  }
+
   async getAll(): Promise<CompanyEntity[]> {
     return this._companyRepository.findAll<CompanyEntity>();
   }
 
-  async addUser(userId: number) {
-    const user = await this._userService.getUser(userId);
-    // TODO: Посмотреть и доработать
-    const company = await this._companyRepository.findOne({ where: { id: 1 } });
-    await user.$set('companies', [company]);
+  async addUser(createUserDto: CreateUserDto) {
+    const company = await this._companyRepository.findOne({
+      where: { id: createUserDto.companyId },
+      include: ['users'],
+    });
+    const user = await this._userService.getUser(createUserDto.userId);
+    user.companies.push(company);
+    await user.$set('companies', user.companies);
   }
 }
