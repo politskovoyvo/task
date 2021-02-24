@@ -4,7 +4,6 @@ import { CompanyDto } from './dto/company.dto';
 import { COMPANY_REPOSITORY } from './company.provider';
 import { UserService } from '../user/user.service';
 import { CreateUserDto } from './dto/create-user.dto';
-import { User } from '../../../src/app/core/auth/models/user';
 import { UserEntity } from '../user/entities/user.entity';
 
 @Injectable()
@@ -20,8 +19,12 @@ export class CompanyService {
     return await this._companyRepository.create<CompanyEntity>(user);
   }
 
-  async getUsers(): Promise<UserEntity[]> {
-    return [];
+  async getUsers(id: number): Promise<UserEntity[]> {
+    const companies = await this._companyRepository.findAll({
+      where: { id },
+      include: ['users'],
+    });
+    return companies?.map((c) => c.users).reduce((acc, i) => acc.concat(i));
   }
 
   async getAll(): Promise<CompanyEntity[]> {

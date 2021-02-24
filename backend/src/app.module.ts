@@ -5,7 +5,7 @@ import { MongooseModule } from '@nestjs/mongoose';
 import { TaskModule } from './tasks/task.module';
 import { BoardController } from './board/board.controller';
 import { CompanyController } from './company/company.controller';
-import { DbModule } from '../core/DB/db.module';
+import { DbModule } from './core/DB/db.module';
 import { ConfigModule } from '@nestjs/config';
 import { UserController } from './user/user.controller';
 import { UserModule } from './user/user.module';
