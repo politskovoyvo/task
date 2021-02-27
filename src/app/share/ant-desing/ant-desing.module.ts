@@ -9,6 +9,7 @@ import { NzDatePickerModule } from 'ng-zorro-antd/date-picker';
 import { NzButtonModule } from 'ng-zorro-antd/button';
 import { NzPopoverModule } from 'ng-zorro-antd/popover';
 import { NzEmptyModule } from 'ng-zorro-antd/empty';
+import { NzCheckboxModule } from 'ng-zorro-antd/checkbox';
 
 @NgModule({
     declarations: [],
@@ -22,6 +23,7 @@ import { NzEmptyModule } from 'ng-zorro-antd/empty';
         NzButtonModule,
         NzPopoverModule,
         NzEmptyModule,
+        NzCheckboxModule,
     ],
     exports: [
         CommonModule,
@@ -33,6 +35,7 @@ import { NzEmptyModule } from 'ng-zorro-antd/empty';
         NzButtonModule,
         NzPopoverModule,
         NzEmptyModule,
+        NzCheckboxModule,
     ],
     providers: [
         {

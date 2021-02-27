@@ -1,4 +1,9 @@
 <div class="container">
+    <label
+        nz-checkbox
+        [(ngModel)]="company.isSelected"
+        (ngModelChange)="editCompany()"
+    ></label>
     <img />
-    <div class="info"></div>
+    <span>{{ company.name }}</span>
 </div>

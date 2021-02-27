@@ -5,7 +5,12 @@
         class="container__companies"
         *ngIf="companies$ | async as companies; else notCompanies"
     >
-        <company-card *ngFor="let company of companies"></company-card>
+        <company-card
+            *ngFor="let company of companies"
+            class="container__companies-company"
+            [company]="company"
+            [isSelected]="company.isSelected"
+        ></company-card>
     </div>
 
     <ng-template #notCompanies>

@@ -2,6 +2,7 @@ import { Body, Controller, Get, Param, Post, Query, Req } from '@nestjs/common';
 import { UserDto } from './dto/user.dto';
 import { UserService } from './user.service';
 import { TokenService } from '../share/services/token.service';
+import { Cookies } from '@nestjsplus/cookies';
 
 @Controller('user')
 export class UserController {
@@ -20,6 +21,7 @@ export class UserController {
     return await this._userService.getUser(id);
   }
 
+  // @Cookies()
   @Get('companies')
   async companies(@Req() request) {
     // TODO: token

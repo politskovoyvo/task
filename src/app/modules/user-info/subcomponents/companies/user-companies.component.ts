@@ -1,8 +1,8 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { CompanyCoreService } from '@core/services/company-core.service';
 import { Observable } from 'rxjs';
-import { Base } from '@share/models/base';
 import { AuthService } from '@core/auth/services/auth.service';
+import { CompanyDto } from '@core/models/company.dto';
 
 @Component({
     selector: 'user-companies',
@@ -10,7 +10,7 @@ import { AuthService } from '@core/auth/services/auth.service';
     styleUrls: ['./user-companies.component.scss'],
 })
 export class UserCompaniesComponent implements OnInit {
-    companies$: Observable<Base[]>;
+    companies$: Observable<CompanyDto[]>;
 
     constructor(
         private readonly _companyCoreService: CompanyCoreService,

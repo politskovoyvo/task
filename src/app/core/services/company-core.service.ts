@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { Base } from '@share/models/base';
 import { Observable, of } from 'rxjs';
 import { Priority } from '@core/models/priority';
+import { CompanyDto } from '@core/models/company.dto';
 
 @Injectable({
     providedIn: 'root',
@@ -13,12 +14,14 @@ export class CompanyCoreService {
 
     constructor(private readonly _http: HttpClient) {}
 
-    getCompanies(): Observable<Base[]> {
-        return this._http.get<Base[]>(`${this._TEST_URI}/user/companies`);
+    getCompanies(): Observable<CompanyDto[]> {
+        return this._http.get<CompanyDto[]>(`${this._TEST_URI}/user/companies`);
     }
 
     setCompany(companyId: number): Observable<unknown> {
-        return this._http.get(`${this._TEST_URI}/company/${companyId}`);
+        return this._http.get(`${this._TEST_URI}/company/set/${companyId}`, {
+            withCredentials: true,
+        });
     }
 
     //////////////////////////
