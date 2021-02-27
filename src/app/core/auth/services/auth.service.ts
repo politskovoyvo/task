@@ -36,7 +36,7 @@ export class AuthService {
         return this.authCoreService.login(login, password).pipe(
             tap((tokenInfo: TokenInfo) => {
                 this.updateLocalToken(tokenInfo);
-                this.router.navigate(['']);
+                this.router.navigate(['']).then();
             })
         );
     }
@@ -48,7 +48,7 @@ export class AuthService {
             tap((tokenInfo: TokenInfo) => {
                 this.updateLocalToken(tokenInfo);
                 if (this.router.url?.slice(0, 6) === '/login') {
-                    this.router.navigate(['/']);
+                    this.router.navigate(['/']).then();
                 }
             })
         );
@@ -68,13 +68,15 @@ export class AuthService {
 
         // Если мы не в руте, сохраняем редирект на текущую страницу.
         if (currentUrl && currentUrl !== '/') {
-            this.router.navigate(['/', 'login'], {
-                queryParams: { redirectUrl: currentUrl },
-            });
+            this.router
+                .navigate(['/', 'login'], {
+                    queryParams: { redirectUrl: currentUrl },
+                })
+                .then();
             return;
         } else {
             // Если мы в руте, сохраняем редирект на рут.
-            this.router.navigate(['/', 'login']);
+            this.router.navigate(['/', 'login']).then();
             return;
         }
     }
@@ -116,8 +118,8 @@ export class AuthService {
 
         this._userSubject.next({
             ...this.user,
+            accessToken,
             id: decodeTokenInfo.id,
-            accessToken: accessToken,
             name: decodeTokenInfo.name,
         });
 

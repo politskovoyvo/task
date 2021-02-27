@@ -1,0 +1,18 @@
+.container {
+    display: flex;
+    height: 100px;
+    max-width: 300px;
+    border: 1px solid black;
+    border-radius: 10px;
+    padding: 10px;
+
+    img {
+        border-radius: 10px;
+        height: 100%;
+        width: 30%;
+        border: 0;
+    }
+
+    .info {
+    }
+}

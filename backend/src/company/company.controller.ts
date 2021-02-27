@@ -2,6 +2,7 @@ import {
   Body,
   Controller,
   Get,
+  Header,
   Param,
   Post,
   Query,
@@ -11,12 +12,7 @@ import {
 import { CompanyService } from './company.service';
 import { CompanyDto } from './dto/company.dto';
 import { CreateUserDto } from './dto/create-user.dto';
-import {
-  CookieOptions,
-  CookieSettings,
-  SetCookies,
-  SignedCookies,
-} from '@nestjsplus/cookies';
+import { CookieSettings, SetCookies } from '@nestjsplus/cookies';
 
 @Controller('company')
 export class CompanyController {
@@ -35,6 +31,9 @@ export class CompanyController {
     // return this._companyService.getUsers(id);
   }
 
+  /**
+   * Set-cookie value 'companyId' to client
+   */
   @Get('set/:id')
   @SetCookies()
   companySet(@Request() request, @Param('id') companyId: number) {
@@ -45,8 +44,7 @@ export class CompanyController {
         options: {
           httpOnly: true,
           sameSite: 'none',
-          // secure: true,
-          // signed: false,
+          secure: true,
         },
       } as CookieSettings,
     ];
@@ -54,11 +52,19 @@ export class CompanyController {
     return 'успех';
   }
 
+  /**
+   * Create company
+   * @param company Object company dto
+   */
   @Post('add')
   create(@Body() company: CompanyDto) {
     return this._companyService.create(company);
   }
 
+  /**
+   * Add user to company (create link db userId-companyId)
+   * @param createUserDto user and companyId
+   */
   @Post('user/add')
   async addUser(@Body() createUserDto: CreateUserDto) {
     await this._companyService.addUser(createUserDto);

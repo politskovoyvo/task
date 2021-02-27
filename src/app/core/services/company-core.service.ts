@@ -4,12 +4,27 @@ import { Base } from '@share/models/base';
 import { Observable, of } from 'rxjs';
 import { Priority } from '@core/models/priority';
 
-@Injectable()
+@Injectable({
+    providedIn: 'root',
+})
 export class CompanyCoreService {
-    private readonly _URL = 'https://task.company.ru';
+    private readonly _URL = '//TODO';
+    private readonly _TEST_URI = 'http://localhost:1234';
 
-    constructor(private httpClient: HttpClient) {}
+    constructor(private readonly _http: HttpClient) {}
 
+    getCompanies(): Observable<Base[]> {
+        return this._http.get<Base[]>(`${this._TEST_URI}/user/companies`);
+    }
+
+    setCompany(companyId: number): Observable<unknown> {
+        return this._http.get(`${this._TEST_URI}/company/${companyId}`);
+    }
+
+    //////////////////////////
+    //////////////////////////
+    //////////////////////////
+    //////////////////////////
     getPriories(): Observable<Priority[]> {
         return of([
             {
@@ -28,7 +43,7 @@ export class CompanyCoreService {
                 color: '#B22222',
             } as Priority,
         ]);
-        return this.httpClient.get<Priority[]>(`${this._URL}/api/getusers`);
+        return this._http.get<Priority[]>(`${this._URL}/api/getusers`);
     }
 
     getUsers(): Observable<Base[]> {
@@ -46,14 +61,14 @@ export class CompanyCoreService {
             { id: 11, name: 'Максим Викторович Зимилин' },
             { id: 12, name: 'Новый Сотрудник Содрудникович' },
         ]);
-        return this.httpClient.get<Base[]>(`${this._URL}/api/getusers`);
+        return this._http.get<Base[]>(`${this._URL}/api/getusers`);
     }
 
     addNewUser(user: Base) {
-        return this.httpClient.post(`${this._URL}/api/getusers`, { user });
+        return this._http.post(`${this._URL}/api/getusers`, { user });
     }
 
     removeUser(userId: number) {
-        return this.httpClient.post(`${this._URL}/api/getusers`, { id: userId });
+        return this._http.post(`${this._URL}/api/getusers`, { id: userId });
     }
 }
