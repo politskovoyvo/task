@@ -1,13 +1,13 @@
 import {
-  Body,
-  Controller,
-  Get,
-  Header,
-  Param,
-  Post,
-  Query,
-  Req,
-  Request,
+    Body,
+    Controller,
+    Get,
+    Header,
+    Param,
+    Post,
+    Query,
+    Req,
+    Request,
 } from '@nestjs/common';
 import { CompanyService } from './company.service';
 import { CompanyDto } from './dto/company.dto';
@@ -16,55 +16,55 @@ import { CookieSettings, SetCookies } from '@nestjsplus/cookies';
 
 @Controller('company')
 export class CompanyController {
-  companyId: number;
+    companyId: number;
 
-  constructor(private readonly _companyService: CompanyService) {}
+    constructor(private readonly _companyService: CompanyService) {}
 
-  @Get('all')
-  getAll() {
-    return this._companyService.getAll();
-  }
+    @Get('all')
+    getAll() {
+        return this._companyService.getAll();
+    }
 
-  @Get('users/:id')
-  getUsers(@Param() params, @Req() request: Request): string {
-    return params.id;
-    // return this._companyService.getUsers(id);
-  }
+    @Get('users/:id')
+    getUsers(@Param() params, @Req() request: Request): string {
+        return params.id;
+        // return this._companyService.getUsers(id);
+    }
 
-  /**
-   * Set-cookie value 'companyId' to client
-   */
-  @Get('set/:id')
-  @SetCookies()
-  companySet(@Request() request, @Param('id') companyId: number) {
-    request._cookies = [
-      {
-        name: 'companyId',
-        value: companyId.toString(),
-        options: {
-          httpOnly: true,
-          sameSite: 'none',
-          secure: true,
-        },
-      } as CookieSettings,
-    ];
-  }
+    /**
+     * Set-cookie value 'companyId' to client
+     */
+    @Get('set/:id')
+    @SetCookies()
+    companySet(@Request() request, @Param('id') companyId: number) {
+        request._cookies = [
+            {
+                name: 'companyId',
+                value: companyId.toString(),
+                options: {
+                    httpOnly: true,
+                    sameSite: 'none',
+                    secure: true,
+                },
+            } as CookieSettings,
+        ];
+    }
 
-  /**
-   * Create company
-   * @param company Object company dto
-   */
-  @Post('add')
-  create(@Body() company: CompanyDto) {
-    return this._companyService.create(company);
-  }
+    /**
+     * Create company
+     * @param company Object company dto
+     */
+    @Post('add')
+    create(@Body() company: CompanyDto) {
+        return this._companyService.create(company);
+    }
 
-  /**
-   * Add user to company (create link db userId-companyId)
-   * @param createUserDto user and companyId
-   */
-  @Post('user/add')
-  async addUser(@Body() createUserDto: CreateUserDto) {
-    await this._companyService.addUser(createUserDto);
-  }
+    /**
+     * Add user to company (create link db userId-companyId)
+     * @param createUserDto user and companyId
+     */
+    @Post('user/add')
+    async addUser(@Body() createUserDto: CreateUserDto) {
+        await this._companyService.addUser(createUserDto);
+    }
 }
