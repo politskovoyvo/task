@@ -22,4 +22,6 @@ export class CompanyEntity extends Model<CompanyEntity> {
 
   @BelongsToMany(() => UserEntity, () => LinkUserCompanyEntity)
   users: UserEntity[];
+
+  isSelected: boolean;
 }

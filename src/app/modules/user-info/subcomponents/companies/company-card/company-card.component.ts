@@ -1,8 +1,15 @@
-import { ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core';
-import { Base } from '@share/models/base';
+import {
+    ChangeDetectionStrategy,
+    Component,
+    EventEmitter,
+    Input,
+    OnInit,
+    Output,
+} from '@angular/core';
 import { CompanyDto } from '@core/models/company.dto';
 import { CompanyCoreService } from '@core/services/company-core.service';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
+import { tap } from 'rxjs/operators';
 
 @UntilDestroy()
 @Component({
@@ -13,6 +20,7 @@ import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 })
 export class CompanyCardComponent implements OnInit {
     @Input() company: CompanyDto;
+    @Output() selectEmit = new EventEmitter();
     @Input() isSelected = false;
 
     constructor(private readonly _companyService: CompanyCoreService) {}
@@ -22,7 +30,10 @@ export class CompanyCardComponent implements OnInit {
     editCompany() {
         this._companyService
             .setCompany(this.company.id)
-            .pipe(untilDestroyed(this))
+            .pipe(
+                untilDestroyed(this),
+                tap(() => this.selectEmit.emit())
+            )
             .subscribe();
     }
 }

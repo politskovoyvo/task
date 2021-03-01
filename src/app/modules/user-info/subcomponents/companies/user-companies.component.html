@@ -10,6 +10,7 @@
             class="container__companies-company"
             [company]="company"
             [isSelected]="company.isSelected"
+            (selectEmit)="refresh()"
         ></company-card>
     </div>
 

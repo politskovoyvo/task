@@ -48,8 +48,6 @@ export class CompanyController {
         },
       } as CookieSettings,
     ];
-
-    return 'успех';
   }
 
   /**

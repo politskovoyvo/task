@@ -3,4 +3,5 @@ export class UserDto {
   readonly lastName: string;
   readonly middleName: string;
   readonly email: string;
+  isSelected: boolean;
 }
