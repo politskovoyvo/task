@@ -14,11 +14,9 @@ import { stringify } from 'querystring';
     providedIn: 'root',
 })
 export class TaskCoreService {
-    private readonly _URL = 'https://...ru';
-    private readonly _TEST_URI = 'http://localhost:3000';
+    private readonly _URL = 'http://localhost:1234';
+    private readonly _TEST_URI = 'http://localhost:1234';
 
-    // tslint:disable-next-line:variable-name
-    private tasks_MOCK: Task[];
     // tslint:disable-next-line:variable-name
     private tracks_MOCK: Track[];
 

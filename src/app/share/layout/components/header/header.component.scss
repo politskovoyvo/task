@@ -1,47 +1,48 @@
-@import '../../../../../assets/styles/variables.scss';
+@import 'variables';
 
 .header {
-  background: $basic;
-  position: relative;
-  display: flex;
-  justify-content: space-between;
-  padding: 10px;
-  height: 100%;
+    background: $basic;
+    position: relative;
+    display: flex;
+    justify-content: space-between;
+    padding: 10px;
+    height: 100%;
 
-  &__auth {
-    .log-in {
-      display: flex;
+    &__auth {
+        .log-in {
+            display: flex;
+            height: 100%;
+            align-items: center;
 
-      nz-avatar {
-       align-self: center;
-      }
+            nz-avatar {
+            }
+        }
+
+        .log-out {
+            display: flex;
+        }
+
+        i {
+            padding-left: 10px;
+            padding-top: 10px;
+            padding-bottom: 10px;
+        }
     }
 
-    .log-out {
-      display: flex;
+    .right {
+        i {
+            padding: 10px;
+        }
     }
 
     i {
-      padding-left: 10px;
-      padding-top: 10px;
-      padding-bottom: 10px;
+        font-size: 24px;
+        color: white;
     }
-  }
 
-  .right {
-    i {
-      padding: 10px;
+    span {
+        color: white;
+        margin-left: 10px;
+        font-size: 1.3rem;
     }
-  }
-
-  i {
-    font-size: 24px;
-    color: white;
-  }
-
-  span {
-    color: white;
-    margin-left: 5px;
-    font-size: 1.1em;
-  }
 }

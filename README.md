@@ -1,8 +1,13 @@
-# IntelliTracker
-
 [Angular CLI] version 11.
 
-## Development server
+<h1>Run postgreSQl local server in docker</h1>
+in Root backend folder enter
+
+Run `docker system prune -a` 
+
+next `docker-compose up`
+
+<h1>Client</h1>
 
 Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
 

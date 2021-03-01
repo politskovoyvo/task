@@ -1,0 +1,31 @@
+version: '3.4'
+
+services:
+  postgresdb:
+    image: postgres:latest
+    container_name: postgresdb
+    restart: always
+    volumes:
+      - db_volume:/var/lib/postgresql/data
+    environment:
+      ASPNETCORE_ENVIRONMENT: "Development"
+      POSTGRES_USER: "user"
+      POSTGRES_PASSWORD: "pass"
+      POSTGRES_DB: "PostgresDB"
+    ports:
+      - 5253:5432
+    networks:
+      - itelli-dev
+
+volumes:
+  db_volume:
+
+networks:
+  itelli-dev:
+    driver: bridge
+
+#  docker-compose -f docker-compose.yml -f docker-compose.prod.yml up -d
+#  docker-compose -f docker-compose.yml -f docker-compose.dev.yml up -d
+# docker-compose -f docker-compose.yml -f docker-compose.dev.yml up --build authserver
+
+# dotnet ef migrations add "SampleMigration" --project src\Infrastructure --startup-project src\WebUI --output-dir Persistence\Migrations

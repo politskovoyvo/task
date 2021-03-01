@@ -1,0 +1,13 @@
+@import 'variables';
+
+.container {
+    p {
+        font-size: $font_title;
+    }
+
+    &__companies {
+        &-company {
+            margin-top: 20px;
+        }
+    }
+}

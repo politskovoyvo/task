@@ -1,7 +1,5 @@
 <div class="container" [formGroup]="form">
-    <input type="checkbox" />
-
-    <t-select [items]="linkTypes" formControlName="linkType"></t-select>
+    <t-select [width]="'300px'" [items]="linkTypes" formControlName="linkType"></t-select>
 
     <button nz-button nzType="primary">Set link</button>
 </div>

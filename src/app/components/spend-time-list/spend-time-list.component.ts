@@ -51,11 +51,11 @@ export class SpendTimeListComponent implements OnInit {
         if (!userId && this.userId !== userId) {
             return;
         }
-        htmlElement.isEdit = true;
+        htmlElement['isEdit'] = true;
     }
 
     mouseLeave(htmlElement: HTMLElement) {
-        htmlElement.isEdit = false;
+        htmlElement['isEdit'] = false;
     }
 
     edit(history: IHistoryItem, type: historyType) {
