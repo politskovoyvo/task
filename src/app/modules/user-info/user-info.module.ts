@@ -6,9 +6,22 @@ import { UserCompaniesComponent } from './subcomponents/companies/user-companies
 import { CompanyCardComponent } from './subcomponents/companies/company-card/company-card.component';
 import { FormsModule } from '@angular/forms';
 import { NzCheckboxModule } from 'ng-zorro-antd/checkbox';
+import { UserMenuComponent } from './subcomponents/user-menu/user-menu.component';
+import { NzTabsModule } from 'ng-zorro-antd/tabs';
 
 @NgModule({
-    declarations: [UserInfoComponent, UserCompaniesComponent, CompanyCardComponent],
-    imports: [CommonModule, UserInfoRoutingModule, FormsModule, NzCheckboxModule],
+    declarations: [
+        UserInfoComponent,
+        UserCompaniesComponent,
+        CompanyCardComponent,
+        UserMenuComponent,
+    ],
+    imports: [
+        CommonModule,
+        UserInfoRoutingModule,
+        FormsModule,
+        NzCheckboxModule,
+        NzTabsModule,
+    ],
 })
 export class UserInfoModule {}
