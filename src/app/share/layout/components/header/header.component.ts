@@ -1,5 +1,7 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { AuthService } from '@core/auth/services/auth.service';
+import { Router } from '@angular/router';
+import { EOptionsRoutes } from '@modules/user-info/options.routes';
 
 @Component({
     selector: 'app-header',
@@ -8,11 +10,18 @@ import { AuthService } from '@core/auth/services/auth.service';
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class HeaderComponent implements OnInit {
-    constructor(private authService: AuthService) {}
+    constructor(
+        private readonly _authService: AuthService,
+        private readonly _router: Router
+    ) {}
 
     ngOnInit(): void {}
 
     logout() {
-        this.authService.logout();
+        this._authService.logout();
+    }
+
+    redirectToOptionsPage() {
+        this._router.navigate([EOptionsRoutes.global]).then();
     }
 }

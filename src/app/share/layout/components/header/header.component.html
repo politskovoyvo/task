@@ -5,9 +5,27 @@
     </div>
 
     <div class="header__auth">
-        <div class="log-in">
-            <nz-avatar nzIcon="user"></nz-avatar>
-            <!--      <i nz-icon nzType="logout" (click)="logout()"></i>-->
+        <div class="header__auth-in">
+            <nz-avatar
+                nzIcon="user"
+                nz-popover
+                [nzPopoverContent]="contentTemplate"
+                nzPopoverPlacement="bottomRight"
+                nzPopoverTrigger="click"
+            ></nz-avatar>
+
+            <ng-template #contentTemplate>
+                <div class="header__selectors">
+                    <div (click)="logout()">
+                        <img src="assets/icons/logout.svg" />
+                        Log out
+                    </div>
+                    <div (click)="redirectToOptionsPage()">
+                        <img src="assets/icons/config.svg" />
+                        User options
+                    </div>
+                </div>
+            </ng-template>
         </div>
     </div>
 </div>

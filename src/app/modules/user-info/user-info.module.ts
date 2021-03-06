@@ -8,6 +8,9 @@ import { FormsModule } from '@angular/forms';
 import { NzCheckboxModule } from 'ng-zorro-antd/checkbox';
 import { UserMenuComponent } from './subcomponents/user-menu/user-menu.component';
 import { NzTabsModule } from 'ng-zorro-antd/tabs';
+import { UserOptionsComponent } from './subcomponents/user-options/user-options.component';
+import { OptionsComponent } from './subcomponents/options/options.component';
+import { SecureOptionsComponent } from './subcomponents/secure-options/secure-options.component';
 
 @NgModule({
     declarations: [
@@ -15,6 +18,9 @@ import { NzTabsModule } from 'ng-zorro-antd/tabs';
         UserCompaniesComponent,
         CompanyCardComponent,
         UserMenuComponent,
+        UserOptionsComponent,
+        OptionsComponent,
+        SecureOptionsComponent,
     ],
     imports: [
         CommonModule,

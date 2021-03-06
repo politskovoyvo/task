@@ -27,7 +27,6 @@ export class UserCompaniesComponent implements OnInit {
     }
 
     refresh() {
-        console.log('dsdsdsdsd');
         this.refreshSubj$.next();
     }
 
