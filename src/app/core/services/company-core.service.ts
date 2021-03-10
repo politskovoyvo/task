@@ -14,12 +14,6 @@ export class CompanyCoreService {
 
     constructor(private readonly _http: HttpClient) {}
 
-    getCompanies(): Observable<CompanyDto[]> {
-        return this._http.get<CompanyDto[]>(`${this._TEST_URI}/user/companies`, {
-            withCredentials: true,
-        });
-    }
-
     setCompany(companyId: number): Observable<unknown> {
         return this._http.get(`${this._TEST_URI}/company/set/${companyId}`, {
             withCredentials: true,
