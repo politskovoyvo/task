@@ -2,23 +2,57 @@
 
 .container {
     display: flex;
-    height: 30px;
     max-width: 300px;
     padding: 10px;
     align-items: center;
+
+    &__checkbox {
+        display: flex;
+
+        > p {
+            margin: 0;
+            font-weight: normal;
+            font-size: 14px;
+            line-height: 20px;
+            letter-spacing: 0.5px;
+            color: #201020;
+
+            > a {
+                font-weight: 500;
+            }
+        }
+    }
 
     img {
         border-radius: 10px;
         height: 30px;
         width: 30px;
         border: 0;
+        margin-left: 20px;
     }
 
     span {
-        margin-left: 10px;
-        font-size: $font_title;
+        margin-left: 20px;
+        font-size: $font_name;
     }
 
     .info {
+    }
+}
+
+::ng-deep .ant-checkbox {
+    &-inner {
+        border-radius: 8px;
+        width: 24px;
+        height: 24px;
+    }
+
+    &-checked .ant-checkbox-inner::after {
+        transform: rotate(45deg) scale(1.7) translate(-50%, -50%);
+        top: 57%;
+        left: 29%;
+        border-radius: 1.4px;
+        width: 4.5px;
+        height: 8.142857px;
     }
 }

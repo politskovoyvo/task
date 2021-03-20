@@ -15,14 +15,8 @@ export class AuthCoreService {
         if (login !== 'admin' || password !== 'admin') {
             return throwError('User credentials are invalid');
         }
-        return of({
-            refresh_token:
-                '8d4d8643fb802998d49d868cf93028b732b47383285ba22af84d41fcedf0f255',
-            access_token:
-                'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjEiLCJuYW1lIjoi0JLQu9Cw0LTQuNC80LjRgCIsImxhc3RfbmFtZSI6ItCf0L7Qu9C40YbQutC-0LLQvtC5IiwibWlkZGxlX25hbWUiOiLQntC70LXQs9C-0LLQuNGHIiwiaWF0IjoxNTE2MjM5MDIyfQ.ijs9XSoWXnAj7Gesw4qfRAgdZ82669q5cv8jUoKnXZ0',
-            token_type: 'Bearer',
-            expires_in: 900,
-        } as TokenInfo);
+        return of(this.getMockToken());
+
         return this.http.post<TokenInfo>(
             `${this.URL}/connect/login=${login}&pass=${password}`,
             {
@@ -32,17 +26,21 @@ export class AuthCoreService {
     }
 
     refresh(refreshToken: string): Observable<TokenInfo> {
-        return of({
-            refresh_token:
-                '8d4d8643fb802998d49d868cf93028b732b47383285ba22af84d41fcedf0f255',
-            access_token:
-                'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjEiLCJuYW1lIjoi0JLQu9Cw0LTQuNC80LjRgCIsImxhc3RfbmFtZSI6ItCf0L7Qu9C40YbQutC-0LLQvtC5IiwibWlkZGxlX25hbWUiOiLQntC70LXQs9C-0LLQuNGHIiwiaWF0IjoxNTE2MjM5MDIyfQ.ijs9XSoWXnAj7Gesw4qfRAgdZ82669q5cv8jUoKnXZ0',
-            token_type: 'Bearer',
-            expires_in: 900,
-        } as TokenInfo);
+        return of(this.getMockToken());
         return this.http.post<TokenInfo>(`${this.URL}/connect/refresh=${refreshToken}`, {
             headers: this.getHeader(this.BASE_KEY),
         });
+    }
+
+    private getMockToken() {
+        return {
+            refresh_token:
+                '8d4d8643fb802998d49d868cf93028b732b47383285ba22af84d41fcedf0f255',
+            access_token:
+                'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjEiLCJuYW1lIjoi0JLQu9Cw0LTQuNC80LjRgCIsImxhc3RfbmFtZSI6ItCf0L7Qu9C40YbQutC-0LLQvtC5IiwibWlkZGxlX25hbWUiOiLQntC70LXQs9C-0LLQuNGHIiwicGVybWlzc2lvbnMiOiIvMTonb3duZXInLzI6J2VkaXRfY29tcGFueV9pbmZvLGludml0ZV91c2VyJy8zOicnIn0.GWOXMgZ1RuH9quz-G0Ow7UmKCfX6x4TP_CNajiRtEpk',
+            token_type: 'Bearer',
+            expires_in: 900,
+        } as TokenInfo;
     }
 
     private getHeader(key: string): HttpHeaders {

@@ -1,17 +1,16 @@
 <div class="container">
-    <p>Your companies</p>
+    <p>Basic information about the companies you work for</p>
 
-    <div
-        class="container__companies"
-        *ngIf="companies$ | async as companies; else notCompanies"
-    >
-        <company-card
-            *ngFor="let company of companies"
-            class="container__companies-company"
-            [company]="company"
-            [isSelected]="company.isSelected"
-            (selectEmit)="refresh()"
-        ></company-card>
+    <div class="container__companies">
+        <ng-container *ngIf="companies$ | async as companies; else notCompanies">
+            <div class="container__companies-company" *ngFor="let company of companies">
+                <company-card
+                    [company]="company"
+                    [isSelected]="company.isSelected"
+                    (selectEmit)="refresh()"
+                ></company-card>
+            </div>
+        </ng-container>
     </div>
 
     <ng-template #notCompanies>

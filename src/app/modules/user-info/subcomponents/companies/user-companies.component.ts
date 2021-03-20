@@ -1,9 +1,10 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { CompanyCoreService } from '@core/services/company-core.service';
-import { Observable, ReplaySubject, Subject } from 'rxjs';
+import { Observable, ReplaySubject } from 'rxjs';
 import { AuthService } from '@core/auth/services/auth.service';
 import { CompanyDto } from '@core/models/company.dto';
 import { switchMap } from 'rxjs/operators';
+import { UserCoreService } from '@core/services/user-core.service';
 
 @Component({
     selector: 'user-companies',
@@ -17,23 +18,22 @@ export class UserCompaniesComponent implements OnInit {
 
     constructor(
         private readonly _companyCoreService: CompanyCoreService,
-        private readonly _authService: AuthService
+        private readonly _authService: AuthService,
+        private readonly _userService: UserCoreService
     ) {}
 
     ngOnInit(): void {
-        // this.companies$ = this._companyCoreService.getCompanies();
         this.refreshSubjInit();
         this.refreshSubj$.next();
     }
 
     refresh() {
-        console.log('dsdsdsdsd');
         this.refreshSubj$.next();
     }
 
     private refreshSubjInit() {
         this.companies$ = this.refreshSubj$.pipe(
-            switchMap(() => this._companyCoreService.getCompanies())
+            switchMap(() => this._userService.getCompanies())
         );
     }
 }

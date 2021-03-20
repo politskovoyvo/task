@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable, of } from 'rxjs';
 import { ActivatedRoute, Router } from '@angular/router';
-import { catchError, tap } from 'rxjs/operators';
+import { catchError, map, tap } from 'rxjs/operators';
 import * as jwt_decode from 'jwt-decode';
 import { UntilDestroy } from '@ngneat/until-destroy';
 import { AuthCoreService } from './auth-core.service';
@@ -9,10 +9,27 @@ import { User } from '../models/user';
 import { TokenInfo } from '../models/token-info';
 import { SESSION_STORAGE_KEYS } from '../models/session-storage-key';
 
+enum EPermission {
+    owner = 'owner',
+    guest = 'guest',
+    editTask = 'create_task',
+    createBoard = 'create_board',
+    editBoard = 'edit_board',
+    removeBoard = 'edit_board',
+    inviteUser = 'invite_user',
+    removeUser = 'remove_user',
+    editCompanyInfo = 'edit_company_info',
+}
+
+interface IPermissions {
+    [companyId: string]: string[];
+}
+
 @UntilDestroy()
 @Injectable()
 export class AuthService {
     private _userSubject = new BehaviorSubject<User>({} as User);
+    private _permissions = new BehaviorSubject<IPermissions>(null);
 
     public get userObservable(): Observable<User> {
         return this._userSubject.asObservable();
@@ -26,29 +43,51 @@ export class AuthService {
         this._userSubject.next(value);
     }
 
+    get permissions(): IPermissions {
+        return this._permissions.value;
+    }
+
+    setPermissions(permissionDto: string) {
+        if (!permissionDto) {
+            this._permissions.next(null);
+        }
+        const decodePermissions: IPermissions =
+            permissionDto
+                .split('/')
+                ?.filter((i) => !!i)
+                ?.map((i) => i.split(':'))
+                ?.filter((i) => i.length === 2)
+                ?.map((i) => ({
+                    [+i[0]]: i[1].split(',').filter((v) => !!v),
+                }))
+                ?.reduce((acc, v) => ({ ...acc, ...v }), {}) || null;
+
+        this._permissions.next(decodePermissions);
+    }
+
     constructor(
-        private authCoreService: AuthCoreService,
-        private activatedRoute: ActivatedRoute,
-        private router: Router
+        private readonly _authCoreService: AuthCoreService,
+        private readonly _activatedRoute: ActivatedRoute,
+        private readonly _router: Router
     ) {}
 
     public auth(login: string, password: string) {
-        return this.authCoreService.login(login, password).pipe(
+        return this._authCoreService.login(login, password).pipe(
             tap((tokenInfo: TokenInfo) => {
                 this.updateLocalToken(tokenInfo);
-                this.router.navigate(['']).then();
+                this._router.navigate(['']).then();
             })
         );
     }
 
     public refreshToken(): Observable<TokenInfo> {
         const refreshToken = localStorage.getItem(SESSION_STORAGE_KEYS.refreshToken);
-        return this.authCoreService.refresh(refreshToken).pipe(
+        return this._authCoreService.refresh(refreshToken).pipe(
             catchError(() => this.redirectIfNeed()),
             tap((tokenInfo: TokenInfo) => {
                 this.updateLocalToken(tokenInfo);
-                if (this.router.url?.slice(0, 6) === '/login') {
-                    this.router.navigate(['/']).then();
+                if (this._router.url?.slice(0, 6) === '/login') {
+                    this._router.navigate(['/']).then();
                 }
             })
         );
@@ -58,7 +97,7 @@ export class AuthService {
         this.clearSession();
         // Урл на котором находимся сейчас
         if (!currentUrl) {
-            currentUrl = this.router.url;
+            currentUrl = this._router.url;
         }
 
         // Если мы уже находимся на странице логина, никуда не редиректим
@@ -68,7 +107,7 @@ export class AuthService {
 
         // Если мы не в руте, сохраняем редирект на текущую страницу.
         if (currentUrl && currentUrl !== '/') {
-            this.router
+            this._router
                 .navigate(['/', 'login'], {
                     queryParams: { redirectUrl: currentUrl },
                 })
@@ -76,19 +115,19 @@ export class AuthService {
             return;
         } else {
             // Если мы в руте, сохраняем редирект на рут.
-            this.router.navigate(['/', 'login']).then();
+            this._router.navigate(['/', 'login']).then();
             return;
         }
     }
 
     private redirectIfNeed() {
-        const url = this.activatedRoute.snapshot.queryParamMap.get('redirectUrl');
+        const url = this._activatedRoute.snapshot.queryParamMap.get('redirectUrl');
         if (url) {
             // Получаем путь
             const redirectUrl = url.split('?')[0];
 
             if (!url.split('?')[1]) {
-                return this.router.navigate([redirectUrl]);
+                return this._router.navigate([redirectUrl]);
             }
 
             const params = {};
@@ -100,9 +139,9 @@ export class AuthService {
                 .map((elem) => {
                     params[elem.split('=')[0]] = elem.split('=')[1];
                 });
-            return this.router.navigate([redirectUrl], { queryParams: params });
+            return this._router.navigate([redirectUrl], { queryParams: params });
         } else {
-            return this.router.navigate(['']);
+            return this._router.navigate(['']);
         }
     }
 
@@ -121,8 +160,10 @@ export class AuthService {
             accessToken,
             id: decodeTokenInfo.id,
             name: decodeTokenInfo.name,
+            permissions: decodeTokenInfo.permissions,
         });
 
+        this.setPermissions(decodeTokenInfo.permissions);
         localStorage.setItem(SESSION_STORAGE_KEYS.refreshToken, refreshToken);
     }
 

@@ -10,18 +10,12 @@ import { CompanyDto } from '@core/models/company.dto';
 })
 export class CompanyCoreService {
     private readonly _URL = '//TODO';
-    private readonly _TEST_URI = 'http://localhost:1234';
+    private readonly _TEST_URI = 'http://localhost:1234/company';
 
     constructor(private readonly _http: HttpClient) {}
 
-    getCompanies(): Observable<CompanyDto[]> {
-        return this._http.get<CompanyDto[]>(`${this._TEST_URI}/user/companies`, {
-            withCredentials: true,
-        });
-    }
-
     setCompany(companyId: number): Observable<unknown> {
-        return this._http.get(`${this._TEST_URI}/company/set/${companyId}`, {
+        return this._http.get(`${this._TEST_URI}/set/${companyId}`, {
             withCredentials: true,
         });
     }

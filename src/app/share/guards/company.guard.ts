@@ -8,13 +8,14 @@ import { Observable } from 'rxjs';
 import { CompanyCoreService } from '@core/services/company-core.service';
 import { map } from 'rxjs/operators';
 import { AuthService } from '@core/auth/services/auth.service';
+import { UserCoreService } from '@core/services/user-core.service';
 
 @Injectable({
     providedIn: 'root',
 })
 export class CompanyGuard implements CanActivate {
     constructor(
-        private readonly _companyService: CompanyCoreService,
+        private readonly _userService: UserCoreService,
         private readonly _authService: AuthService
     ) {}
 
@@ -22,7 +23,7 @@ export class CompanyGuard implements CanActivate {
         route: ActivatedRouteSnapshot,
         state: RouterStateSnapshot
     ): Observable<boolean> | Promise<boolean> | boolean {
-        return this._companyService
+        return this._userService
             .getCompanies()
             .pipe(map((companies: []) => !!companies?.length));
     }

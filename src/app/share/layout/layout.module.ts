@@ -6,9 +6,16 @@ import { HeaderComponent } from 'src/app/share/layout/components/header/header.c
 import { NzIconModule } from 'ng-zorro-antd/icon';
 import { NzAvatarModule } from 'ng-zorro-antd/avatar';
 import { FooterComponent } from './components/footer/footer.component';
+import { NzPopoverModule } from 'ng-zorro-antd/popover';
 
 @NgModule({
-  declarations: [LayoutComponent, HeaderComponent, FooterComponent],
-  imports: [CommonModule, LayoutRoutingModule, NzIconModule, NzAvatarModule],
+    declarations: [LayoutComponent, HeaderComponent, FooterComponent],
+    imports: [
+        CommonModule,
+        LayoutRoutingModule,
+        NzIconModule,
+        NzAvatarModule,
+        NzPopoverModule,
+    ],
 })
 export class LayoutModule {}

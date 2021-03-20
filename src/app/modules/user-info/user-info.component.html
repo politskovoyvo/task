@@ -1,5 +1,21 @@
 <div class="container">
-    <user-menu></user-menu>
+    <user-menu (checkTabEmit)="tabChange($event)"></user-menu>
 
-    <user-companies></user-companies>
+    <div [ngSwitch]="menuTypeIndex" class="container__content">
+        <ng-template [ngSwitchCase]="menuTypes.companyOptions">
+            <user-companies></user-companies>
+        </ng-template>
+
+        <ng-template [ngSwitchCase]="menuTypes.userOptions">
+            <user-options></user-options>
+        </ng-template>
+
+        <ng-template [ngSwitchCase]="menuTypes.options">
+            <options></options>
+        </ng-template>
+
+        <ng-template [ngSwitchCase]="menuTypes.secureOptions">
+            <secure-options></secure-options>
+        </ng-template>
+    </div>
 </div>
