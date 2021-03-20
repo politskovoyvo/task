@@ -5,12 +5,22 @@ import { Observable, of } from 'rxjs';
 import { Priority } from '@core/models/priority';
 import { CompanyDto } from '@core/models/company.dto';
 
+interface ICompany {
+    id: number;
+    name: string;
+    inn: string;
+    email: string;
+    createdAt: string;
+    updatedAt: string;
+}
+
 @Injectable({
     providedIn: 'root',
 })
 export class CompanyCoreService {
     private readonly _URL = '//TODO';
     private readonly _TEST_URI = 'http://localhost:1234/company';
+    selectedCompanyId: number;
 
     constructor(private readonly _http: HttpClient) {}
 
@@ -18,6 +28,10 @@ export class CompanyCoreService {
         return this._http.get(`${this._TEST_URI}/set/${companyId}`, {
             withCredentials: true,
         });
+    }
+
+    getSelectedCompany(): Observable<ICompany> {
+        return this._http.get<ICompany>(`${this._TEST_URI}/select`);
     }
 
     //////////////////////////

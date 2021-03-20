@@ -12,7 +12,7 @@ import {
 import { CompanyService } from './company.service';
 import { CompanyDto } from './dto/company.dto';
 import { CreateUserDto } from './dto/create-user.dto';
-import { CookieSettings, SetCookies } from '@nestjsplus/cookies';
+import { Cookies, CookieSettings, SetCookies } from '@nestjsplus/cookies';
 
 @Controller('company')
 export class CompanyController {
@@ -28,7 +28,6 @@ export class CompanyController {
     @Get('users/:id')
     getUsers(@Param() params, @Req() request: Request): string {
         return params.id;
-        // return this._companyService.getUsers(id);
     }
 
     /**
@@ -48,6 +47,19 @@ export class CompanyController {
                 },
             } as CookieSettings,
         ];
+    }
+
+    /**
+     * Get company by send cookie company id
+     */
+    @Get('select')
+    getSelectedCompany(@Cookies() cookies) {
+        const id = cookies.companyId || undefined;
+        if (!id) {
+            return null;
+        }
+
+        return this._companyService.getCompany(id);
     }
 
     /**
