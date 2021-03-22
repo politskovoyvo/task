@@ -2,38 +2,63 @@
 
 .container {
     display: flex;
-    max-width: 300px;
     padding: 10px;
     align-items: center;
+    width: 100%;
+    justify-content: space-between;
 
-    &__checkbox {
+    &__info {
         display: flex;
 
-        > p {
-            margin: 0;
-            font-weight: normal;
-            font-size: 14px;
-            line-height: 20px;
-            letter-spacing: 0.5px;
-            color: #201020;
+        span {
+            margin-left: 20px;
+            font-size: $font_name;
+        }
 
-            > a {
-                font-weight: 500;
+        &-checkbox {
+            > p {
+                margin: 0;
+                font-weight: normal;
+                font-size: 14px;
+                line-height: 20px;
+                letter-spacing: 0.5px;
+                color: #201020;
+
+                > a {
+                    font-weight: 500;
+                }
             }
         }
     }
 
-    img {
-        border-radius: 10px;
-        height: 30px;
-        width: 30px;
-        border: 0;
-        margin-left: 20px;
-    }
+    &__option {
+        display: flex;
 
-    span {
-        margin-left: 20px;
-        font-size: $font_name;
+        &-peoples {
+            display: flex;
+            align-items: center;
+
+            span {
+                margin-left: 5px;
+                font-size: $font_middle;
+            }
+
+            img {
+            }
+        }
+
+        &-setting {
+            min-width: 50px;
+            display: flex;
+            justify-content: flex-end;
+
+            img {
+                transform: rotate(90deg);
+                margin-left: 30px;
+                cursor: pointer;
+                height: 20px;
+            }
+        }
     }
 
     .info {

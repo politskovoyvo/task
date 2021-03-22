@@ -8,18 +8,7 @@ import { AuthCoreService } from './auth-core.service';
 import { User } from '../models/user';
 import { TokenInfo } from '../models/token-info';
 import { SESSION_STORAGE_KEYS } from '../models/session-storage-key';
-
-enum EPermission {
-    owner = 'owner',
-    guest = 'guest',
-    editTask = 'create_task',
-    createBoard = 'create_board',
-    editBoard = 'edit_board',
-    removeBoard = 'edit_board',
-    inviteUser = 'invite_user',
-    removeUser = 'remove_user',
-    editCompanyInfo = 'edit_company_info',
-}
+import { Permission } from '@core/auth/permission';
 
 interface IPermissions {
     [companyId: string]: string[];
@@ -28,12 +17,8 @@ interface IPermissions {
 @UntilDestroy()
 @Injectable()
 export class AuthService {
+    public permission: Permission;
     private _userSubject = new BehaviorSubject<User>({} as User);
-    private _permissions = new BehaviorSubject<IPermissions>(null);
-
-    public get userObservable(): Observable<User> {
-        return this._userSubject.asObservable();
-    }
 
     public get user(): User {
         return this._userSubject.getValue();
@@ -43,33 +28,13 @@ export class AuthService {
         this._userSubject.next(value);
     }
 
-    get permissions(): IPermissions {
-        return this._permissions.value;
-    }
-
-    setPermissions(permissionDto: string) {
-        if (!permissionDto) {
-            this._permissions.next(null);
-        }
-        const decodePermissions: IPermissions =
-            permissionDto
-                .split('/')
-                ?.filter((i) => !!i)
-                ?.map((i) => i.split(':'))
-                ?.filter((i) => i.length === 2)
-                ?.map((i) => ({
-                    [+i[0]]: i[1].split(',').filter((v) => !!v),
-                }))
-                ?.reduce((acc, v) => ({ ...acc, ...v }), {}) || null;
-
-        this._permissions.next(decodePermissions);
-    }
-
     constructor(
         private readonly _authCoreService: AuthCoreService,
         private readonly _activatedRoute: ActivatedRoute,
         private readonly _router: Router
-    ) {}
+    ) {
+        this.permission = new Permission();
+    }
 
     public auth(login: string, password: string) {
         return this._authCoreService.login(login, password).pipe(
@@ -160,11 +125,31 @@ export class AuthService {
             accessToken,
             id: decodeTokenInfo.id,
             name: decodeTokenInfo.name,
-            permissions: decodeTokenInfo.permissions,
         });
 
         this.setPermissions(decodeTokenInfo.permissions);
         localStorage.setItem(SESSION_STORAGE_KEYS.refreshToken, refreshToken);
+    }
+
+    private setPermissions(permissionDto: string) {
+        if (!permissionDto) {
+            this.permission.set = null;
+        }
+        const decodePermissions: IPermissions =
+            permissionDto
+                .split('/')
+                ?.filter((i) => !!i)
+                ?.map((i) => i.split(':'))
+                ?.filter((i) => i.length === 2)
+                ?.map((i) => ({
+                    [+i[0]]: i[1]
+                        .split(',')
+                        .filter((v) => !!v)
+                        .map((v) => v.replace("'", '')),
+                }))
+                ?.reduce((acc, v) => ({ ...acc, ...v }), {}) || null;
+
+        this.permission.set = decodePermissions;
     }
 
     private getDecodedAccessToken(token: string): any {

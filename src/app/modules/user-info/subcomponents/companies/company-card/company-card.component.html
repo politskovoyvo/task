@@ -1,10 +1,22 @@
 <div class="container">
-    <label
-        class="container__checkbox"
-        nz-checkbox
-        [(ngModel)]="company.isSelected"
-        (ngModelChange)="editCompany()"
-    ></label>
-    <img />
-    <span>{{ company.name }}</span>
+    <div class="container__info">
+        <label
+            class="container__info-checkbox"
+            nz-checkbox
+            [(ngModel)]="company.isSelected"
+            (ngModelChange)="editCompany()"
+        ></label>
+        <span>{{ company.name }}</span>
+    </div>
+
+    <div class="container__option">
+        <div class="container__option-peoples">
+            <img src="assets/icons/people.svg" />
+            <span>9090110</span>
+        </div>
+
+        <div class="container__option-setting">
+            <img src="assets/icons/edit.svg" *ngIf="isEditCompanyInfo" />
+        </div>
+    </div>
 </div>

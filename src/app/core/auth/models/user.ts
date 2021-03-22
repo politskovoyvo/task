@@ -4,6 +4,4 @@ export interface User {
     refreshToken: string;
     accessToken: string;
     avatar: string;
-
-    permissions?: number[];
 }
