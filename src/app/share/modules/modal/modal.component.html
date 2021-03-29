@@ -1,0 +1,26 @@
+<div class="modal" [style.top]="configs.top">
+	<div
+		[style.margin]="configs.margin"
+		[style.width]="configs.width"
+		[style.height]="configs.height"
+		[ngClass]="{ 'modal-body': !configs.isFullSize, 'modal-body-full': configs.isFullSize }"
+	>
+		<div class="modal__title">
+			<div>
+				<img src="assets/icons/close.svg" class="modal__title-close" (click)="close()" *ngIf="configs.isCloseIcon" />
+				<ng-container
+					*ngIf="configs.titleTemplate; else notTitleTemplate"
+					[ngTemplateOutlet]="configs.titleTemplate"
+				></ng-container>
+
+				<ng-template #notTitleTemplate>
+					<span class="modal__title">{{ configs.title || '' }}</span>
+				</ng-template>
+			</div>
+			<ng-container [ngTemplateOutlet]="configs.content"></ng-container>
+			<ng-content></ng-content>
+		</div>
+		<ng-container *ngIf="configs.footer" [ngTemplateOutlet]="configs.footer"></ng-container>
+	</div>
+</div>
+<div class="modal-background" [style.top]="configs.top"></div>

@@ -81,3 +81,23 @@
         height: 8.142857px;
     }
 }
+
+.dropdown {
+    border-radius: 20px;
+    min-width: 300px;
+    padding: 15px;
+
+    li {
+        display: flex;
+        justify-content: center;
+
+        &.settings {
+            background: #c2c5dd;
+            border-radius: 10px;
+        }
+
+        &.remove {
+            color: darkred;
+        }
+    }
+}

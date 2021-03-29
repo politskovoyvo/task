@@ -16,7 +16,15 @@
         </div>
 
         <div class="container__option-setting">
-            <img src="assets/icons/edit.svg" *ngIf="isEditCompanyInfo" />
+            <img src="assets/icons/edit.svg" nz-dropdown [nzDropdownMenu]="menu" />
         </div>
     </div>
 </div>
+
+<nz-dropdown-menu #menu="nzDropdownMenu">
+    <ul nz-menu class="dropdown">
+        <li nz-menu-item class="settings" *ngIf="isEditCompanyInfo">Settings</li>
+        <li nz-menu-item>Info</li>
+        <li class="remove" nz-menu-item>Remove</li>
+    </ul>
+</nz-dropdown-menu>

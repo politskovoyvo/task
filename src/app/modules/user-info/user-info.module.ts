@@ -11,6 +11,9 @@ import { NzTabsModule } from 'ng-zorro-antd/tabs';
 import { UserOptionsComponent } from './subcomponents/user-options/user-options.component';
 import { OptionsComponent } from './subcomponents/options/options.component';
 import { SecureOptionsComponent } from './subcomponents/secure-options/secure-options.component';
+import { NzPopoverModule } from 'ng-zorro-antd/popover';
+import { NzButtonModule } from 'ng-zorro-antd/button';
+import { NzDropDownModule } from 'ng-zorro-antd/dropdown';
 
 @NgModule({
     declarations: [
@@ -28,6 +31,9 @@ import { SecureOptionsComponent } from './subcomponents/secure-options/secure-op
         FormsModule,
         NzCheckboxModule,
         NzTabsModule,
+        NzPopoverModule,
+        NzButtonModule,
+        NzDropDownModule,
     ],
 })
 export class UserInfoModule {}
