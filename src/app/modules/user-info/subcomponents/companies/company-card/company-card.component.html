@@ -12,7 +12,7 @@
     <div class="container__option">
         <div class="container__option-peoples">
             <img src="assets/icons/people.svg" />
-            <span>9090110</span>
+            <span>9090110 ??</span>
         </div>
 
         <div class="container__option-setting">
@@ -25,6 +25,39 @@
     <ul nz-menu class="dropdown">
         <li nz-menu-item class="settings" *ngIf="isEditCompanyInfo">Settings</li>
         <li nz-menu-item>Info</li>
-        <li class="remove" nz-menu-item>Remove</li>
+        <li
+            class="remove"
+            nz-menu-item
+            (click)="showRemoveModal(removeModalRef, removeModalFooterRef)"
+        >
+            Remove
+        </li>
     </ul>
 </nz-dropdown-menu>
+
+<ng-template #removeModalRef>
+    <form class="remove_modal" [formGroup]="removeForm">
+        <span> Deleting a company </span>
+        <span class="remove_modal-name">{{ company.name }}</span>
+        <input
+            nz-input
+            type="text"
+            formControlName="companyName"
+            placeholder="Enter your company name"
+        />
+        <input
+            nz-input
+            type="text"
+            formControlName="reason"
+            placeholder="Specify the reason"
+        />
+    </form>
+</ng-template>
+
+<ng-template #removeModalFooterRef>
+    <div class="remove_modal">
+        <button [disabled]="!isRemoveConfirm || !removeForm.valid" nz-button>
+            Confirm
+        </button>
+    </div>
+</ng-template>

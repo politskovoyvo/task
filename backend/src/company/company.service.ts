@@ -23,6 +23,13 @@ export class CompanyService {
         return this._companyRepository.findOne({ where: { id } });
     }
 
+    async getCompaniesById(ids: number[]) {
+        return this._companyRepository.findAll({
+            include: ['users'],
+            where: { id: ids },
+        });
+    }
+
     async getUsers(id: number): Promise<UserEntity[]> {
         const companies = await this._companyRepository.findAll({
             where: { id },

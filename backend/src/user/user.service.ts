@@ -5,24 +5,24 @@ import { UserDto } from './dto/user.dto';
 
 @Injectable()
 export class UserService {
-  constructor(
-    @Inject(USER_REPOSITORY)
-    private readonly _userRepository: typeof UserEntity,
-  ) {}
+    constructor(
+        @Inject(USER_REPOSITORY)
+        private readonly _userRepository: typeof UserEntity,
+    ) {}
 
-  async create(user: UserDto): Promise<UserEntity> {
-    // @ts-ignore
-    return await this._userRepository.create<UserEntity>(user);
-  }
+    async create(user: UserDto): Promise<UserEntity> {
+        // @ts-ignore
+        return await this._userRepository.create<UserEntity>(user);
+    }
 
-  async getAll(): Promise<UserEntity[]> {
-    return this._userRepository.findAll<UserEntity>();
-  }
+    async getAll(): Promise<UserEntity[]> {
+        return this._userRepository.findAll<UserEntity>();
+    }
 
-  getUser(id: number): Promise<UserEntity> {
-    return this._userRepository.findOne({
-      where: { id },
-      include: ['companies'],
-    });
-  }
+    getUser(id: number): Promise<UserEntity> {
+        return this._userRepository.findOne({
+            where: { id },
+            include: ['companies'],
+        });
+    }
 }
