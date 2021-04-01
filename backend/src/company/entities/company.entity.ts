@@ -10,7 +10,7 @@ import {
     Table,
 } from 'sequelize-typescript';
 import { UserEntity } from '../../user/entities/user.entity';
-import { LinkUserCompanyEntity } from '../../links/link-user-company.entity';
+import { UserCompanyEntity } from '../../links/user-company/user-company.entity';
 
 // @Scopes(() => ({
 //     full: {
@@ -28,7 +28,7 @@ export class CompanyEntity extends Model<CompanyEntity> {
     @Column({ allowNull: false })
     email: string;
 
-    @BelongsToMany(() => UserEntity, () => LinkUserCompanyEntity)
+    @BelongsToMany(() => UserEntity, () => UserCompanyEntity)
     users: UserEntity[];
 
     isSelected: boolean;

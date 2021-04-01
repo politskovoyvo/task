@@ -11,22 +11,18 @@ import { UserController } from './user/user.controller';
 import { UserModule } from './user/user.module';
 import { CompanyModule } from './company/company.module';
 import { TokenService } from './share/services/token.service';
+import { UserCompanyModule } from './links/user-company/user-company.module';
 
 @Module({
-  imports: [
-    // MONGO_db
-    // MongooseModule.forRoot(
-    //   'mongodb+srv://Vladimir:Dkflbvbh19900@cluster0.pwyei.mongodb.net/task?retryWrites=true&w=majority',
-    // ),
-
-    // PostgreSQL
-    ConfigModule.forRoot({ isGlobal: true }),
-    DbModule,
-    UserModule,
-    CompanyModule,
-    TaskModule,
-  ],
-  controllers: [AppController, BoardController],
-  providers: [AppService],
+    imports: [
+        // PostgreSQL
+        ConfigModule.forRoot({ isGlobal: true }),
+        DbModule,
+        UserModule,
+        CompanyModule,
+        TaskModule,
+    ],
+    controllers: [AppController, BoardController],
+    providers: [AppService],
 })
 export class AppModule {}

@@ -8,22 +8,10 @@ import {
     Table,
 } from 'sequelize-typescript';
 import { CompanyEntity } from '../../company/entities/company.entity';
-import { LinkUserCompanyEntity } from '../../links/link-user-company.entity';
+import { UserCompanyEntity } from '../../links/user-company/user-company.entity';
 import { LinkUserBoardEntity } from '../../links/link-user-board.entity';
 import { BoardEntity } from '../../board/entities/board.entity';
 
-// @Scopes(() => ({
-//     list: {
-//         include: [
-//             {
-//                 include: [{
-//                   model: CompanyEntity,
-//                   limit: 2
-//                 }]
-//             },
-//         ],
-//     },
-// }))
 @Table
 export class UserEntity extends Model<UserEntity> {
     @Column({ allowNull: false })
@@ -38,7 +26,7 @@ export class UserEntity extends Model<UserEntity> {
     @Column({ allowNull: false })
     email: string;
 
-    @BelongsToMany(() => CompanyEntity, () => LinkUserCompanyEntity)
+    @BelongsToMany(() => CompanyEntity, () => UserCompanyEntity)
     companies: CompanyEntity[];
 
     @BelongsToMany(() => BoardEntity, () => LinkUserBoardEntity)

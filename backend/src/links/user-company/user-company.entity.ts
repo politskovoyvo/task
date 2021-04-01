@@ -1,24 +1,17 @@
 import {
     BelongsTo,
     Column,
+    DataType,
     ForeignKey,
     Model,
     PrimaryKey,
     Table,
 } from 'sequelize-typescript';
-import { CompanyEntity } from '../company/entities/company.entity';
-import { UserEntity } from '../user/entities/user.entity';
+import { CompanyEntity } from '../../company/entities/company.entity';
+import { UserEntity } from '../../user/entities/user.entity';
 
 @Table
-export class LinkUserCompanyEntity extends Model<LinkUserCompanyEntity> {
-    // @ForeignKey(() => UserEntity)
-    // @Column
-    // userId: number;
-    //
-    // @ForeignKey(() => CompanyEntity)
-    // @Column
-    // companyId: number;
-
+export class UserCompanyEntity extends Model<UserCompanyEntity> {
     @BelongsTo(() => UserEntity)
     user: UserEntity;
 
@@ -34,4 +27,11 @@ export class LinkUserCompanyEntity extends Model<LinkUserCompanyEntity> {
     @PrimaryKey
     @Column
     companyId: number;
+
+    @Column(DataType.JSON)
+    history: {
+        isWork: boolean;
+        reason: string;
+        dt: string;
+    }[];
 }
