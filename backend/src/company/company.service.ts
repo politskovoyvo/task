@@ -5,6 +5,7 @@ import { COMPANY_REPOSITORY } from './company.provider';
 import { UserService } from '../user/user.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UserEntity } from '../user/entities/user.entity';
+import { UserCompanyService } from '../links/user-company/user-company.service';
 
 @Injectable()
 export class CompanyService {
@@ -12,6 +13,7 @@ export class CompanyService {
         @Inject(COMPANY_REPOSITORY)
         private readonly _companyRepository: typeof CompanyEntity,
         private readonly _userService: UserService,
+        private readonly _userCompanyService: UserCompanyService,
     ) {}
 
     async create(user: CompanyDto): Promise<CompanyEntity> {
@@ -23,7 +25,7 @@ export class CompanyService {
         return this._companyRepository.findOne({ where: { id } });
     }
 
-    async getCompaniesById(ids: number[]) {
+    async getCompaniesByIds(ids: number[]) {
         return this._companyRepository.findAll({
             include: ['users'],
             where: { id: ids },
@@ -43,6 +45,35 @@ export class CompanyService {
     }
 
     async addUser(createUserDto: CreateUserDto) {
+        const link = await this._userCompanyService.getUserCompanyLink(
+            createUserDto.userId,
+            createUserDto.companyId,
+        );
+
+        if (link) {
+            if (!link.history) {
+                link.history = [
+                    {
+                        dt: new Date().toDateString(),
+                        isWork: true,
+                        reason: '',
+                    },
+                ];
+            } else {
+                link.history = [
+                    ...link.history,
+                    {
+                        dt: new Date().toDateString(),
+                        isWork: true,
+                        reason: '',
+                    },
+                ];
+            }
+
+            await link.save();
+            return;
+        }
+
         const company = await this._companyRepository.findOne({
             where: { id: createUserDto.companyId },
             include: ['users'],

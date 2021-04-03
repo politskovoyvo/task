@@ -16,4 +16,8 @@ export class UserCoreService {
             withCredentials: true,
         });
     }
+
+    removeCompany(companyId: number, reason: string) {
+        return this._http.post(`${this._TEST_URI}/companies`, { companyId, reason });
+    }
 }

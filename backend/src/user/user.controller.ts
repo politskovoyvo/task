@@ -16,6 +16,7 @@ import { Cookies } from '@nestjsplus/cookies';
 import { CompanyDto } from '../company/dto/company.dto';
 import { CompanyService } from '../company/company.service';
 import { UserCompanyService } from '../links/user-company/user-company.service';
+import { CompanyEntity } from '../company/entities/company.entity';
 
 @Controller('user')
 export class UserController {
@@ -91,21 +92,39 @@ export class UserController {
         if (!companyIds) {
             return [];
         }
-        const companies = await this._companyService.getCompaniesById(
-            companyIds,
-        );
 
-        return (
-            companies?.map((c) => {
-                return {
-                    id: c.id,
-                    isSelected: c.id === +requestCookieCompanyId,
-                    name: c.name,
-                    email: c.email,
-                    inn: c.inn,
-                    userCount: c.users?.length || 0,
-                } as CompanyDto;
-            }) || []
-        );
+        return this._userCompanyService
+            .getCompaniesByUserId(userId)
+            .then((links) => {
+                const isWorkLink = links.filter((link) => {
+                    const lastHistoryCount = link.history?.length;
+                    if (!lastHistoryCount) {
+                        return true;
+                    }
+
+                    return link.history[lastHistoryCount - 1].isWork;
+                });
+
+                const companies = isWorkLink
+                    .map((c) => c.company)
+                    ?.map((c) => c.id);
+
+                return this._companyService.getCompaniesByIds(companies);
+            })
+            .then((companies) => {
+                return (
+                    companies?.map(
+                        (c) =>
+                            ({
+                                id: c.id,
+                                isSelected: c.id === +requestCookieCompanyId,
+                                name: c.name,
+                                email: c.email,
+                                inn: c.inn,
+                                userCount: c.users?.length || 0,
+                            } as CompanyDto),
+                    ) || []
+                );
+            });
     }
 }

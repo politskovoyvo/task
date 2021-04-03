@@ -56,7 +56,11 @@
 
 <ng-template #removeModalFooterRef>
     <div class="remove_modal">
-        <button [disabled]="!isRemoveConfirm || !removeForm.valid" nz-button>
+        <button
+            [disabled]="!isRemoveConfirm || !removeForm.valid"
+            nz-button
+            (click)="removeCompany()"
+        >
             Confirm
         </button>
     </div>

@@ -14,6 +14,7 @@ import { tap } from 'rxjs/operators';
 import { AuthService } from '@core/auth/services/auth.service';
 import { ModalService } from '@share/modules/modal';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { UserCoreService } from '@core/services/user-core.service';
 
 @UntilDestroy()
 @Component({
@@ -33,6 +34,7 @@ export class CompanyCardComponent implements OnInit {
 
     constructor(
         private readonly _companyService: CompanyCoreService,
+        private readonly _userCoreService: UserCoreService,
         private readonly _authService: AuthService,
         private readonly _modalService: ModalService,
         private readonly _fb: FormBuilder
@@ -54,6 +56,13 @@ export class CompanyCardComponent implements OnInit {
                 tap(() => this.selectEmit.emit())
             )
             .subscribe();
+    }
+
+    removeCompany() {
+        this._userCoreService.removeCompany(
+            this.company.id,
+            this.removeForm.get('reason').value
+        );
     }
 
     showRemoveModal(content: TemplateRef<any>, footer: TemplateRef<any>) {

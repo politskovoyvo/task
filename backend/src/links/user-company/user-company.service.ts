@@ -14,7 +14,16 @@ export class UserCompanyService {
         companyId: number,
     ): Promise<UserCompanyEntity> {
         return this._LinkUserCompanyRepository.findOne<UserCompanyEntity>({
-            where: { userId } && { companyId },
+            where: { userId, companyId },
         });
     }
+
+    async getCompaniesByUserId(userId: number) {
+        return this._LinkUserCompanyRepository.findAll<UserCompanyEntity>({
+            include: ['company'],
+            where: { userId },
+        });
+    }
+
+    async getLinks(userId: number, companyId: number, isWork = true) {}
 }
