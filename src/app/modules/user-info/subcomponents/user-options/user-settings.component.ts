@@ -2,11 +2,11 @@ import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 
 @Component({
     selector: 'user-options',
-    templateUrl: './user-options.component.html',
-    styleUrls: ['./user-options.component.scss'],
+    templateUrl: './user-settings.component.html',
+    styleUrls: ['./user-settings.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class UserOptionsComponent implements OnInit {
+export class UserSettingsComponent implements OnInit {
     constructor() {}
 
     ngOnInit(): void {}

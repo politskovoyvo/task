@@ -15,7 +15,7 @@ import { AuthService } from '@core/auth/services/auth.service';
 import { ModalService } from '@share/modules/modal';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { UserCoreService } from '@core/services/user-core.service';
-import { CompanyOptionsService } from '@modules/user-info/subcomponents/companies/company-options.service';
+import { CompanySettingsService } from '@modules/user-info/subcomponents/companies/company-settings.service';
 
 @UntilDestroy()
 @Component({
@@ -39,7 +39,7 @@ export class CompanyCardComponent implements OnInit {
         private readonly _authService: AuthService,
         private readonly _modalService: ModalService,
         private readonly _fb: FormBuilder,
-        private readonly _companyOptionsService: CompanyOptionsService
+        private readonly _companyOptionsService: CompanySettingsService
     ) {
         this.removeForm = this.InitRemoveForm();
     }

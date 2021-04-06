@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { AuthService } from '@core/auth/services/auth.service';
 import { Router } from '@angular/router';
-import { EOptionsRoutes } from '@modules/user-info/settings.routes';
+import { ESettingsRoutes } from '@modules/user-info/settings.routes';
 
 @Component({
     selector: 'app-header',
@@ -22,6 +22,6 @@ export class HeaderComponent implements OnInit {
     }
 
     redirectToOptionsPage() {
-        this._router.navigate([EOptionsRoutes.global]).then();
+        this._router.navigate([ESettingsRoutes.global]).then();
     }
 }

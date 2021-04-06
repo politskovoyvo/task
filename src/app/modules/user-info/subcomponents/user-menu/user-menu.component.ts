@@ -2,10 +2,10 @@ import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { NzTabChangeEvent } from 'ng-zorro-antd/tabs';
 
 export enum ETabMenu {
-    companyOptions = 0,
-    userOptions = 1,
+    companySettings = 0,
+    userSettings = 1,
     options = 2,
-    secureOptions = 3,
+    secureSettings = 3,
 }
 
 @Component({
@@ -14,13 +14,13 @@ export enum ETabMenu {
     styleUrls: ['./user-menu.component.scss'],
 })
 export class UserMenuComponent implements OnInit {
-    @Output() checkTabEmit = new EventEmitter<string>();
+    @Output() changeTabIndexEmit = new EventEmitter<number>();
 
     constructor() {}
 
     ngOnInit(): void {}
 
     tabChange($event: NzTabChangeEvent) {
-        this.checkTabEmit.emit(ETabMenu[$event.index]);
+        this.changeTabIndexEmit.emit($event.index);
     }
 }

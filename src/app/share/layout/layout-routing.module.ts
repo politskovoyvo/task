@@ -1,8 +1,8 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { LayoutComponent } from './layout.component';
-import { EUserInfoRoutes } from '@modules/user-info/settings-routing.module';
 import { CompanyGuard } from '@share/guards/company.guard';
+import { ESettingsRoutes } from '@modules/user-info/settings.routes';
 
 const routes: Routes = [
     {
@@ -16,7 +16,7 @@ const routes: Routes = [
                 // canActivate: [CompanyGuard],
             },
             {
-                path: EUserInfoRoutes.global,
+                path: ESettingsRoutes.global,
                 loadChildren: () =>
                     import('@modules/user-info/settings.module').then(
                         (m) => m.SettingsModule

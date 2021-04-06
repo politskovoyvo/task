@@ -5,15 +5,15 @@ import { AuthService } from '@core/auth/services/auth.service';
 import { CompanyDto } from '@core/models/company.dto';
 import { switchMap } from 'rxjs/operators';
 import { UserCoreService } from '@core/services/user-core.service';
-import { CompanyOptionsService } from '@modules/user-info/subcomponents/companies/company-options.service';
+import { CompanySettingsService } from '@modules/user-info/subcomponents/companies/company-settings.service';
 
 @Component({
     selector: 'user-companies',
-    templateUrl: './user-companies.component.html',
-    styleUrls: ['./user-companies.component.scss'],
+    templateUrl: './company-settings.component.html',
+    styleUrls: ['./company-settings.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class UserCompaniesComponent implements OnInit {
+export class CompanySettingsComponent implements OnInit {
     companies$: Observable<CompanyDto[]>;
     refreshSubj$: Observable<any>;
 
@@ -21,7 +21,7 @@ export class UserCompaniesComponent implements OnInit {
         private readonly _companyCoreService: CompanyCoreService,
         private readonly _authService: AuthService,
         private readonly _userService: UserCoreService,
-        private readonly _companyOptionsService: CompanyOptionsService
+        private readonly _companyOptionsService: CompanySettingsService
     ) {
         this.refreshSubj$ = this._companyOptionsService.getRefreshSubject$();
     }

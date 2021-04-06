@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Observable, of, ReplaySubject, Subject } from 'rxjs';
 
 @Injectable()
-export class CompanyOptionsService {
+export class CompanySettingsService {
     private _companiesRefreshSubject$: ReplaySubject<any>;
 
     constructor() {
