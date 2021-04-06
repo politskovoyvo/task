@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { LayoutComponent } from './layout.component';
-import { EUserInfoRoutes } from '@modules/user-info/user-info-routing.module';
+import { EUserInfoRoutes } from '@modules/user-info/settings-routing.module';
 import { CompanyGuard } from '@share/guards/company.guard';
 
 const routes: Routes = [
@@ -18,8 +18,8 @@ const routes: Routes = [
             {
                 path: EUserInfoRoutes.global,
                 loadChildren: () =>
-                    import('../../modules/user-info/user-info.module').then(
-                        (m) => m.UserInfoModule
+                    import('@modules/user-info/settings.module').then(
+                        (m) => m.SettingsModule
                     ),
             },
         ],

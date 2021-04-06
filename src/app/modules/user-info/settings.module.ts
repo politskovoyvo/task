@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { UserInfoComponent } from './user-info.component';
-import { UserInfoRoutingModule } from '@modules/user-info/user-info-routing.module';
+import { SettingsComponent } from './settings.component';
+import { SettingsRoutingModule } from '@modules/user-info/settings-routing.module';
 import { UserCompaniesComponent } from './subcomponents/companies/user-companies.component';
 import { CompanyCardComponent } from './subcomponents/companies/company-card/company-card.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -19,7 +19,7 @@ import { CompanyOptionsService } from '@modules/user-info/subcomponents/companie
 
 @NgModule({
     declarations: [
-        UserInfoComponent,
+        SettingsComponent,
         UserCompaniesComponent,
         CompanyCardComponent,
         UserMenuComponent,
@@ -29,7 +29,7 @@ import { CompanyOptionsService } from '@modules/user-info/subcomponents/companie
     ],
     imports: [
         CommonModule,
-        UserInfoRoutingModule,
+        SettingsRoutingModule,
         FormsModule,
         NzCheckboxModule,
         NzTabsModule,
@@ -41,4 +41,4 @@ import { CompanyOptionsService } from '@modules/user-info/subcomponents/companie
     ],
     providers: [CompanyOptionsService],
 })
-export class UserInfoModule {}
+export class SettingsModule {}

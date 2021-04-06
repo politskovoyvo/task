@@ -23,7 +23,14 @@
 
 <nz-dropdown-menu #menu="nzDropdownMenu">
     <ul nz-menu class="dropdown">
-        <li nz-menu-item class="settings" *ngIf="isEditCompanyInfo">Settings</li>
+        <li
+            nz-menu-item
+            class="settings"
+            (click)="showEditCompany()"
+            *ngIf="isEditCompanyInfo"
+        >
+            Settings
+        </li>
         <li nz-menu-item>Info</li>
         <li
             class="remove"

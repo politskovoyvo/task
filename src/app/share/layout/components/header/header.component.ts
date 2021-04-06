@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { AuthService } from '@core/auth/services/auth.service';
 import { Router } from '@angular/router';
-import { EOptionsRoutes } from '@modules/user-info/options.routes';
+import { EOptionsRoutes } from '@modules/user-info/settings.routes';
 
 @Component({
     selector: 'app-header',

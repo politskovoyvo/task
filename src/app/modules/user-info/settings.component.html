@@ -1,6 +1,8 @@
 <div class="container">
     <user-menu (checkTabEmit)="tabChange($event)"></user-menu>
 
+    <router-outlet></router-outlet>
+
     <div [ngSwitch]="menuTypeIndex" class="container__content">
         <ng-template [ngSwitchCase]="menuTypes.companyOptions">
             <user-companies></user-companies>

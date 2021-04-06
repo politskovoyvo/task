@@ -82,6 +82,8 @@ export class CompanyCardComponent implements OnInit {
         });
     }
 
+    showEditCompany() {}
+
     private InitRemoveForm(): FormGroup {
         const form = this._fb.group({
             companyName: ['', Validators.required],

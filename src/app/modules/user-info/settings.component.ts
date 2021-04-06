@@ -2,11 +2,11 @@ import { Component, OnInit } from '@angular/core';
 import { ETabMenu } from '@modules/user-info/subcomponents/user-menu/user-menu.component';
 
 @Component({
-    selector: 'app-user-info',
-    templateUrl: './user-info.component.html',
-    styleUrls: ['./user-info.component.scss'],
+    selector: 'settings',
+    templateUrl: './settings.component.html',
+    styleUrls: ['./settings.component.scss'],
 })
-export class UserInfoComponent implements OnInit {
+export class SettingsComponent implements OnInit {
     menuTypeIndex = 0;
     menuTypes = ETabMenu;
 
