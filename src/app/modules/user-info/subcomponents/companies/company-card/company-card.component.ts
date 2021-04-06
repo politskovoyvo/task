@@ -15,6 +15,7 @@ import { AuthService } from '@core/auth/services/auth.service';
 import { ModalService } from '@share/modules/modal';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { UserCoreService } from '@core/services/user-core.service';
+import { CompanyOptionsService } from '@modules/user-info/subcomponents/companies/company-options.service';
 
 @UntilDestroy()
 @Component({
@@ -37,7 +38,8 @@ export class CompanyCardComponent implements OnInit {
         private readonly _userCoreService: UserCoreService,
         private readonly _authService: AuthService,
         private readonly _modalService: ModalService,
-        private readonly _fb: FormBuilder
+        private readonly _fb: FormBuilder,
+        private readonly _companyOptionsService: CompanyOptionsService
     ) {
         this.removeForm = this.InitRemoveForm();
     }
@@ -59,10 +61,15 @@ export class CompanyCardComponent implements OnInit {
     }
 
     removeCompany() {
-        this._userCoreService.removeCompany(
-            this.company.id,
-            this.removeForm.get('reason').value
-        );
+        this._userCoreService
+            .removeCompany(this.company.id, this.removeForm.get('reason').value)
+            .pipe(
+                untilDestroyed(this),
+                tap(() => this._companyOptionsService.refresh())
+            )
+            .subscribe();
+
+        this._modalService.close('removeCompany');
     }
 
     showRemoveModal(content: TemplateRef<any>, footer: TemplateRef<any>) {

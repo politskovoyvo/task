@@ -18,6 +18,10 @@ export class UserCoreService {
     }
 
     removeCompany(companyId: number, reason: string) {
-        return this._http.post(`${this._TEST_URI}/companies`, { companyId, reason });
+        return this._http.post(`${this._TEST_URI}/remove-company`, {
+            companyId,
+            reason,
+            dt: new Date().toDateString(),
+        });
     }
 }

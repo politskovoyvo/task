@@ -15,6 +15,7 @@ import { NzPopoverModule } from 'ng-zorro-antd/popover';
 import { NzButtonModule } from 'ng-zorro-antd/button';
 import { NzDropDownModule } from 'ng-zorro-antd/dropdown';
 import { NzInputModule } from 'ng-zorro-antd/input';
+import { CompanyOptionsService } from '@modules/user-info/subcomponents/companies/company-options.service';
 
 @NgModule({
     declarations: [
@@ -38,5 +39,6 @@ import { NzInputModule } from 'ng-zorro-antd/input';
         NzInputModule,
         ReactiveFormsModule,
     ],
+    providers: [CompanyOptionsService],
 })
 export class UserInfoModule {}

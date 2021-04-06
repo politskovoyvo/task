@@ -5,6 +5,7 @@ import { AuthService } from '@core/auth/services/auth.service';
 import { CompanyDto } from '@core/models/company.dto';
 import { switchMap } from 'rxjs/operators';
 import { UserCoreService } from '@core/services/user-core.service';
+import { CompanyOptionsService } from '@modules/user-info/subcomponents/companies/company-options.service';
 
 @Component({
     selector: 'user-companies',
@@ -14,21 +15,24 @@ import { UserCoreService } from '@core/services/user-core.service';
 })
 export class UserCompaniesComponent implements OnInit {
     companies$: Observable<CompanyDto[]>;
-    refreshSubj$ = new ReplaySubject();
+    refreshSubj$: Observable<any>;
 
     constructor(
         private readonly _companyCoreService: CompanyCoreService,
         private readonly _authService: AuthService,
-        private readonly _userService: UserCoreService
-    ) {}
+        private readonly _userService: UserCoreService,
+        private readonly _companyOptionsService: CompanyOptionsService
+    ) {
+        this.refreshSubj$ = this._companyOptionsService.getRefreshSubject$();
+    }
 
     ngOnInit(): void {
         this.refreshSubjInit();
-        this.refreshSubj$.next();
+        this.refresh();
     }
 
     refresh() {
-        this.refreshSubj$.next();
+        this._companyOptionsService.refresh();
     }
 
     private refreshSubjInit() {
