@@ -8,6 +8,7 @@ import { NzDropDownModule } from 'ng-zorro-antd/dropdown';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NzInputModule } from 'ng-zorro-antd/input';
 import { NzCheckboxModule } from 'ng-zorro-antd/checkbox';
+import { NzButtonModule } from 'ng-zorro-antd/button';
 
 @NgModule({
     declarations: [CompanySettingsComponent, CompanyCardComponent],
@@ -19,6 +20,7 @@ import { NzCheckboxModule } from 'ng-zorro-antd/checkbox';
         NzInputModule,
         FormsModule,
         NzCheckboxModule,
+        NzButtonModule,
     ],
     providers: [CompanySettingsService],
 })
