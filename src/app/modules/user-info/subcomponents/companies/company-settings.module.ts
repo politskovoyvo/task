@@ -9,9 +9,17 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NzInputModule } from 'ng-zorro-antd/input';
 import { NzCheckboxModule } from 'ng-zorro-antd/checkbox';
 import { NzButtonModule } from 'ng-zorro-antd/button';
+import { UserCompaniesComponent } from './user-companies/user-companies.component';
+import { CompanyAdminGuard } from '@modules/user-info/subcomponents/companies/admin/guard/company-admin.guard';
+import { CompanyAdminComponent } from '@modules/user-info/subcomponents/companies/admin/company-admin.component';
 
 @NgModule({
-    declarations: [CompanySettingsComponent, CompanyCardComponent],
+    declarations: [
+        CompanySettingsComponent,
+        CompanyCardComponent,
+        UserCompaniesComponent,
+        CompanyAdminComponent,
+    ],
     imports: [
         CommonModule,
         CompanySettingsRoutingModule,
@@ -22,6 +30,6 @@ import { NzButtonModule } from 'ng-zorro-antd/button';
         NzCheckboxModule,
         NzButtonModule,
     ],
-    providers: [CompanySettingsService],
+    providers: [CompanySettingsService, CompanyAdminGuard],
 })
 export class CompanySettingsModule {}

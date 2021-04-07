@@ -12,16 +12,12 @@
         font-size: $font_title;
     }
 
-    &__companies {
+    &__content {
         width: 100%;
         height: 100%;
         background: $basic-white;
-        border-radius: 10px;
-        padding: 30px;
-
-        &-company {
-            //margin-top: 20px;
-            border-bottom: 1px solid rgba(0, 0, 0, 0.3);
-        }
+        border-radius: 7px;
+        border: 2px solid #481173;
+        padding: 15px;
     }
 }

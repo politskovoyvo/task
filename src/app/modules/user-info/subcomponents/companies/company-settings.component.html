@@ -1,19 +1,7 @@
 <div class="container">
-    <p>Basic information about the companies you work for</p>
+    <p>Basic information about the companies</p>
 
-    <div class="container__companies">
-        <ng-container *ngIf="companies$ | async as companies; else notCompanies">
-            <div class="container__companies-company" *ngFor="let company of companies">
-                <company-card
-                    [company]="company"
-                    [isSelected]="company.isSelected"
-                    (selectEmit)="refresh()"
-                ></company-card>
-            </div>
-        </ng-container>
+    <div class="container__content">
+        <router-outlet></router-outlet>
     </div>
-
-    <ng-template #notCompanies>
-        <div>Unfortunately you don't belong to the same company</div>
-    </ng-template>
 </div>

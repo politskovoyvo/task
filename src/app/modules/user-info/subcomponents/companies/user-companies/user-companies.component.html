@@ -1,0 +1,13 @@
+<ng-container *ngIf="companies$ | async as companies; else notCompanies">
+    <div class="container__company" *ngFor="let company of companies">
+        <company-card
+            [company]="company"
+            [isSelected]="company.isSelected"
+            (selectEmit)="refresh()"
+        ></company-card>
+    </div>
+</ng-container>
+
+<ng-template #notCompanies>
+    <div>Unfortunately you don't belong to the same company</div>
+</ng-template>

@@ -43,6 +43,14 @@
         }
     }
 
+    .left {
+        margin-left: 10px;
+
+        span {
+            color: $color_logo;
+        }
+    }
+
     .right {
         i {
             padding: 10px;

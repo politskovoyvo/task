@@ -16,6 +16,8 @@ import { ModalService } from '@share/modules/modal';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { UserCoreService } from '@core/services/user-core.service';
 import { CompanySettingsService } from '@modules/user-info/subcomponents/companies/company-settings.service';
+import { Router } from '@angular/router';
+import { ESettingsRoutes } from '@modules/user-info/settings.routes';
 
 @UntilDestroy()
 @Component({
@@ -39,7 +41,8 @@ export class CompanyCardComponent implements OnInit {
         private readonly _authService: AuthService,
         private readonly _modalService: ModalService,
         private readonly _fb: FormBuilder,
-        private readonly _companyOptionsService: CompanySettingsService
+        private readonly _companyOptionsService: CompanySettingsService,
+        private readonly _router: Router
     ) {
         this.removeForm = this.InitRemoveForm();
     }
@@ -82,7 +85,9 @@ export class CompanyCardComponent implements OnInit {
         });
     }
 
-    showEditCompany() {}
+    showEditCompany() {
+        this._router.navigate([ESettingsRoutes.companySettings, this.company.id]).then();
+    }
 
     private InitRemoveForm(): FormGroup {
         const form = this._fb.group({
