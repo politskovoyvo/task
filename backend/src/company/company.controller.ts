@@ -26,8 +26,11 @@ export class CompanyController {
     }
 
     @Get('users/:id')
-    getUsers(@Param() params, @Req() request: Request): string {
-        return params.id;
+    getUsers(
+        @Param() params,
+        @Req() request: Request,
+    ): Promise<{ id: number; name: string }[]> {
+        return this._companyService.getUsers(+params.id);
     }
 
     /**

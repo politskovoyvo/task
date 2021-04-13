@@ -32,12 +32,16 @@ export class CompanyService {
         });
     }
 
-    async getUsers(id: number): Promise<UserEntity[]> {
-        const companies = await this._companyRepository.findAll({
-            where: { id },
-            include: ['users'],
-        });
-        return companies?.map((c) => c.users).reduce((acc, i) => acc.concat(i));
+    async getUsers(id: number): Promise<{ id: number; name: string }[]> {
+        const users = await this._userCompanyService.usersByCompanyIdIsWorking(
+            id,
+        );
+        return users
+            .map((i) => i.user)
+            ?.map((i) => ({
+                id: i.id,
+                name: `${i.firstName} ${i.middleName} ${i.lastName}`,
+            }));
     }
 
     async getAll(): Promise<CompanyEntity[]> {
@@ -69,6 +73,8 @@ export class CompanyService {
                     },
                 ];
             }
+
+            link.isWork = true;
 
             await link.save();
             return;

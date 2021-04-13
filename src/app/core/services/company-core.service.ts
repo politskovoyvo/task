@@ -1,9 +1,11 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Base } from '@share/models/base';
-import { Observable, of } from 'rxjs';
+import { BehaviorSubject, Observable, of } from 'rxjs';
 import { Priority } from '@core/models/priority';
 import { CompanyDto } from '@core/models/company.dto';
+import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
+import { tap } from 'rxjs/operators';
 
 interface ICompany {
     id: number;
@@ -14,20 +16,30 @@ interface ICompany {
     updatedAt: string;
 }
 
+@UntilDestroy()
 @Injectable({
     providedIn: 'root',
 })
 export class CompanyCoreService {
     private readonly _URL = '//TODO';
     private readonly _TEST_URI = 'http://localhost:1234/company';
-    selectedCompanyId: number;
 
-    constructor(private readonly _http: HttpClient) {}
+    selectedCompany$ = new BehaviorSubject<ICompany>(null);
+
+    constructor(private readonly _http: HttpClient) {
+        this.getSelectedCompany()
+            .pipe(untilDestroyed(this))
+            .subscribe(this.selectedCompany$);
+    }
 
     setCompany(companyId: number): Observable<unknown> {
         return this._http.get(`${this._TEST_URI}/set/${companyId}`, {
             withCredentials: true,
         });
+    }
+
+    getUsersByCompanyId(companyId: number): Observable<Base[]> {
+        return this._http.get<Base[]>(`${this._TEST_URI}/users/${companyId}`);
     }
 
     getSelectedCompany(): Observable<ICompany> {

@@ -1,1 +1,32 @@
-<div class="admin"></div>
+<div class="admin">
+    <div class="admin__menu">
+        <div class="admin__menu-item">
+            <img src="assets/icons/people.svg" alt="" />
+            <h3>Employees</h3>
+        </div>
+
+        <div class="admin__menu-item">
+            <img src="assets/icons/statistic.png" alt="" />
+            <h3>Statistic</h3>
+        </div>
+
+        <div class="admin__menu-item">
+            <img src="assets/icons/verified.png" alt="" />
+            <h3>Access</h3>
+        </div>
+
+        <div class="admin__menu-item">
+            <img src="assets/icons/structure.png" alt="" />
+            <h3>Structure</h3>
+        </div>
+
+        <div class="admin__menu-item">
+            <img src="assets/icons/info.png" alt="" />
+            <h3>About</h3>
+        </div>
+    </div>
+
+    <div class="admin__content">
+        <employees-settings [companyId]="companyId"></employees-settings>
+    </div>
+</div>

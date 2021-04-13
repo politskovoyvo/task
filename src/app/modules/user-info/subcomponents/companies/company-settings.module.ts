@@ -12,6 +12,7 @@ import { NzButtonModule } from 'ng-zorro-antd/button';
 import { UserCompaniesComponent } from './user-companies/user-companies.component';
 import { CompanyAdminGuard } from '@modules/user-info/subcomponents/companies/admin/guard/company-admin.guard';
 import { CompanyAdminComponent } from '@modules/user-info/subcomponents/companies/admin/company-admin.component';
+import { EmployeesSettingsComponent } from './admin/subcomponents/employees-settings/employees-settings.component';
 
 @NgModule({
     declarations: [
@@ -19,6 +20,7 @@ import { CompanyAdminComponent } from '@modules/user-info/subcomponents/companie
         CompanyCardComponent,
         UserCompaniesComponent,
         CompanyAdminComponent,
+        EmployeesSettingsComponent,
     ],
     imports: [
         CommonModule,

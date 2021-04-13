@@ -34,4 +34,7 @@ export class UserCompanyEntity extends Model<UserCompanyEntity> {
         reason: string;
         dt: string;
     }[];
+
+    @Column(DataType.BOOLEAN)
+    isWork?: boolean;
 }

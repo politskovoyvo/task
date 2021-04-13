@@ -69,6 +69,8 @@ export class UserController {
             ];
         }
 
+        link.isWork = false;
+
         await link.save();
 
         return link;
@@ -96,14 +98,9 @@ export class UserController {
         return this._userCompanyService
             .getCompaniesByUserId(userId)
             .then((links) => {
-                const isWorkLink = links.filter((link) => {
-                    const lastHistoryCount = link.history?.length;
-                    if (!lastHistoryCount) {
-                        return true;
-                    }
-
-                    return link.history[lastHistoryCount - 1].isWork;
-                });
+                const isWorkLink = links.filter(
+                    (link) => link.isWork === true || link.isWork === null,
+                );
 
                 const companies = isWorkLink
                     .map((c) => c.company)
