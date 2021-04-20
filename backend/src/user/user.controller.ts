@@ -96,66 +96,6 @@ export class UserController {
             request.headers.authorization,
         ).id;
 
-        return from(this._userCompanyService.getCompaniesByUserId(userId)).pipe(
-            switchMap((userCompanies) => {
-                const ids = userCompanies.map((uc) => uc.companyId);
-                return this._userCompanyService.usersByCompanyIdIsWorking(ids);
-            }),
-            map((userCompanyLinks) => {
-                return userCompanyLinks.reduce((acc, v, ind, list) => {
-                    const company = acc.find((c) => c.id === v.companyId);
-
-                    if (!company) {
-                        const newCompanyObj = v.company;
-                        acc.push({
-                            id: newCompanyObj.id,
-                            isSelected:
-                                newCompanyObj.id === +requestCookieCompanyId,
-                            name: newCompanyObj.name,
-                            email: newCompanyObj.email,
-                            inn: newCompanyObj.inn,
-                            userCount:
-                                list.filter(
-                                    (i) =>
-                                        (i.isWork || i.isWork == null) &&
-                                        i.companyId === newCompanyObj.id,
-                                )?.length || 0,
-                        });
-                        return acc;
-                    } else {
-                        return acc;
-                    }
-                }, []);
-            }),
-        );
-
-        // const companies = user?.companies;eee
-
-        // if (!companyIds) {
-        //     return [];
-        // }
-        //
-        // return this._userCompanyService
-        //     .getCompaniesByUserId(userId)
-        //     .then((links) => {
-        //         const companies = links.map((c) => c.company)?.map((c) => c.id);
-        //
-        //         return this._companyService.getCompaniesByIds(companies);
-        //     })
-        //     .then((companies) => {
-        //         return (
-        //             companies?.map(
-        //                 (c) =>
-        //                     ({
-        //                         id: c.id,
-        //                         isSelected: c.id === +requestCookieCompanyId,
-        //                         name: c.name,
-        //                         email: c.email,
-        //                         inn: c.inn,
-        //                         userCount: c.users?.length || 0,
-        //                     } as CompanyDto),
-        //             ) || []
-        //         );
-        //     });
+        return this._userService.getCompanies(userId, +requestCookieCompanyId);
     }
 }
