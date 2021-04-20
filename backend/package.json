@@ -28,6 +28,7 @@
     "@nestjs/graphql": "^7.9.9",
     "@nestjs/mongoose": "^7.2.3",
     "@nestjs/platform-express": "^7.5.1",
+    "@nestjs/swagger": "^4.8.0",
     "@nestjsplus/cookies": "^1.1.1",
     "apollo-server-express": "^2.21.0",
     "dotenv": "^8.2.0",
@@ -41,7 +42,8 @@
     "rimraf": "^3.0.2",
     "rxjs": "^6.6.3",
     "sequelize": "^6.5.0",
-    "sequelize-typescript": "^2.1.0"
+    "sequelize-typescript": "^2.1.0",
+    "swagger-ui-express": "^4.1.6"
   },
   "devDependencies": {
     "@nestjs/cli": "^7.5.1",

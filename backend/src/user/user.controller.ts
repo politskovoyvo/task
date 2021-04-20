@@ -17,6 +17,10 @@ import { CompanyDto } from '../company/dto/company.dto';
 import { CompanyService } from '../company/company.service';
 import { UserCompanyService } from '../links/user-company/user-company.service';
 import { CompanyEntity } from '../company/entities/company.entity';
+import { from, Observable } from 'rxjs';
+import { map, switchMap } from 'rxjs/operators';
+import { UserCompanyEntity } from '../links/user-company/user-company.entity';
+import { ApiOperation, ApiResponse } from '@nestjs/swagger';
 
 @Controller('user')
 export class UserController {
@@ -37,9 +41,11 @@ export class UserController {
         @Body() body: { companyId: number; reason: string; dt: string },
         @Req() request,
     ) {
-        const userId = this._tokenService.getDecodedAccessToken(
-            request.headers.authorization,
-        )?.id;
+        // const userId = this._tokenService.getDecodedAccessToken(
+        //     request.headers.authorization,
+        // )?.id;
+
+        const userId = 4;
 
         if (!userId) {
             throw new HttpException('Dont have user id', HttpStatus.NOT_FOUND);
@@ -81,47 +87,75 @@ export class UserController {
         return await this._userService.getUser(id);
     }
 
+    @ApiOperation({ summary: 'Список компаний, в которых работает user' })
+    @ApiResponse({ status: 200, type: [CompanyDto] })
     @Get('companies')
-    async companies(@Req() request, @Cookies() cookies): Promise<CompanyDto[]> {
+    companies(@Req() request, @Cookies() cookies): Observable<CompanyDto[]> {
         const requestCookieCompanyId = cookies?.companyId || 0;
         const userId = this._tokenService.getDecodedAccessToken(
             request.headers.authorization,
         ).id;
 
-        const user = await this._userService.getUser(userId);
-        const companyIds = user?.companies.map((c) => c.id);
+        return from(this._userCompanyService.getCompaniesByUserId(userId)).pipe(
+            switchMap((userCompanies) => {
+                const ids = userCompanies.map((uc) => uc.companyId);
+                return this._userCompanyService.usersByCompanyIdIsWorking(ids);
+            }),
+            map((userCompanyLinks) => {
+                return userCompanyLinks.reduce((acc, v, ind, list) => {
+                    const company = acc.find((c) => c.id === v.companyId);
 
-        if (!companyIds) {
-            return [];
-        }
+                    if (!company) {
+                        const newCompanyObj = v.company;
+                        acc.push({
+                            id: newCompanyObj.id,
+                            isSelected:
+                                newCompanyObj.id === +requestCookieCompanyId,
+                            name: newCompanyObj.name,
+                            email: newCompanyObj.email,
+                            inn: newCompanyObj.inn,
+                            userCount:
+                                list.filter(
+                                    (i) =>
+                                        (i.isWork || i.isWork == null) &&
+                                        i.companyId === newCompanyObj.id,
+                                )?.length || 0,
+                        });
+                        return acc;
+                    } else {
+                        return acc;
+                    }
+                }, []);
+            }),
+        );
 
-        return this._userCompanyService
-            .getCompaniesByUserId(userId)
-            .then((links) => {
-                const isWorkLink = links.filter(
-                    (link) => link.isWork === true || link.isWork === null,
-                );
+        // const companies = user?.companies;eee
 
-                const companies = isWorkLink
-                    .map((c) => c.company)
-                    ?.map((c) => c.id);
-
-                return this._companyService.getCompaniesByIds(companies);
-            })
-            .then((companies) => {
-                return (
-                    companies?.map(
-                        (c) =>
-                            ({
-                                id: c.id,
-                                isSelected: c.id === +requestCookieCompanyId,
-                                name: c.name,
-                                email: c.email,
-                                inn: c.inn,
-                                userCount: c.users?.length || 0,
-                            } as CompanyDto),
-                    ) || []
-                );
-            });
+        // if (!companyIds) {
+        //     return [];
+        // }
+        //
+        // return this._userCompanyService
+        //     .getCompaniesByUserId(userId)
+        //     .then((links) => {
+        //         const companies = links.map((c) => c.company)?.map((c) => c.id);
+        //
+        //         return this._companyService.getCompaniesByIds(companies);
+        //     })
+        //     .then((companies) => {
+        //         return (
+        //             companies?.map(
+        //                 (c) =>
+        //                     ({
+        //                         id: c.id,
+        //                         isSelected: c.id === +requestCookieCompanyId,
+        //                         name: c.name,
+        //                         email: c.email,
+        //                         inn: c.inn,
+        //                         userCount: c.users?.length || 0,
+        //                     } as CompanyDto),
+        //             ) || []
+        //         );
+        //     });
     }
 }

@@ -13,18 +13,31 @@ import { CompanyService } from './company.service';
 import { CompanyDto } from './dto/company.dto';
 import { CreateUserDto } from './dto/create-user.dto';
 import { Cookies, CookieSettings, SetCookies } from '@nestjsplus/cookies';
+import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
+import { CompanyEntity } from './entities/company.entity';
 
+@ApiTags('Company API')
 @Controller('company')
 export class CompanyController {
     companyId: number;
 
     constructor(private readonly _companyService: CompanyService) {}
 
+    @ApiOperation({ summary: 'Получить  список всех компаний' })
+    @ApiResponse({ status: 200, type: [CompanyEntity] })
     @Get('all')
     getAll() {
         return this._companyService.getAll();
     }
 
+    @ApiOperation({ summary: 'Получить список всех компаний' })
+    @ApiResponse({ status: 200, type: [CompanyDto] })
+    @Get('all')
+    getCompanies(): Promise<CompanyDto[]> {
+        return this._companyService.getCompanies();
+    }
+
+    @ApiOperation({ summary: 'Получить список пользователей по id компании' })
     @Get('users/:id')
     getUsers(
         @Param() params,

@@ -19,13 +19,13 @@ export class UserCompanyService {
         });
     }
 
-    async usersByCompanyIdIsWorking(companyId: number) {
+    async usersByCompanyIdIsWorking(companyId: number | number[]) {
         const users = this._LinkUserCompanyRepository.findAll({
             where: {
                 companyId,
                 [Op.or]: [{ isWork: true }, { isWork: null }],
             },
-            include: ['user'],
+            include: ['user', 'company'],
         });
 
         return await users;
@@ -34,7 +34,10 @@ export class UserCompanyService {
     async getCompaniesByUserId(userId: number) {
         return this._LinkUserCompanyRepository.findAll<UserCompanyEntity>({
             include: ['company'],
-            where: { userId },
+            where: {
+                userId,
+                [Op.or]: [{ isWork: true }, { isWork: null }],
+            },
         });
     }
 

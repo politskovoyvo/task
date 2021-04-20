@@ -6,6 +6,7 @@ import { UserService } from '../user/user.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UserEntity } from '../user/entities/user.entity';
 import { UserCompanyService } from '../links/user-company/user-company.service';
+import { Observable } from 'rxjs';
 
 @Injectable()
 export class CompanyService {
@@ -30,6 +31,10 @@ export class CompanyService {
             include: ['users'],
             where: { id: ids },
         });
+    }
+
+    async getCompanies() {
+        return await this._companyRepository.findAll();
     }
 
     async getUsers(id: number): Promise<{ id: number; name: string }[]> {
