@@ -15,6 +15,8 @@ import { CreateUserDto } from './dto/create-user.dto';
 import { Cookies, CookieSettings, SetCookies } from '@nestjsplus/cookies';
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { CompanyEntity } from './entities/company.entity';
+import { Observable, of } from 'rxjs';
+import { SearchUserDto } from './dto/search-user.dto';
 
 @ApiTags('Company API')
 @Controller('company')
@@ -28,6 +30,25 @@ export class CompanyController {
     @Get('all')
     getAll() {
         return this._companyService.getAll();
+    }
+
+    @ApiOperation({ summary: 'Количество user в компании' })
+    @ApiResponse({ status: 200, type: Number })
+    @Get('user-count/:id')
+    getUserCountByCompanyId(
+        @Param('id') companyId: number,
+    ): Observable<number> {
+        return this._companyService.getUserCountByCompanyId(companyId);
+    }
+
+    @ApiOperation({ summary: 'Поиск сотрудников в компании' })
+    @ApiResponse({ status: 200, type: [SearchUserDto] })
+    @Get('search-users')
+    searchUsersByCompanyId(
+        @Query('query') query: string,
+        @Query('companyId') companyId: number,
+    ): Observable<SearchUserDto[]> {
+        return this._companyService.searchUsers(query, companyId);
     }
 
     @ApiOperation({ summary: 'Получить список всех компаний' })

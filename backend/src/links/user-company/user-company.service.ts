@@ -20,15 +20,13 @@ export class UserCompanyService {
     }
 
     async usersByCompanyIdIsWorking(companyId: number | number[]) {
-        const users = this._LinkUserCompanyRepository.findAll({
+        return await this._LinkUserCompanyRepository.findAll({
             where: {
                 companyId,
                 [Op.or]: [{ isWork: true }, { isWork: null }],
             },
             include: ['user', 'company'],
         });
-
-        return await users;
     }
 
     async getCompaniesByUserId(userId: number) {

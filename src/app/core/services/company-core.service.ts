@@ -42,8 +42,18 @@ export class CompanyCoreService {
         return this._http.get<Base[]>(`${this._TEST_URI}/users/${companyId}`);
     }
 
+    searchUsers(query: string, companyId: number): Observable<Base[]> {
+        return this._http.get<Base[]>(
+            `${this._TEST_URI}/search-users?query=${query}&companyId=${companyId}`
+        );
+    }
+
     getSelectedCompany(): Observable<ICompany> {
         return this._http.get<ICompany>(`${this._TEST_URI}/select`);
+    }
+
+    getUserCountByCompanyId(companyId: number): Observable<number> {
+        return this._http.get<number>(`${this._TEST_URI}/user-count/${companyId}`);
     }
 
     //////////////////////////

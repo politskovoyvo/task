@@ -6,7 +6,9 @@ import { UserService } from '../user/user.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UserEntity } from '../user/entities/user.entity';
 import { UserCompanyService } from '../links/user-company/user-company.service';
-import { Observable } from 'rxjs';
+import { from, Observable, of } from 'rxjs';
+import { map } from 'rxjs/operators';
+import { SearchUserDto } from './dto/search-user.dto';
 
 @Injectable()
 export class CompanyService {
@@ -35,6 +37,43 @@ export class CompanyService {
 
     async getCompanies() {
         return await this._companyRepository.findAll();
+    }
+
+    searchUsers(query: string, companyId: number): Observable<SearchUserDto[]> {
+        const request$ = this._userCompanyService.usersByCompanyIdIsWorking(
+            companyId,
+        );
+        query = query.toLowerCase();
+        return from(request$).pipe(
+            map((i) => {
+                const users = i.map((ii) => ii.user);
+                return (
+                    users
+                        .filter(
+                            (u) =>
+                                `${u.firstName} ${u.middleName} ${u.lastName}`
+                                    .toLowerCase()
+                                    .includes(query) ||
+                                u.email.toLowerCase().includes(query),
+                        )
+                        ?.map(
+                            (u) =>
+                                ({
+                                    id: u.id,
+                                    email: u.email,
+                                    name: `${u.firstName} ${u.middleName} ${u.lastName}`,
+                                } as SearchUserDto),
+                        ) || []
+                );
+            }),
+        );
+    }
+
+    getUserCountByCompanyId(companyId: number): Observable<number> {
+        const request$ = this._userCompanyService.usersByCompanyIdIsWorking(
+            companyId,
+        );
+        return from(request$).pipe(map((links) => links?.length || 0));
     }
 
     async getUsers(id: number): Promise<{ id: number; name: string }[]> {

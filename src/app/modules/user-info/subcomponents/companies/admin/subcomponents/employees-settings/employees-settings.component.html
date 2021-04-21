@@ -4,22 +4,28 @@
         <a>Added new employee</a>
     </div>
 
-    <div
-        class="employees__content"
-        *ngIf="employees$ | async as employees; else notEmployees"
-    >
+    <div class="employees__search">
         <span class="employees__content-count"
-            ><span class="count">{{ employees.length + ' ' }}</span>
-            <span>employees</span>
+            ><span class="count">{{ (employeesCount$ | async) + ' employees' }}</span>
         </span>
 
         <nz-input-group [nzPrefix]="prefixTemplateUser">
-            <input type="text" nz-input placeholder="Find employee" />
+            <input
+                type="text"
+                nz-input
+                placeholder="Return user name or email"
+                (input)="searchUsers($event)"
+            />
         </nz-input-group>
         <ng-template #prefixTemplateUser>
             <img src="assets/icons/people.svg" alt="" />
         </ng-template>
+    </div>
 
+    <div
+        class="employees__content"
+        *ngIf="employees$ | async as employees; else notEmployees"
+    >
         <div class="employees__content-list">
             <div class="employee" *ngFor="let employee of employees">
                 <label>{{ employee.name }}</label>
@@ -27,5 +33,5 @@
         </div>
     </div>
 
-    <ng-template #notEmployees> Not have employees </ng-template>
+    <ng-template #notEmployees> Not have employees</ng-template>
 </div>
