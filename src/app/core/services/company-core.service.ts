@@ -48,6 +48,14 @@ export class CompanyCoreService {
         );
     }
 
+    removeUserFromCompany(body: {
+        userId: number;
+        companyId: number;
+        reason: string;
+    }): Observable<void> {
+        return this._http.post<void>(`${this._TEST_URI}/remove-company`, body);
+    }
+
     getSelectedCompany(): Observable<ICompany> {
         return this._http.get<ICompany>(`${this._TEST_URI}/select`);
     }

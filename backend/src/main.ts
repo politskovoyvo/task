@@ -23,6 +23,17 @@ async function bootstrap() {
         optionsSuccessStatus: 204,
         credentials: true,
     };
+
+    // const redis = await NestFactory.createMicroservice<MicroserviceOptions>(
+    //     AppModule,
+    //     {
+    //         transport: Transport.REDIS,
+    //         options: {
+    //             url: 'redis://localhost:6379',
+    //         },
+    //     },
+    // );
+
     app.enableCors(options);
     app.use(cookieParser());
 

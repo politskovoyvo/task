@@ -2,7 +2,11 @@ import { Inject, Injectable } from '@nestjs/common';
 import { USER_COMPANY_REPOSITORY } from './user-company.provider';
 import { UserCompanyEntity } from './user-company.entity';
 import { Op } from 'sequelize';
+import { from, Observable } from 'rxjs';
+import { tap } from 'rxjs/operators';
+import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 
+@UntilDestroy()
 @Injectable()
 export class UserCompanyService {
     constructor(
@@ -37,6 +41,41 @@ export class UserCompanyService {
                 [Op.or]: [{ isWork: true }, { isWork: null }],
             },
         });
+    }
+
+    removeUserFromCompany(
+        userId: number,
+        companyId: number,
+        reason: string,
+    ): Observable<UserCompanyEntity> {
+        const link$ = this.getUserCompanyLink(userId, companyId);
+
+        return from(link$).pipe(
+            tap((link) => {
+                if (!link.history) {
+                    link.history = [
+                        {
+                            dt: new Date().toDateString(),
+                            isWork: false,
+                            reason,
+                        },
+                    ];
+                } else {
+                    link.history = [
+                        ...link.history,
+                        {
+                            dt: new Date().toDateString(),
+                            isWork: false,
+                            reason,
+                        },
+                    ];
+                }
+
+                link.isWork = false;
+
+                link.save();
+            }),
+        );
     }
 
     async getLinks(userId: number, companyId: number, isWork = true) {}

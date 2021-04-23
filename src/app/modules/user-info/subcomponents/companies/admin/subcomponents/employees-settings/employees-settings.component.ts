@@ -1,9 +1,16 @@
-import { ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core';
-import { BehaviorSubject, Observable, of, Subject } from 'rxjs';
+import {
+    ChangeDetectionStrategy,
+    Component,
+    Input,
+    OnInit,
+    TemplateRef,
+} from '@angular/core';
+import { BehaviorSubject, Observable, of, ReplaySubject, Subject } from 'rxjs';
 import { Base } from '@share/models/base';
 import { CompanyCoreService } from '@core/services/company-core.service';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
-import { catchError, debounceTime, filter, switchMap } from 'rxjs/operators';
+import { catchError, debounceTime, filter, switchMap, tap } from 'rxjs/operators';
+import { ModalService } from '@share/modules/modal';
 
 @UntilDestroy()
 @Component({
@@ -17,16 +24,25 @@ export class EmployeesSettingsComponent implements OnInit {
 
     employees$ = new BehaviorSubject<Base[]>([]);
     employeesCount$: Observable<number>;
-    searchSubj$ = new Subject<string>();
+    searchSubj$ = new BehaviorSubject<string>('');
+    selectedUser: Base;
+    refresh$ = new ReplaySubject();
+    removeModalId = 'remove-modal';
 
-    constructor(private readonly _companyCoreService: CompanyCoreService) {}
+    constructor(
+        private readonly _companyCoreService: CompanyCoreService,
+        private readonly _modalService: ModalService
+    ) {}
 
     ngOnInit(): void {
         this.searchSubjInit();
-        this.employeesCount$ = this._companyCoreService.getUserCountByCompanyId(
-            this.companyId
+        this.employeesCount$ = this.refresh$.pipe(
+            switchMap(() =>
+                this._companyCoreService.getUserCountByCompanyId(this.companyId)
+            )
         );
-        // this.employees$ = this._companyCoreService.getUsersByCompanyId(this.companyId);
+
+        this.refresh$.next();
     }
 
     searchUsers($event: any) {
@@ -53,5 +69,50 @@ export class EmployeesSettingsComponent implements OnInit {
                 })
             )
             .subscribe(this.employees$);
+    }
+
+    removeUser() {
+        const userId = this.selectedUser.id;
+        if (!userId) {
+            return;
+        }
+
+        this._companyCoreService
+            .removeUserFromCompany({ userId, companyId: this.companyId, reason: '' })
+            .pipe(
+                untilDestroyed(this),
+                tap(() => {
+                    this.refresh();
+                    this.closeRemoveModal();
+                })
+            )
+            .subscribe();
+    }
+
+    refresh() {
+        this.refresh$.next();
+        this.searchSubj$.next(this.searchSubj$.value);
+    }
+
+    showRemoveModal(
+        user: Base,
+        template: TemplateRef<any>,
+        footerTemplate: TemplateRef<any>
+    ) {
+        this.selectedUser = user;
+
+        this._modalService.create({
+            id: this.removeModalId,
+            titleTemplate: template,
+            content: null,
+            footer: footerTemplate,
+            width: '400px',
+            height: '200px',
+            isCloseIcon: true,
+        });
+    }
+
+    closeRemoveModal() {
+        this._modalService.close(this.removeModalId);
     }
 }

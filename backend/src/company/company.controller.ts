@@ -3,6 +3,8 @@ import {
     Controller,
     Get,
     Header,
+    HttpException,
+    HttpStatus,
     Param,
     Post,
     Query,
@@ -17,13 +19,17 @@ import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { CompanyEntity } from './entities/company.entity';
 import { Observable, of } from 'rxjs';
 import { SearchUserDto } from './dto/search-user.dto';
+import { UserCompanyService } from '../links/user-company/user-company.service';
 
 @ApiTags('Company API')
 @Controller('company')
 export class CompanyController {
     companyId: number;
 
-    constructor(private readonly _companyService: CompanyService) {}
+    constructor(
+        private readonly _companyService: CompanyService,
+        private readonly _userCompanyService: UserCompanyService,
+    ) {}
 
     @ApiOperation({ summary: 'Получить  список всех компаний' })
     @ApiResponse({ status: 200, type: [CompanyEntity] })
@@ -84,6 +90,17 @@ export class CompanyController {
                 },
             } as CookieSettings,
         ];
+    }
+
+    @Post('remove-company')
+    async removeCompanyLink(
+        @Body()
+        body: { userId: number; companyId: number; reason: string; dt: string },
+        @Req() request,
+    ) {
+        this._userCompanyService
+            .removeUserFromCompany(body.userId, body.companyId, body.reason)
+            .subscribe();
     }
 
     /**

@@ -21,6 +21,7 @@ import { from, Observable } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
 import { UserCompanyEntity } from '../links/user-company/user-company.entity';
 import { ApiOperation, ApiResponse } from '@nestjs/swagger';
+import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 
 @Controller('user')
 export class UserController {
@@ -41,45 +42,17 @@ export class UserController {
         @Body() body: { companyId: number; reason: string; dt: string },
         @Req() request,
     ) {
-        // const userId = this._tokenService.getDecodedAccessToken(
-        //     request.headers.authorization,
-        // )?.id;
-
-        const userId = 4;
+        const userId = this._tokenService.getDecodedAccessToken(
+            request.headers.authorization,
+        )?.id;
 
         if (!userId) {
             throw new HttpException('Dont have user id', HttpStatus.NOT_FOUND);
         }
 
-        const link = await this._userCompanyService.getUserCompanyLink(
-            userId,
-            body.companyId,
-        );
-
-        if (!link.history) {
-            link.history = [
-                {
-                    dt: new Date().toDateString(),
-                    isWork: false,
-                    reason: body.reason,
-                },
-            ];
-        } else {
-            link.history = [
-                ...link.history,
-                {
-                    dt: new Date().toDateString(),
-                    isWork: false,
-                    reason: body.reason,
-                },
-            ];
-        }
-
-        link.isWork = false;
-
-        await link.save();
-
-        return link;
+        this._userCompanyService
+            .removeUserFromCompany(userId, body.companyId, body.reason)
+            .subscribe();
     }
 
     @Get()

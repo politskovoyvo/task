@@ -29,9 +29,27 @@
         <div class="employees__content-list">
             <div class="employee" *ngFor="let employee of employees">
                 <label>{{ employee.name }}</label>
+                <img
+                    src="assets/icons/remove.svg"
+                    alt=""
+                    (click)="showRemoveModal(employee, removeContent, removeFooter)"
+                />
             </div>
         </div>
     </div>
 
     <ng-template #notEmployees> Not have employees</ng-template>
 </div>
+
+<ng-template #removeContent>
+    <div class="modal_content">
+        <p>Remove user</p>
+        <p class="name">{{ selectedUser?.name }}</p>
+    </div>
+</ng-template>
+<ng-template #removeFooter>
+    <div class="modal_footer">
+        <button nz-button (click)="closeRemoveModal()">Cancel</button>
+        <button nz-button nzType="danger" (click)="removeUser()">Remove</button>
+    </div>
+</ng-template>

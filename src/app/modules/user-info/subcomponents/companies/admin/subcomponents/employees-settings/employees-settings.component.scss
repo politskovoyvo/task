@@ -1,3 +1,5 @@
+@import 'variables';
+
 .employees {
     &__links {
         display: flex;
@@ -26,13 +28,54 @@
             margin-top: 15px;
 
             .employee {
+                display: flex;
+                justify-content: space-between;
                 border-bottom: 1px solid #c1c1c1;
-                padding: 10px 0 5px 0;
+
+                img {
+                    display: none;
+                    cursor: pointer;
+                }
+
+                &:hover {
+                    img {
+                        display: inline;
+                    }
+                }
 
                 label {
-                    margin: 20px;
+                    margin: 10px;
                 }
             }
         }
+    }
+}
+
+.modal_content {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    margin: 20px;
+
+    p {
+        font-size: 1rem;
+        text-align: center;
+        font-weight: bold;
+    }
+
+    .name {
+        color: $color_confirm_text;
+    }
+}
+
+.modal_footer {
+    display: flex;
+    width: 100%;
+    justify-content: center;
+
+    &::ng-deep.ant-btn {
+        height: 40px;
+        width: 100%;
+        margin: 0 10px;
     }
 }
