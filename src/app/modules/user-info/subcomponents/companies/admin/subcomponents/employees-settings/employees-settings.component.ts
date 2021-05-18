@@ -11,6 +11,7 @@ import { CompanyCoreService } from '@core/services/company-core.service';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { catchError, debounceTime, filter, switchMap, tap } from 'rxjs/operators';
 import { ModalService } from '@share/modules/modal';
+import { WebsocketService } from '@core/services/transportation/websocket.service';
 
 @UntilDestroy()
 @Component({
@@ -31,7 +32,8 @@ export class EmployeesSettingsComponent implements OnInit {
 
     constructor(
         private readonly _companyCoreService: CompanyCoreService,
-        private readonly _modalService: ModalService
+        private readonly _modalService: ModalService,
+        private readonly _websocketService: WebsocketService
     ) {}
 
     ngOnInit(): void {
@@ -41,6 +43,10 @@ export class EmployeesSettingsComponent implements OnInit {
                 this._companyCoreService.getUserCountByCompanyId(this.companyId)
             )
         );
+
+        // this._websocketService.inviteOn$().subscribe((msgs) => {
+        //     console.log(msgs);
+        // });
 
         this.refresh$.next();
     }
@@ -114,5 +120,9 @@ export class EmployeesSettingsComponent implements OnInit {
 
     closeRemoveModal() {
         this._modalService.close(this.removeModalId);
+    }
+
+    inviteUser() {
+        this._websocketService.emit('msgToServer', 'dsdsd');
     }
 }

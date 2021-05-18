@@ -7,9 +7,20 @@ import { NzIconModule } from 'ng-zorro-antd/icon';
 import { NzAvatarModule } from 'ng-zorro-antd/avatar';
 import { FooterComponent } from './components/footer/footer.component';
 import { NzPopoverModule } from 'ng-zorro-antd/popover';
+import { NotificationComponent } from './components/notification/notification.component';
+import { HeaderService } from '@share/layout/components/header/header.service';
+import { MessagesComponent } from './components/notification/subcomponents/messages/messages.component';
+import { InvitesComponent } from './components/notification/subcomponents/invites/invites.component';
 
 @NgModule({
-    declarations: [LayoutComponent, HeaderComponent, FooterComponent],
+    declarations: [
+        LayoutComponent,
+        HeaderComponent,
+        FooterComponent,
+        NotificationComponent,
+        MessagesComponent,
+        InvitesComponent,
+    ],
     imports: [
         CommonModule,
         LayoutRoutingModule,
@@ -17,5 +28,6 @@ import { NzPopoverModule } from 'ng-zorro-antd/popover';
         NzAvatarModule,
         NzPopoverModule,
     ],
+    providers: [HeaderService],
 })
 export class LayoutModule {}

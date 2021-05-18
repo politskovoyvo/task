@@ -32,6 +32,15 @@ export class CompanyCoreService {
             .subscribe(this.selectedCompany$);
     }
 
+    inviteNewUser(companyId: number, userId, message: string) {
+        const inviteUser = {
+            companyId,
+            userId,
+            message,
+        };
+        return this._http.post<Base[]>(`${this._TEST_URI}/invite-user`, inviteUser);
+    }
+
     setCompany(companyId: number): Observable<unknown> {
         return this._http.get(`${this._TEST_URI}/set/${companyId}`, {
             withCredentials: true,

@@ -9,6 +9,7 @@ import { UserCompanyService } from '../links/user-company/user-company.service';
 import { from, Observable, of } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { SearchUserDto } from './dto/search-user.dto';
+import { GateWayService } from '../core/notiffication/gate-way.service';
 
 @Injectable()
 export class CompanyService {
@@ -17,11 +18,16 @@ export class CompanyService {
         private readonly _companyRepository: typeof CompanyEntity,
         private readonly _userService: UserService,
         private readonly _userCompanyService: UserCompanyService,
-    ) {}
+    ) // private readonly _websocketService: GateWayService,
+    {}
 
     async create(user: CompanyDto): Promise<CompanyEntity> {
         // @ts-ignore
         return await this._companyRepository.create<CompanyEntity>(user);
+    }
+
+    inviteNewUser() {
+        // this._websocketService.emit('msgToServer', 'hello');
     }
 
     async getCompany(id: number) {

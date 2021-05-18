@@ -1,9 +1,15 @@
 <div class="layout">
-  <app-header class="layout__header"></app-header>
-  
-  <div class="layout__context">
-    <router-outlet></router-outlet>
-  </div>
+    <app-header class="layout__header"></app-header>
 
-  <app-footer class="layout__footer"></app-footer>
+    <div class="layout__context">
+        <div class="layout__context-router">
+            <router-outlet></router-outlet>
+        </div>
+        <notification [isShow]="isNotificationShow"></notification>
+    </div>
+
+    <app-footer
+        class="layout__footer"
+        (isNotificationEmit)="isNotificationShow = !isNotificationShow"
+    ></app-footer>
 </div>

@@ -1,7 +1,9 @@
 <div class="container">
-    <user-menu (changeTabIndexEmit)="tabChange($event)"></user-menu>
-
     <div class="container__content">
         <router-outlet></router-outlet>
     </div>
 </div>
+
+<ng-template #settingTab>
+    <user-menu (changeTabIndexEmit)="tabChange($event)"></user-menu>
+</ng-template>

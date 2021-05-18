@@ -1,0 +1,19 @@
+<div class="notification" [ngClass]="{ active: isShow }">
+    <ng-container [ngSwitch]="selectedNotificationType">
+        <messages *ngSwitchCase="'message'"></messages>
+        <invites *ngSwitchCase="'invite'"></invites>
+    </ng-container>
+
+    <div class="notification__chapters">
+        <img
+            src="assets/icons/message.svg"
+            alt=""
+            (click)="changeNotificationType('message')"
+        />
+        <img
+            src="assets/icons/people.svg"
+            alt=""
+            (click)="changeNotificationType('invite')"
+        />
+    </div>
+</div>

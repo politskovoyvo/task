@@ -1,31 +1,37 @@
 <div class="header">
-    <div class="left">
-        <img src="assets/icons/logo.svg" />
-        <span>IntelliTracker</span>
+    <div class="header__line">
+        <div class="header__line-logo">
+            <img src="assets/icons/logo.svg" />
+            <span>IntelliTracker</span>
+        </div>
+
+        <div class="header__line-auth">
+            <div class="user-info">
+                <nz-avatar
+                    nzIcon="user"
+                    nz-popover
+                    [nzPopoverContent]="contentTemplate"
+                    nzPopoverPlacement="bottomRight"
+                    nzPopoverTrigger="click"
+                ></nz-avatar>
+
+                <ng-template #contentTemplate>
+                    <div class="selector">
+                        <div (click)="logout()">
+                            <img src="assets/icons/logout.svg" />
+                            Log out
+                        </div>
+                        <div (click)="redirectToOptionsPage()">
+                            <img src="assets/icons/config.svg" />
+                            User options
+                        </div>
+                    </div>
+                </ng-template>
+            </div>
+        </div>
     </div>
 
-    <div class="header__auth">
-        <div class="header__auth-in">
-            <nz-avatar
-                nzIcon="user"
-                nz-popover
-                [nzPopoverContent]="contentTemplate"
-                nzPopoverPlacement="bottomRight"
-                nzPopoverTrigger="click"
-            ></nz-avatar>
-
-            <ng-template #contentTemplate>
-                <div class="header__selectors">
-                    <div (click)="logout()">
-                        <img src="assets/icons/logout.svg" />
-                        Log out
-                    </div>
-                    <div (click)="redirectToOptionsPage()">
-                        <img src="assets/icons/config.svg" />
-                        User options
-                    </div>
-                </div>
-            </ng-template>
-        </div>
+    <div class="header__template">
+        <ng-container *ngTemplateOutlet="templateRef | async"></ng-container>
     </div>
 </div>

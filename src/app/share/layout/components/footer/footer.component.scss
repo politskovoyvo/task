@@ -1,9 +1,17 @@
-@import '../../../../../assets/styles/variables.scss';
+@import 'variables';
 
-.container {
+.footer {
+    display: flex;
+    justify-content: space-between;
     height: 100%;
     width: 100%;
     padding: 10px;
     background: $basic;
     color: white;
+
+    &__icons {
+        img {
+            cursor: pointer;
+        }
+    }
 }

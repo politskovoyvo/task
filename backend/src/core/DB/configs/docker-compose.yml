@@ -1,6 +1,16 @@
 version: '3.4'
 
 services:
+#  itelliTracker:
+#    depends_on:
+#      - redis
+#    build:
+#      context: .
+#      dockerfile: Dockerfile
+#    image: itelli-tracker-docker
+#    restart: always
+#    container_name: itelliTracker
+
   postgresdb:
     image: postgres:latest
     container_name: postgresdb
@@ -14,6 +24,17 @@ services:
       POSTGRES_DB: "PostgresDB"
     ports:
       - 5253:5432
+    networks:
+      - itelli-dev
+
+  redis:
+    container_name: redis
+    command: ["redis-server"]
+    image: redis:latest
+    volumes:
+      - $PWD/redis-data:/var/lib/redis
+    ports:
+      - 6379:6379
     networks:
       - itelli-dev
 

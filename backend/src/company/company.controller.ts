@@ -31,6 +31,11 @@ export class CompanyController {
         private readonly _userCompanyService: UserCompanyService,
     ) {}
 
+    @Get('invite-user')
+    inviteUser() {
+        this._companyService.inviteNewUser();
+    }
+
     @ApiOperation({ summary: 'Получить  список всех компаний' })
     @ApiResponse({ status: 200, type: [CompanyEntity] })
     @Get('all')
