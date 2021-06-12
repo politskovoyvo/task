@@ -22,7 +22,7 @@ import { TaskEffects } from '@core/stores/task/task.effects';
 import { StoreRouterConnectingModule } from '@ngrx/router-store';
 import { environment } from 'src/environments/environment.prod';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
-import { WebsocketService } from '@core/services/transportation/websocket.service';
+import { NotificationService } from '@core/services/notification.service';
 
 registerLocaleData(en);
 
@@ -44,12 +44,7 @@ registerLocaleData(en);
         StoreRouterConnectingModule.forRoot({ stateKey: 'router' }),
         environment.production ? StoreDevtoolsModule.instrument() : [],
     ],
-    providers: [
-        { provide: NZ_I18N, useValue: en_US },
-        BoardCoreService,
-        TaskCoreService,
-        WebsocketService,
-    ],
+    providers: [{ provide: NZ_I18N, useValue: en_US }, BoardCoreService, TaskCoreService],
     bootstrap: [AppComponent],
 })
 export class AppModule {}

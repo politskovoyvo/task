@@ -12,7 +12,6 @@ import { GateWayService } from '../core/notiffication/gate-way.service';
     imports: [UserCompanyModule],
     exports: [CompanyService],
     providers: [
-        GateWayService,
         CompanyService,
         UserService,
         ...userProvider,

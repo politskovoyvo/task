@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewContainerRef } from '@angular/core';
-import { WebsocketService } from '@core/services/transportation/websocket.service';
+import { NotificationService } from '@core/services/notification.service';
 
 @Component({
     selector: 'app-root',
@@ -9,7 +9,7 @@ import { WebsocketService } from '@core/services/transportation/websocket.servic
 export class AppComponent implements OnInit {
     constructor(
         public readonly viewContainerRef: ViewContainerRef,
-        private readonly _webSocketService: WebsocketService
+        private readonly _webSocketService: NotificationService
     ) {}
 
     ngOnInit(): void {
