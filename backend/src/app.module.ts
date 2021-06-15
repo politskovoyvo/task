@@ -1,5 +1,6 @@
 import {
     CACHE_MANAGER,
+    CacheModule,
     Inject,
     MiddlewareConsumer,
     Module,
@@ -12,7 +13,7 @@ import { ConfigModule } from '@nestjs/config';
 import { UserModule } from './user/user.module';
 import { CompanyModule } from './company/company.module';
 import { MessageModule } from './core/notiffication/message.module';
-import { RedisCacheService } from './core/DB/redis/redis-cash.service';
+import * as redisStore from 'cache-manager-redis-store';
 
 @Module({
     imports: [
@@ -25,7 +26,7 @@ import { RedisCacheService } from './core/DB/redis/redis-cash.service';
         MessageModule,
     ],
     controllers: [BoardController],
-    providers: [RedisCacheService],
+    providers: [],
 })
 export class AppModule {
     // @Inject(CACHE_MANAGER) cacheManager: Cache

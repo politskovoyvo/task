@@ -13,6 +13,8 @@ import {
 import { Logger } from '@nestjs/common';
 import { Socket, Server } from 'socket.io';
 import { RedisCacheService } from '../DB/redis/redis-cash.service';
+import { InviteUserDto } from '../../company/dto/invite-user.dto';
+import { InviteUserMessage } from './models/invite-user';
 
 @WebSocketGateway({ namespace: '/messages' })
 export class GateWayService
@@ -55,11 +57,11 @@ export class GateWayService
         this.server.to(userId).emit('inviteCompanyLink', 'dsdsd');
     }
 
-    emit(event: string, data: any): void {}
-
-    afterInit(server: Server): any {
-        this._logger.log('init');
+    testInvite(inviteUser: InviteUserMessage) {
+        this.server.to(inviteUser.userId).emit('inviteCompanyLink', inviteUser);
     }
+
+    emit(event: string, data: any): void {}
 
     handleConnection(client: Socket, text: string): any {
         // this._logger.log(`Client connected: ${client.id}`);
@@ -72,4 +74,6 @@ export class GateWayService
         this._logger.log(`Disconnect`);
         // return this._logger.log(`Client disconnected: ${client.id}`);
     }
+
+    afterInit(server: any): any {}
 }

@@ -20,6 +20,7 @@ import { CompanyEntity } from './entities/company.entity';
 import { Observable, of } from 'rxjs';
 import { SearchUserDto } from './dto/search-user.dto';
 import { UserCompanyService } from '../links/user-company/user-company.service';
+import { InviteUserDto } from './dto/invite-user.dto';
 
 @ApiTags('Company API')
 @Controller('company')
@@ -31,9 +32,10 @@ export class CompanyController {
         private readonly _userCompanyService: UserCompanyService,
     ) {}
 
+    @ApiOperation({ summary: 'Пригласить юзера в компанию' })
     @Get('invite-user')
-    inviteUser() {
-        this._companyService.inviteNewUser();
+    inviteUser(@Body() inviteDto: InviteUserDto) {
+        this._companyService.inviteNewUser(inviteDto);
     }
 
     @ApiOperation({ summary: 'Получить  список всех компаний' })

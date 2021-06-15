@@ -10,6 +10,8 @@ import { from, Observable, of } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { SearchUserDto } from './dto/search-user.dto';
 import { GateWayService } from '../core/notiffication/gate-way.service';
+import { InviteUserDto } from './dto/invite-user.dto';
+import { RedisCacheService } from '../core/DB/redis/redis-cash.service';
 
 @Injectable()
 export class CompanyService {
@@ -18,16 +20,23 @@ export class CompanyService {
         private readonly _companyRepository: typeof CompanyEntity,
         private readonly _userService: UserService,
         private readonly _userCompanyService: UserCompanyService,
-    ) // private readonly _websocketService: GateWayService,
-    {}
+        private readonly _websocketService: GateWayService,
+        private readonly _redisCashService: RedisCacheService,
+    ) {}
 
     async create(user: CompanyDto): Promise<CompanyEntity> {
         // @ts-ignore
         return await this._companyRepository.create<CompanyEntity>(user);
     }
 
-    inviteNewUser() {
-        // this._websocketService.emit('msgToServer', 'hello');
+    inviteNewUser(inviteDto: InviteUserDto) {
+        // TODO: put to redis cash
+        this._redisCashService.getKeys().then((keys) => console.log(keys));
+        this._redisCashService.set(
+            'invite-test1',
+            JSON.stringify({ id: 1, name: 'dsdsd' }),
+        );
+        // this._websocketService.testInvite();
     }
 
     async getCompany(id: number) {
